@@ -1,0 +1,229 @@
+.breadcrumb-container {
+  margin-top: 21px;
+  padding-bottom: 21px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #f2f4f8;
+  .title {
+    width: 200px;
+    float: left;
+    color: #475669;
+  }
+  .breadcrumb-inner {
+    float: left;
+    line-height: 32px;
+  }
+  .el-breadcrumb__item {
+    .el-breadcrumb__inner {
+      color: rgba(26, 23, 59, 1);
+    }
+  }
+}
+
+.w120 {
+  width: 120px;
+}
+.el-button {
+  width: 100px;
+}
+.input-with-select {
+  width: 420px;
+  .input-left {
+    width: 110px;
+  }
+  .el-input__icon {
+    transition: all 0s;
+  }
+}
+.el-dropdown {
+  color: #8a96a0 !important;
+  cursor: pointer;
+}
+.crm-tag {
+  float: left;
+  height: 24px;
+  font-size: 12px;
+  line-height: 22px;
+  border: 1px solid #dce0e6;
+  border-radius: 2px;
+  color: #5e6d82;
+  margin-top: 8px;
+  margin-right: 20px;
+  .ms {
+    float: left;
+    padding: 0 12px;
+  }
+  .del {
+    float: left;
+    width: 24px;
+    text-align: center;
+    border-left: 1px solid #dce0e6;
+    cursor: pointer;
+  }
+}
+.ziliao {
+  width: 1212px;
+  height: 148px;
+  border-radius: 3px;
+  border: 1px solid rgba(220, 224, 230, 1);
+  margin-top: 12px;
+
+  >ul {
+    float: left;
+    >li {
+      width: 100px;
+      height: 37px;
+      text-align: center;
+      background: #DCE0E6;
+      line-height: 37px;
+
+    }
+  }
+  .khxx li {
+     width: 202px;
+      height: 37px;
+      text-align: center;
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(220, 224, 230, 1);
+      line-height: 37px;
+      color: #c0c4cc;
+      .khxx ul {
+
+      }
+  }
+}
+.xuqiu {
+  width: 1212px;
+  height: 74px;
+  border-radius: 3px;
+  border: 1px solid rgba(220, 224, 230, 1);
+  margin-top: 12px;
+
+  >ul {
+    float: left;
+    >li {
+      width: 100px;
+      height: 37px;
+      text-align: center;
+      background: #DCE0E6;
+      line-height: 37px;
+
+    }
+  }
+  .khxx li {
+     width: 202px;
+      height: 37px;
+      text-align: center;
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(220, 224, 230, 1);
+      line-height: 37px;
+      color: #c0c4cc;
+      .khxx ul {
+
+      }
+  }
+}
+.yyxx {
+  width: 1212px;
+  height: 111px;
+  border-radius: 3px;
+  border: 1px solid rgba(220, 224, 230, 1);
+  margin-top: 12px;
+
+  >ul {
+    float: left;
+    >li {
+      width: 100px;
+      height: 37px;
+      text-align: center;
+      background: #DCE0E6;
+      line-height: 37px;
+
+    }
+  }
+  .khxx li {
+     width: 202px;
+      height: 37px;
+      text-align: center;
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(220, 224, 230, 1);
+      line-height: 37px;
+      color: #c0c4cc;
+  }
+}
+.biaoti {
+  width:56px;
+  height:20px;
+  font-size:14px;
+  color:#1A173B;
+  line-height:20px;
+  margin-top: 140px;
+
+}
+.bt {
+  width:56px;
+  height:20px;
+  font-size:14px;
+  color:#1A173B;
+  line-height:20px;
+  margin-top: 70px;
+}
+.jdjl {
+  width:56px;
+  height:20px;
+  font-size:14px;
+  color:#1A173B;
+  line-height:20px;
+  margin-top: 296px;
+}
+.crm-table-wrap {
+  margin-top: 12px;
+  width: 1212px;
+  height: 216px;
+}
+.crm-table-wrap .crm-table thead tr th {
+    padding: 0 30px;
+    text-align: center;
+    line-height: 37px;
+    height: 37px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* border-bottom: 1px solid #E2E8ED; */
+    color: #8A96A0 !important;
+}
+.crm-table-wrap {
+    width: 1212px;
+    min-height: 216px;
+    border: 1px solid #E2E8ED;
+    border-radius: 3px;
+}
+.crm-table-wrap .crm-table tbody tr td {
+    padding: 0 30px;
+    text-align: center;
+    line-height: 37px;
+    height: 37px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #E2E8ED;
+}
+.el-button.important {
+  border-color: #0077ff !important;
+}
+.xiala .el-input--suffix .el-input__inner {
+  padding-left: 90px !important;
+  padding-right: 20px !important;
+  color: #1a173b !important;
+  border-radius: 0;
+  border: 0;
+  height: 32px;
+  line-height: 32px;
+}
+.shuru.el-input .el-input__inner{
+  border-radius: 0;
+  border: 0;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  color: #c0c4cc;
+}
+

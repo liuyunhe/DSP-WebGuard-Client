@@ -1,0 +1,573 @@
+.CallRecords {
+  width: 1380px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+  .CallRecordsTitle{
+
+    .breadcrumb-container {
+      margin-top: 21px;
+      padding-bottom: 21px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid #f2f4f8;
+
+      color:rgba(26,23,59,1);
+      font-size: 16px;
+      line-height: 32px;
+    }
+    .projectS {
+      padding-bottom: 32px;
+      height: auto;
+      overflow: hidden;
+      .tagList {
+        width: 100%;
+        clear: both;
+
+        .el-tag {
+          margin-top: 24px;
+          margin-right: 12px;
+        }
+      }
+      .left {
+        float: left;
+        width: 445px;
+        height: 32px;
+        .type1 {
+          border: 1px solid #dcdfe6;
+          border-radius: 4px;
+          width: 445px;
+          height: 35px;
+          .el-select .el-input__inner {
+            border: none;
+            height: 32px;
+            line-height: 32px;
+            cursor: text;
+          }
+          .typeClass {
+            .el-input__suffix {
+              border-right: 1px solid #dcdfe6;
+            }
+          }
+          .serachS {
+            .el-input {
+              width: 330px;
+            }
+            .el-input__suffix {
+              display: none;
+            }
+            .el-input--suffix .el-input__inner {
+              padding-right: 0px;
+            }
+          }
+        }
+        .type2 {
+          border: 1px solid #dcdfe6;
+          border-radius: 4px;
+          width: 400px;
+          // height: 34px;
+          .el-select .el-input__inner {
+            border: none;
+            height: 32px;
+            line-height: 32px;
+          }
+          .typeClass {
+            .el-input__suffix {
+              border-right: 1px solid #dcdfe6;
+            }
+          }
+          .serachS {
+            width: 280px;
+            .el-input__inner {
+              height: 32px;
+              line-height: 32px;
+              border: 0px;
+            }
+          }
+        }
+
+        .input-with-select {
+          input::-webkit-input-placeholder { /*WebKit browsers*/
+            font-size: 12px;
+            color: rgba(204, 209, 214, 1);
+          }
+        }
+        .el-select .el-input {
+          font-size: 12px;
+          width: 106px;
+          .el-icon-arrow-up:before {
+            display: none;
+          }
+          .el-icon-arrow-up {
+            background: url("../../assets/images/dropDown2.png") center center no-repeat;
+            transform: rotateZ(0deg);
+          }
+          .is-reverse {
+            transform: rotateZ(180deg);
+          }
+          .el-select__caret {
+            line-height: 32px;
+          }
+        }
+        .input-with-select .el-input-group__prepend {
+          background-color: #fff;
+        }
+
+      }
+      .right {
+        float: right;
+        .el-button {
+          width: 100px;
+          height: 32px;
+          font-size: 12px;
+        }
+        .el-button--default {
+          color: rgba(0, 119, 255, 1);
+          border-color: rgba(0, 119, 255, 1);
+        }
+        .el-button--primary {
+          background: rgba(0, 119, 255, 1);
+        }
+
+      }
+    }
+    /*.toolbar{
+      padding-top: 32px;
+    }*/
+  }
+
+
+
+  .w120 {
+    width: 120px;
+  }
+  .input-with-select {
+    width: 420px;
+    .input-left {
+      width: 110px;
+    }
+    .el-input__icon {
+      transition: all 0s;
+    }
+  }
+  .el-dropdown {
+    color: #8a96a0 !important;
+    cursor: pointer;
+  }
+  .crm-tag {
+    float: left;
+    height: 24px;
+    font-size: 12px;
+    line-height: 22px;
+    border: 1px solid #dce0e6;
+    border-radius: 2px;
+    color: #5e6d82;
+    margin-top: 8px;
+    margin-right: 20px;
+    .ms {
+      float: left;
+      padding: 0 12px;
+    }
+    .del {
+      float: left;
+      width: 24px;
+      text-align: center;
+      border-left: 1px solid #dce0e6;
+      cursor: pointer;
+    }
+  }
+  .customers {
+    margin-left: 24px;
+  }
+  .buttons {
+    float: right;
+    margin-left: 12px;
+  }
+  .el-dropdown-menu {
+    width: 101px;
+    height: 147px;
+    line-height: 16px;
+    margin-top: 6px;
+  }
+  .el-buttons {
+    width: 75px;
+    height: 24px;
+    margin-top: 11px;
+    margin-left: 13px;
+    font-size: 18px;
+  }
+  .buttonlis {
+    float: right;
+  }
+  .el-dropdown-menu__item {
+    line-height: 24px;
+  }
+  .ctrl {
+    margin-right: 28px;
+  }
+  .callerre {
+    float: right;
+    .el-dialog__title {
+      width: 56px;
+      height: 21px;
+      font-size: 14px;
+      color: rgba(51, 51, 51, 1);
+      line-height: 21px;
+      // border-bottom: 1px solid #E9E9E9;
+    }
+    .el-input__inner {
+      width: 160px;
+      height: 32px;
+    }
+    .el-form-item__label {
+      font-size: 12px;
+      color: rgba(138, 150, 160, 1);
+    }
+    .el-form-item__content {
+      width: 220px;
+      height: 32px;
+    }
+    .el-form-item {
+      width: 220px;
+      height: 32px;
+    }
+    .el-input {
+      font-size: 14px;
+      display: inline-block;
+      width: 160px;
+    }
+  }
+  .recording {
+    .el-dialog {
+      width: 463px;
+      height: 279px;
+    }
+    .el-dialog__title {
+      width: 350px;
+      height: 16px;
+      font-size: 16px;
+      font-family: PingFangSC-Semibold;
+      color: rgba(26, 23, 59, 1);
+      line-height: 16px;
+    }
+    .el-form-item__label {
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      color: #8a96a0;
+      height: 20px;
+      line-height: 20px;
+    }
+    .el-form {
+      margin-top: -18px;
+    }
+    .el-form-item__content {
+      line-height: 20px;
+      position: relative;
+      font-size: 14px;
+      width: 210px;
+      font-family: PingFangSC-Regular;
+      color: rgba(138, 150, 160, 1);
+    }
+    .el-dialog__footer {
+      margin-top: 40px;
+    }
+  }
+  .adPage {
+    padding-top: 32px;
+    text-align: right;
+    height: auto;
+    overflow: hidden;
+    .el-pagination {
+      float: right;
+    }
+    .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+      background: none;
+      border: 1px solid rgba(220, 224, 230, 1);
+    }
+    .el-pagination.is-background .el-pager li:not(.disabled).active {
+      background: rgba(0, 119, 255, 1);
+      border-radius: 3px;
+    }
+    .pageLeft {
+      padding-top: 3px;
+      float: right;
+      width: 300px;
+      line-height: 30px;
+      height: 30px;
+      color: #8A96A0;
+      /*    span{
+            color: #1A173B;
+          }*/
+      .red {
+        color: #FE0000;
+      }
+    }
+
+  }
+  .projectBox{
+    .el-dialog{
+      height: auto;
+    }
+    .el-dialog__header{
+      border:1px solid rgba(233,233,233,1);
+      .el-dialog__title{
+        font-size: 16px;
+      }
+    }
+
+    .el-input__inner {
+      height: 32px !important;
+      line-height: 32px !important;
+    }
+    .el-tree{
+      margin-top: 15px;
+    }
+    .el-dialog__body{
+      padding: 20px  20px;
+    }
+    .main{
+      .selectedText{
+        color:rgba(0,0,0,0.25);
+        font-size: 12px;
+        padding-top: 8px;
+      }
+      .el-tree{
+        height: 300px;
+        overflow-y:auto;
+      }
+    }
+  }
+  .adServingTable {
+    /*width: 1376px;*/
+    /*margin: 0 auto;*/
+    .el-table {
+      /*width: 1376px;*/
+      /*margin: 0 auto;*/
+      th {
+        background: #f4f4f4 !important;
+        text-align: center;
+        padding: 0px;
+        height: 45px;
+      }
+      td {
+        padding: 0px;
+        height: 36px;
+      }
+      .el-table__body-wrapper {
+        height: 360px;
+      }
+      font-size: 12px;
+      color: rgba(26, 23, 59, 1);
+      .cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+        .el-button span {
+          border-bottom: 1px solid #409EFF;
+        }
+        .el-button {
+          width: 30px;
+        }
+
+      }
+      .el-table__body-wrapper {
+        border: 1px solid #EFEFEF;
+        border-bottom: 0;
+        border-top: 0;
+      }
+    }
+    position: relative;
+    .el-icon-arrow-up:before {
+      display: none;
+    }
+    .el-icon-arrow-up {
+      background: url("../../assets/images/dropDown2.png") center center no-repeat;
+      transform: rotateZ(0deg);
+      width: 10px;
+      height: 10px;
+    }
+    .dialogVisibleProjectList{
+      position: absolute;
+      left: 290px;
+      top: 1px;
+      z-index: 999;
+      .title {
+        padding-top: 5px;
+        line-height: 30px;
+        height: 30px;
+        color: #909399;
+        display: block;
+      }
+      .title:before {
+        content: "";
+        float: right;
+        padding-left: 2px;
+        background: url("../../assets/images/dropDown2.png") center center no-repeat;
+        width: 20px;
+        height: 30px;
+      }
+    }
+    .tableStatus {
+      position: absolute;
+      right: 708px;
+      top: 1px;
+      z-index: 999;
+      .title {
+        padding-top: 5px;
+        line-height: 30px;
+        height: 30px;
+        color: #909399;
+        display: block;
+      }
+      .title:before {
+        content: "";
+        float: right;
+        padding-left: 2px;
+        background: url("../../assets/images/dropDown2.png") center center no-repeat;
+        width: 20px;
+        height: 30px;
+      }
+    }
+    .tableIntention {
+      position: absolute;
+      right: 300px;
+      top: 1px;
+      z-index: 999;
+      .title {
+        padding-top: 5px;
+        line-height: 30px;
+        height: 30px;
+        color: #909399;
+        display: block;
+      }
+      .title:before {
+        content: "";
+        float: right;
+        padding-left: 2px;
+        background: url("../../assets/images/dropDown2.png") center center no-repeat;
+        width: 20px;
+        height: 30px;
+      }
+    }
+    .customer_list {
+      position: absolute;
+      left: 290px;
+      top: 12px;
+      z-index: 999;
+      width: 100px;
+      .el-dropdown {
+        font-size: 12px;
+        color: #909399;
+
+      }
+    }
+    .tabDatePick {
+      position: absolute;
+      right: 595px;
+      top: 5px;
+      z-index: 999;
+      .dateHeader {
+        width: auto;
+        background: none;
+        border: 0px;
+        padding: 0px;
+        input {
+          display: none;
+        }
+        .el-range-separator {
+          width: auto;
+          color: #909399;
+          font-size: 12px;
+          font-family: element-icons !important;
+          /*  display: none*/
+        }
+
+        span:before {
+          content: "";
+          float: right;
+          padding-left: 2px;
+          background: url("../../assets/images/dropDown2.png") center center no-repeat;
+          width: 20px;
+          height: 30px;
+        }
+        i {
+          display: none;
+        }
+      }
+
+    }
+  }
+  .el-dropdown-menu__item {
+    list-style: none;
+    line-height: 18px;
+    padding: 0px 8px;
+    margin: 0;
+    font-size: 12px;
+    color: #606266;
+    cursor: pointer;
+    outline: 0;
+  }
+
+}
+.recording {
+  margin-top: 20px;
+  .el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    .el-dialog__title {
+      width:350px;
+      height:16px;
+      font-size:16px;
+      font-family:PingFangSC-Semibold;
+      color:rgba(26,23,59,1);
+      line-height:16px;
+    }
+    .el-dialog__body {
+      padding: 10px 20px;
+      color: #606266;
+      font-size: 14px;
+  }
+    .el-dialog__footer {
+      padding: 30px 20px 20px;
+      text-align: right;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin-top: 1px;
+      .el-button.el-button--default {
+        width:64px;
+        height:36px;
+        border-radius:4px;
+        padding: 12px 16px;
+        border:1px solid rgba(220,224,230,1);
+      }
+
+  }
+  .record {
+    >ul {
+      float: left;
+      >li {
+        height:20px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        color:rgba(138,150,160,1);
+        line-height:20px;
+
+      }
+    }
+    .recordlist {
+      li {
+        margin-left: 12px;
+      }
+    }
+    .recordli {
+     li {
+      margin-left: 170px;
+     }
+    }
+  }
+}
+}

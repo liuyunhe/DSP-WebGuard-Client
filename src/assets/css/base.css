@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    color: #333;
+    font-size: .373333rem/* 28/75 */
+    ;
+    overflow-x: hidden;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+    box-sizing: border-box;
+}
+
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #d9d9d9;
+}
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #d9d9d9;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #d9d9d9;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #d9d9d9;
+}
+/*span {
+    display: inline-block;
+}*/
+
+a {
+    text-decoration: none;
+    display: block;
+}
+
+img[lazy=loading] {
+    background-color: #eee;
+    padding: 40%;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: .533333rem/* 40/75 */
+    ;
+    margin: 0;
+    font-weight: normal;
+}
+
+.small {
+    font-size: 12px;
+    transform: scale(.9);
+}
+
+.single-text {
+    overflow: hidden;
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img {
+    vertical-align: middle;
+    outline: none;
+    /* width: 100%; */
+}
+
+input,
+textarea {
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.clearfix::after,
+.clearfix::before {
+    content: '';
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a:active {
+    background-color: transparent;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+audio {
+    /* opacity: 0;
+    display: block !important; */
+}
+
+
+/***loading***/
+
+.load-box {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    text-align: center;
+}
+
+.load-box .loding-img {
+    width: 32px;
+    margin-top: 50%;
+}
