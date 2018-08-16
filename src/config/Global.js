@@ -12,17 +12,15 @@ const config={
   //baseUrl:'http://172.16.2.216:8091'
 };
 //生产环境
-/*const config={
-  exportH:'http://www.juke8.cn:8086',
-  userConsoleH:'http://www.juke8.cn/user-console/main.html#/index',
-  manageH:'',//管理端地址
-  imgH:'http://www.juke8.cn:8086',//图片地址
-   imgUpload:'http://www.juke8.cn:8086/api/private/1.0/page/upload',
-  exit:'http://www.juke8.cn/login/main.html#/index',
-
-
-  baseUrl: 'http://www.juke8.cn:8086',//请求地址
-};*/
+// const config={
+//   exportH:'http://www.juke8.cn:8086',
+//   userConsoleH:'http://www.juke8.cn/user-console/main.html#/index',
+//   manageH:'',//管理端地址
+//   imgH:'http://www.juke8.cn:8086',//图片地址
+//    imgUpload:'http://www.juke8.cn:8086/api/private/1.0/page/upload',
+//   exit:'http://www.juke8.cn/login/main.html#/index',
+//   baseUrl: 'http://www.juke8.cn:8086',//请求地址
+// };
 
 export default {
   config,//配置
