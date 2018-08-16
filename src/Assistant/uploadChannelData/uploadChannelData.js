@@ -40,9 +40,8 @@ export default {
           if(this.fileNames==""){
             this.fileNames+=response.data.desc
           }else{
-            this.fileNames+=','+response.data.desc
+            this.fileNames+=';'+response.data.desc
           }
-          
         }
         if(this.fileListLength == fileList.length){
           this.fileListLength = 0
@@ -57,6 +56,8 @@ export default {
             }).catch(() => {
               this.fileNames = ""
             });
+          }else{
+            this.$message.success('上传成功!');
           }
           this.updata()
         }
@@ -72,7 +73,7 @@ export default {
       // // const isLt2M = file.size / 1024 / 1024 < 2;
       //
       if (!isCSV) {
-        this.$message.error('上传文件只能是 CSV 格式!');
+        this.$message.error('上传失败，请上传CSV格式文件!');
       }
       // if (!isLt2M) {
       //   this.$message.error('上传头像图片大小不能超过 2MB!');

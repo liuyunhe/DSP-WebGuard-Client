@@ -9,6 +9,11 @@ import * as step1Method from './step1Method';
 import * as step2Method from './step2Method';
 import * as step3Method from './step3Method';
 import footerA from '../../components/common/footer.vue'; //底部
+// 引入vue-croppa 裁剪样式
+import 'vue-croppa/dist/vue-croppa.css'
+import VueCropper from 'vue-cropper'
+ 
+// Vue.use(VueCropper)
 
 export default {
   components: {
@@ -16,13 +21,18 @@ export default {
     crmSteps,
     crmEditor,
     draggable,
-    footerA
+    footerA,
+    VueCropper
   },
-  beforeRouteLeave(to, from, next) {
+  /*beforeRouteLeave(to, from, next) {
     // 设置下一个路由的 meta
-    to.meta.keepAlive = true; // 让 A 不缓存，即刷新
+    if(to.matched[0].path=='/EditCustomer/:bespeakId/:clientId/:projectId'){
+      to.meta.keepAlive = false;
+    }else{
+      to.meta.keepAlive = true; // 让 A 缓存，即不刷新
+    }
     next();
-  },
+  },*/
   created() {
 
 

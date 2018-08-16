@@ -17,6 +17,7 @@
       :file-list="fileList"
       :limit="4"
       :name="'csvFiles'"
+      :accept="'.csv'"
       :multiple="true"
       :action="global_.config.baseUrl + '/api/private/1.0/ChannelImport/channelImportCsv'"
       :auto-upload="false"

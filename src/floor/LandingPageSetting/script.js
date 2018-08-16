@@ -46,6 +46,10 @@ export default {
     };
   },
   methods: {
+    handleClose() {
+      this.landingPage = false
+      this.addLandingPage = false
+    },
     saveUpdateInfo() {
       // 落地页设置步骤一保存/更新
       this.$request
@@ -272,8 +276,8 @@ export default {
         });
     },
     //预览按钮
-    previewLandingPage(item) {
-      window.open(`${URL_ROOT}/api/private/1.0/page/preview/${item.uuid}`);
+    previewLandingPage(item,link) {
+      window.open(link+`/api/private/1.0/page/preview/${item.uuid}`);
     },
     //编辑功能
     editLandingpage(item) {
@@ -284,8 +288,10 @@ export default {
         path: '/MessageSetting/'+item.uuid+'/'+'a7d22e47-4aad-11e8-a730-00163e04791f'});
     },
     // copy
-    handleCopyUrl(item) {
-      const url = `${URL_ROOT}/api/private/1.0/page/preview/${item.uuid}`;
+    handleCopyUrl(item,link) {
+
+
+      const url = link+`/api/private/1.0/page/preview/${item.uuid}`;
       const input = document.createElement('input');
       input.setAttribute('readonly', 'readonly');
       input.setAttribute('value', url);

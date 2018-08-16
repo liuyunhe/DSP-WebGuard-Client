@@ -2,7 +2,6 @@ import { URL_ROOT, IMG_UPLOAD } from '../../common/js/types';
 
 //第二步选择编辑模块
 export function editItem(item, index,isTopPlup) {
-
   this.isEditorTextShow =true;
   this.ClickSelectImg=''
 
@@ -244,7 +243,7 @@ export function previewStep2() {
   window.open(`${URL_ROOT}/api/private/1.0/page/preview/${this.steps1.uuid}`);
 }
 //第二步保存按钮
-export function saveStep2(flag) {
+export function saveStep2(flag,link) {
   let uuIds ='';
   if (this.uuid == '0' || this.uuid=='1') { //新增
     uuIds=this.addUuid;
@@ -304,7 +303,7 @@ export function saveStep2(flag) {
 
     if (flag == 'preview') {
       window.open(
-        `${URL_ROOT}/api/private/1.0/page/preview/`+uuIds
+        link+`/api/private/1.0/page/preview/`+uuIds
       );
       return
     }
@@ -328,7 +327,7 @@ export function saveStep2(flag) {
       let _this =this;
       setTimeout(function () {
         _this.$router.push('/LandingPageSetting');
-      },1000);
+      },2000);
     }
   });
 }

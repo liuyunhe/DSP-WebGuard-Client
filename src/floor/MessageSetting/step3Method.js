@@ -160,10 +160,14 @@ export function uploadSuccessStyle(response, file, fileList) {
     });
   }
   this.uploadDisabled = false;
+  console.log(this.activeFormList[0].value)
+  // this.dialogFormVisible = true
+  // this.visible = true
+  // console.log(this.dialogTableVisible, this.visible)
 }
 
 //第三步保存头图
-export function saveStep3Banner(flag) {
+export function saveStep3Banner(flag,link) {
   this.saveDisabled = true;
   let resultList = this.step2.basic[0].resultList;
   console.log(resultList);
@@ -206,13 +210,14 @@ export function saveStep3Banner(flag) {
       });
     }
     if (flag == 'preview') {
-      this.saveStep2('preview');
+      this.saveStep2('preview',link);
     }
   });
 }
 
 //点击选择样式库
 export function selectStyle(item, index, isOne) {
+  this.$router.push({ path: 'yang'})
   console.log(isOne)
   if (isOne == '1') {
     this.isOneImg = true;
@@ -607,7 +612,7 @@ export function initialImg() {
 }
 
 //第三步保存Label
-export function saveStep3Label(flag) {
+export function saveStep3Label(flag,link) {
 
 
   //this.saveDisabled = true;
@@ -723,13 +728,15 @@ export function saveStep3Label(flag) {
       });
     }
     if (flag == 'preview') {
-      that.saveStep2('preview');
+      that.saveStep2('preview',link);
     }
   });
 }
 
 //重置样式
 export function resetStyle() {
+  console.log(this.activeFormList)
+  console.log(this.image)
   this.imageUrl0='';
   this.imageUrl1='';
   this.imageUrl2='';
@@ -739,16 +746,15 @@ export function resetStyle() {
   this.imageUrl6='';
   this.imageUrl9='';
   this.imageUrl12='';
-  this.imageUrl15='';
+  this.imageUrl15 = '';
   for(var i=0; this.activeFormList.length>i;i++){
     console.log(this.activeFormList[i])
-    this.activeFormList[i].value ='';
+    this.activeFormList[i].value = '';
   }
-  //this.activeFormList =[];
+  // this.activeFormList = []
 }
-
 //第三步保存editor
-export function saveStep3Editor(flag) {
+export function saveStep3Editor(flag,link) {
   let uuIds = '';
   if (this.uuid == '0' || this.uuid=='1') { //新增
     uuIds = this.addUuid;
@@ -781,7 +787,7 @@ export function saveStep3Editor(flag) {
       });
     }
     if (flag == 'preview') {
-      this.saveStep2('preview');
+      this.saveStep2('preview',link);
     }
   });
 }
@@ -923,7 +929,7 @@ export function addRoomType() {
 }
 
 //第三步保存plugin
-export function saveStep3Plugin(flag) {
+export function saveStep3Plugin(flag,link) {
   this.saveDisabled = true;
   //验证是否为空
   console.log('验证')
@@ -1018,7 +1024,7 @@ export function saveStep3Plugin(flag) {
       });
     }
     if (flag == 'preview') {
-      this.saveStep2('preview');
+      this.saveStep2('preview',link);
     }
   });
 }

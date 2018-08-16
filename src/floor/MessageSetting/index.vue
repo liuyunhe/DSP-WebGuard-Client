@@ -465,12 +465,14 @@
               <div class="style-list-ltem">
                 <div class="title">单图样式</div>
                 <div class="list">
+                  <router-link to="yang">
                   <div class="list-item"
                        :class="{active:item.id == step3ActiveStyleId}"
                        v-for="(item,index) in styleList"
                        :key="index"
                        v-if="item.type === 4"
                        @click="selectStyle(item,index,'1')"  :style="{backgroundImage:`url(${item.url})`}"></div>
+                  </router-link>
                   <!---->
                 </div>
               </div>
@@ -746,6 +748,7 @@
                         drag
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess15"
+                        :file-list="activeFormList"
                         :before-upload="beforeAvatarUpload15">
                         <img v-if="imageUrl15"
                           :src="imageUrl15"
@@ -780,6 +783,8 @@
                       v-if="item.type === 4"
                       :key="index">
                       <div class="drag">
+                        <!-- <template  v-if="topBannerD==true">-->
+
                         <el-upload :action="GLOBAL.config.imgUpload"
                           list-type="picture-card"
                           drag
@@ -829,9 +834,10 @@
                     <p>{{item.desc.value || '这是正文'}}</p>
                   </div>
                 </div>-->
-                 <img :src="ClickSelectImg"
+                 <!-- <img :src="ClickSelectImg"
                   width="388"
-                  alt="">
+                  alt=""> -->
+                  <router-view></router-view>
               </div>
             </div>
           </div>
@@ -1024,7 +1030,7 @@
         :disabled="saveDisabled">保存</el-button>
       <el-button size="small fr"
         v-if="settingStepsActive===0"
-        @click="previewLandingPage">预览</el-button>
+        @click="previewLandingPage(GLOBAL.config.imgH)">预览</el-button>
       <el-button size="small fr"
         v-if="settingStepsActive===0"
         @click="cancelEdit()">取消</el-button>
@@ -1047,7 +1053,7 @@
         @click="saveStep2('publish')">发布</el-button>
       <el-button size="small fr"
         v-if="settingStepsActive===1"
-        @click="saveStep2('preview')">预览</el-button>
+        @click="saveStep2('preview',GLOBAL.config.imgH)">预览</el-button>
       <el-button size="small fr"
         v-if="settingStepsActive===1"
         @click="cancelStep2()">取消</el-button>
@@ -1061,11 +1067,11 @@
       <el-button size="small fr"
         class="important"
         v-if="settingStepsActive===2&&step2ActiveTpye==='banner'"
-        @click="bbb()">重置</el-button>
+        @click="headIng()">重置</el-button>
       <!--<el-button size="small fr" v-if="settingStepsActive===2&&step2ActiveTpye==='banner'" @click="step3BnnerCancel()">取消</el-button>-->
       <el-button size="small fr"
         v-if="settingStepsActive===2&&step2ActiveTpye==='banner'"
-        @click="saveStep3Banner('preview')">预览</el-button>
+        @click="saveStep3Banner('preview',GLOBAL.config.imgH)">预览</el-button>
 
       <!--样式库按钮-->
       <el-button type="primary"
@@ -1080,7 +1086,7 @@
       <!--<el-button size="small fr" v-if="settingStepsActive===2&&step2ActiveTpye==='label'&&step3.status == 0" @click="step3LabelCancel()">取消</el-button>-->
       <el-button size="small fr"
         v-if="settingStepsActive===2&&step2ActiveTpye==='label'&&step3.status == 0"
-        @click="saveStep3Label('preview')">预览</el-button>
+        @click="saveStep3Label('preview',GLOBAL.config.imgH)">预览</el-button>
 
       <!--编辑器按钮-->
       <el-button type="primary"
@@ -1095,7 +1101,7 @@
       <!--<el-button size="small fr" v-if="settingStepsActive===2&&step2ActiveTpye==='label'&&step3.status == 1" @click="step3EditorCancel()">取消</el-button>-->
       <el-button size="small fr"
         v-if="settingStepsActive===2&&step2ActiveTpye==='label'&&step3.status == 1"
-        @click="saveStep3Editor('preview')">预览</el-button>
+        @click="saveStep3Editor('preview',GLOBAL.config.imgH)">预览</el-button>
 
       <!--插件按钮-->
       <el-button type="primary"
@@ -1110,12 +1116,49 @@
       <!--<el-button size="small fr" v-if="settingStepsActive===2&&step2ActiveTpye==='plugin'" @click="step3PluginCancel()">取消</el-button>-->
       <el-button size="small fr"
         v-if="settingStepsActive===2&&step2ActiveTpye==='plugin'"
-        @click="saveStep3Plugin('preview')">预览</el-button>
+        @click="saveStep3Plugin('preview',GLOBAL.config.imgH)">预览</el-button>
 
     </el-col>
     <footerA class="mainApp"
       style="position: fixed;bottom:0px"></footerA>
+
+  <!-- 裁剪的模态框 -->
+      <!-- <el-dialog :visible.sync="dialogTableVisible">
+        <el-table>
+          <div>
+            <div class="model" v-show="model" @click="model = false">
+              <div class="model-show">
+                <img :src="modelSrc" alt="">
+              </div>
+            </div>
+            <p>例子</p>
+            <div class="cut">
+              <vue-cropper ref="cropper" :img="option.img" :output-size="option.size" :output-type="option.outputType" :info="true" :full="option.full"
+                :can-move="option.canMove" :can-move-box="option.canMoveBox" :fixed-box="option.fixedBox" :original="option.original"
+                :auto-crop="option.autoCrop" :auto-crop-width="option.autoCropWidth" :auto-crop-height="option.autoCropHeight" :center-box="option.centerBox"
+              :high="option.high"></vue-cropper>
+              
+                <button>确定</button>
+            </div>
+          </div>
+          <div>
+            <vueCropper
+              ref="cropper"
+              :img="option.img"
+              :outputSize="option.size"
+              :outputType="option.outputType"
+            ></vueCropper>
+          </div>
+        </el-table>
+      </el-dialog> -->
+      <!-- <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+        <div slot="footer" class="dialog-footer">
+          <el-button>取 消</el-button>
+          <el-button type="primary">确 定</el-button>
+        </div>
+      </el-dialog> -->
   </section>
+
 </template>
 
 <script src="./script.js">
@@ -1123,5 +1166,3 @@
 
 <style lang="scss" scoped src="./style.scss">
 </style>
-
-

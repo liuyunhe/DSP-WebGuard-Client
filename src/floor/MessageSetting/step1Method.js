@@ -173,7 +173,7 @@ export function changeTemplate() {
 }
 
 //预览
-export function previewLandingPage() {
+export function previewLandingPage(link) {
   console.log(this.steps1.uuid)
 
 
@@ -184,7 +184,7 @@ export function previewLandingPage() {
   }
 
   if (this.steps1.uuid) {
-    window.open(`${URL_ROOT}/api/private/1.0/page/preview/${this.steps1.uuid}`);
+    window.open(link+`/api/private/1.0/page/preview/${this.steps1.uuid}`);
   }
 }
 
@@ -203,7 +203,7 @@ export function cancelEdit() {
     });
 }
 
-export function bbb() {
+export function headIng() {
   this.bannerFileList = [];
   this.$refs.upload.$children[1].$el.style.display = 'block';
 }
@@ -575,7 +575,7 @@ export function saveStep1(message, flag, next) {
         deliveryManagements.push({
           channelId: res.channelId,
           channelName: res.channelName,
-          uuid:  this.uuid
+          uuid:  res.uuid
         })
       });
       var array1 = this.steps1.deliveryManagements;
@@ -600,10 +600,13 @@ export function saveStep1(message, flag, next) {
         for (var j = 0; j < result.length; j++) {
           var aj = result[j];
           if (aj == obj.channelName) {
+            console.log('obj9999999999999999999999999');
+            console.log(obj)
+
             deliveryManagements.push({
               channelId: obj.uuid,
               channelName: obj.channelName,
-              uuid: this.uuid
+              uuid: ''
             })
           }
         }
@@ -694,9 +697,11 @@ export function saveStep1(message, flag, next) {
         confirmButtonText: '确定',
         type: 'warning',
         callback: action => {
-          console.log('this.add')
+          console.log('this.add');
+          console.log(this.steps1)
           if (action == 'confirm') {
             const p = _.cloneDeep(this.steps1);
+
             delete p.callTel1;
             delete p.callTel2;
             console.log(p)
@@ -704,9 +709,11 @@ export function saveStep1(message, flag, next) {
             console.log(deliveryManagements);
             console.log(this.stepsSave);
             if (this.stepsSave) { //已经新增过
+              p.uuid=this.addUuid;
               this.step1Save = true;
-              this.$store.getters.getLandingPageId = res.data.uuid;
+             // this.$store.getters.getLandingPageId = this.addUuid;
             } else {
+              console.log(p)
               this.$api.saveBaseSetting({
                 ...p,
                 deliveryManagements
@@ -715,7 +722,17 @@ export function saveStep1(message, flag, next) {
                 //this.steps1.uuid = this.$store.getters.getLandingPageId;
                 console.log(res)
                 this.addUuid = res.uuid;
-                this.steps1.uuid =res.uuid
+                this.steps1.uuid =res.uuid;
+
+                console.log(res.deliveryManagements)
+                for(let  i=0; res.deliveryManagements.length>i;i++){
+                  console.log(res.deliveryManagements[i].channelName)
+                  this.copyDeliveryManagements.push(res.deliveryManagements[i].channelName);
+                }
+                console.log(  this.copyDeliveryManagements);
+                this.editorDeliveryManagements = res.deliveryManagements;
+
+
                 if (flag == true) {
                   //按钮是保存
                   this.$message({
@@ -726,7 +743,7 @@ export function saveStep1(message, flag, next) {
 
                   this.step1Save = true;
 
-
+                  this.$router.push('/MessageSetting/'+ res.uuid+'/'+this.$route.params.templateId)
                   this.$store.getters.getLandingPageId = res.data.uuid;
                   console.log(this.$store.getters.getLandingPageId)
                 } else {
@@ -736,6 +753,7 @@ export function saveStep1(message, flag, next) {
                   this.step2Show = true;
                 }
                 this.step1SaveObject = Object.assign({}, this.steps1);
+
               })
                 .catch(err => {
                 });
@@ -760,6 +778,7 @@ export function saveStep1(message, flag, next) {
               delete p.callTel1;
               delete p.callTel2;
               console.log(p)
+
 
               console.log(deliveryManagements);
               if (this.stepsSave) { //已经新增过
@@ -822,6 +841,15 @@ export function saveStep1(message, flag, next) {
         //this.steps1.uuid = this.$store.getters.getLandingPageId;
         this.addUuid = res.uuid;
         this.steps1.uuid ==res.uuid;
+        console.log(res.deliveryManagements)
+        for(let  i=0; res.deliveryManagements.length>i;i++){
+            console.log(res.deliveryManagements[i].channelName)
+          this.copyDeliveryManagements.push(res.deliveryManagements[i].channelName);
+        }
+        console.log(  this.copyDeliveryManagements);
+        this.editorDeliveryManagements = res.deliveryManagements;
+
+        // this.copyDeliveryManagements =res.deliveryManagements;
         if (flag == true) {
           //按钮是保存
           this.$message({

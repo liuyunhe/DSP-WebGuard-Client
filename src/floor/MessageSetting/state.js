@@ -1,8 +1,37 @@
 
 export default {
-  //全局状态控制
-  URL_ROOT,
-  IMG_UPLOAD,
+  // dialogFormVisible: true,
+  isShow: false,
+  model: false,
+  modelSrc: '',
+  crap: false,
+  previews: {},
+  lists: [
+    {
+      img: 'https://qn-qn-kibey-static-cdn.app-echo.com/goodboy-weixin.PNG'
+    },
+    {
+      img: 'https://avatars2.githubusercontent.com/u/15681693?s=460&v=4'
+    }
+  ],
+  option: {
+    img: 'https://qn-qn-kibey-static-cdn.app-echo.com/goodboy-weixin.PNG',
+    size: 1,
+    full: false,
+    outputType: 'jpeg',
+    canMove: true,
+    fixedBox: false,
+    original: false,
+    canMoveBox: true,
+    autoCrop: true,
+    // 只有自动截图开启 宽度高度才生效
+    autoCropWidth: 200,
+    autoCropHeight:  200,
+    centerBox: false,
+    high: false
+  },
+  show: true,
+
   uuid:0,//0新增   其他为修改   uuid
   addUuid:'',//新增时的uuid
   editable: true,
