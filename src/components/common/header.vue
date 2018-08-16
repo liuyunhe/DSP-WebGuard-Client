@@ -229,6 +229,8 @@ export default {
         this.options = 'khgl';
       }else if(path=='/index'){
         this.options = 'home';
+      }else if(path=='/Assistant/uploadChannelData'){
+        this.options = 'yyzs';
       }
     },
     flushCom: function() {
