@@ -13,123 +13,62 @@
       <el-col :span="24" style="padding-bottom: 0px;">
         <div class="projectS">
           <div class="left">
-          <template v-if="type==1">
-            <div class="type1">
-              <el-select v-model="type" solt="prepend" placeholder="请选择" @change="selectType" class="typeClass" size="small">
-                <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-              </el-select>
-              <el-select
-                v-model="type"
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请选择查询条件或输入关键字搜索"
-                :remote-method="remoteMethod"
-                @change="pushTagesList('搜索关键字：'+kwType, 'kwType',kwType)"
-                :loading="loading" size="mini" class="serachS"
-              >
-                <el-option
-                  v-for="item in typeOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                  <span style="float: left">{{ item.value }}</span>
-                  <span style="float: right; color: #CCD1D6; font-size: 12px">{{ item.value }}</span>
-                </el-option>
+            <template v-if="type=='查询条件'">
+              <div class="type1">
+                <el-select v-model="type" slot="prepend" placeholder="请选择" class="typeClass"
+                           size="small">
+                  <el-option
+                    v-for="item in typeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select
+                  v-model="fromDataList.keywd"
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="请选择查询条件或输入关键字搜索"
+                  :remote-method="remoteMethod"
+                  @change="pushTagesList('搜索关键字：'+fromDataList.keywd, 'keywd',fromDataList.keywd)"
+                  :loading="loading" size="mini" class="serachS" ref="yang">
+                  <el-option
+                    v-for="(item,i) in typeOptions"
+                    :key="i"
+                    :label="item.lable"
+                    :value="item.value">
+                    <!-- <span style="float: left">{{ item.completionName }}</span>
+                    <span style="float: right; color: #CCD1D6; font-size: 12px">{{ item.source }}</span> -->
+                  </el-option>
+                </el-select>
+              </div>
+            </template>
 
-              </el-select>
+            <template v-else-if="type!='查询条件'">
+              <div class="type2">
+                <el-select v-model="type" slot="prepend" placeholder="请选择" class="typeClass"
+                           size="small">
+                  <el-option
+                    v-for="item in typeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
 
-            </div>
-          </template>
-
-          <template v-else-if="type==2">
-            <div class="type2">
-              <el-select v-model="type"
-                         slot="prepend"
-                         placeholder="请选择"
-                         @change="selectType"
-                         class="typeClass"
-                         size="small">
-                <el-option v-for="item in typeOptions"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-              <el-input
-                        placeholder="请输入投放活动"
-                        class="serachS"></el-input>
+                <el-input v-model="keyWordText" placeholder="请输入" class="serachS"
+                          @blur="pushTagesList('条件查询：' + keyWordText, 'keyWord', keyWordText);"></el-input>
+              </div>
+            </template>
 
 
-            </div>
-          </template>
-
-          <template v-else-if="type==3">
-            <div class="type2">
-              <el-select v-model="type"
-                         slot="prepend"
-                         placeholder="请选择"
-                         @change="selectType"
-                         class="typeClass"
-                         size="small">
-                <el-option v-for="item in typeOptions"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-              <el-input v-model="advertisingTitle"
-                        placeholder="请输入投放活动"
-                        class="serachS"></el-input>
-            </div>
-          </template>
-
-          <template v-else-if="type==4">
-            <div class="type2">
-              <el-select v-model="type"
-                         slot="prepend"
-                         placeholder="请选择"
-                         @change="selectType"
-                         class="typeClass"
-                         size="small">
-                <el-option v-for="item in typeOptions"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-              <el-input
-                        placeholder="请输入投放活动"
-                        class="serachS"></el-input>
-            </div>
-          </template>
-
-          <template v-else-if="type==5">
-            <div class="type2">
-              <el-select v-model="type"
-                         slot="prepend"
-                         placeholder="请选择"
-                         @change="selectType"
-                         class="typeClass"
-                         size="small">
-                <el-option v-for="item in typeOptions"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-              <el-input
-                        placeholder="请输入投放活动"
-                        class="serachS"></el-input>
-            </div>
-          </template>
-
-        </div>
+          </div>
 
           <div class="right">
             <div class="buttons">
-              <el-button size="small" class="important" @click="imports = true">导出</el-button>
-              <el-button size="small" class="important" @click="getStatus()">重置</el-button>
+              <el-button size="small" class="important" @click="customerExport">导出</el-button>
+              <el-button size="small" class="important" @click="getReset()">重置</el-button>
               <el-button size="small" class="important" @click="getList()">查询</el-button>
             </div>
           </div>
@@ -252,51 +191,6 @@
         </el-table-column>
       </el-table>
     </section>
-
-    <!-- 预约详情 -->
-    <div class="appointment">
-      <el-dialog title="预约详情" :visible.sync="dialogFormVisible" width="760px" height="354px">
-        <el-form :model="form">
-          <el-form-item label="搜索关键词">
-            <el-input v-model="form.name" placeholder="万科春风十里"></el-input>
-          </el-form-item>
-          <el-form-item label="来源渠道" style="margin-left:240px;margin-top:-54px;">
-            <el-input v-model="form.name" placeholder="百度"></el-input>
-          </el-form-item>
-          <el-form-item label="浏览时长" style="margin-left:490px;margin-top:-54px;">
-            <el-input v-model="form.name" placeholder="123秒"></el-input>
-          </el-form-item>
-          <el-form-item label="MAC">
-            <el-input v-model="form.name" placeholder="MAC"></el-input>
-          </el-form-item>
-          <el-form-item label="防伪设备" style="margin-left:240px;margin-top:-54px;">
-            <el-input v-model="form.name" placeholder="pc"></el-input>
-          </el-form-item>
-          <el-form-item label="IMEI" style="margin-left:490px;margin-top:-54px;">
-            <el-input v-model="form.name" placeholder="2345"></el-input>
-          </el-form-item>
-          <el-form-item label="IP地址">
-            <el-input v-model="form.name" placeholder="27.23.0.120"></el-input>
-          </el-form-item>
-          <el-form-item label="IP归属城市" style="margin-left:240px;margin-top:-54px;">
-            <el-input v-model="form.name" placeholder="广州"></el-input>
-          </el-form-item>
-          <el-form-item label="点击时间" style="margin-left:490px;margin-top:-54px;">
-            <el-input v-model="form.name" placeholder="2018-04-19 15:55:22"></el-input>
-          </el-form-item>
-          <el-form-item label="来源落地页">
-            <router-link to="/">落地页链接</router-link>
-          </el-form-item>
-        </el-form>
-
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false" style="width:64px;height:36px;line-height:10px;">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false" style="width:64px;height:36px;line-height:10px;">
-            确 定
-          </el-button>
-        </div>
-      </el-dialog>
-    </div>
     <!--工具条-->
     <div>
       <section class="adPage" v-if="dataList.length>0">

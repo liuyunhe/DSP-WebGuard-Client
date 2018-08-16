@@ -6,28 +6,6 @@ export default {
   name: "",
   data() {
     return {
-      dialogTableVisible: false,
-      dialogFormVisible: false,
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
       type: "1",
       typeOptions: [
         {
@@ -64,7 +42,7 @@ export default {
       //来源渠道
       channelBox: false,
       channelAll: false,
-      isChannelAll: false,
+      isChannelAll: true,
       channelChecked: [],
       channels: [],
       channel: [],
@@ -174,6 +152,7 @@ export default {
     },
     // 详情
     Details(scope) {
+      console.log(scope)
       this.$router.push({path: '/Details'});
     },
     handleCommand(command) {
@@ -269,7 +248,6 @@ export default {
           this.detail = res.data.data.detail;
           this.source = res.data.data.source;
         }
-
       })
     },
     pushTagesList(val, valName, name) {
@@ -294,49 +272,6 @@ export default {
         }
       }
     },
-
-    // //模糊搜索
-    // querySearch(queryString, callback) {
-    //   if (queryString) {
-    //     let para;
-    //     if (this.filters.type == "name") {
-    //       para = {
-    //         orgName: this.filters.search,
-    //         cityName: this.filters.search,
-    //         projectName: this.filters.search,
-    //         gid: this.filters.search,
-    //         pageName: this.filters.search,
-    //         status: this.filters.status
-    //       };
-    //     } else {
-    //       para = {
-    //         [this.filters.type]: this.filters.search,
-    //         status: this.filters.status
-    //       };
-    //     }
-    //     this.$requestHttp.get(
-    //       "api/private/1.0/page/search",
-    //       {
-    //         params: para
-    //       },
-    //       res => {
-    //         console.log(res);
-    //         if (res.code == 1) {
-    //           if (res.data == undefined) {
-    //             callback([]);
-    //           } else {
-    //             let results = res.data.map(item => {
-    //               return { value: item.split(",")[0], tag: item.split(",")[1] };
-    //             });
-    //             callback(results);
-    //           }
-    //         }
-    //       }
-    //     );
-    //   } else {
-    //     callback([]);
-    //   }
-    // },
     //规范事件格式
     configTime() {
       if (this.filters.time === null) {
@@ -344,27 +279,11 @@ export default {
       }
       console.log(this.filters.time);
     },
-    //获取用户列表
-    getUsers() {
-      this.configTime();
-      let para = {
-        pageSize: 10,
-        pageNo: this.page,
-        status: this.filters.status,
-        name: this.filters.name,
-        beginDate: this.filters.time[0],
-        endDate: this.filters.time[1],
-        pageType: this.pageType,
-        [this.filters.type]: this.filters.search
-      };
-      this.search = para;
-      this.postSearch();
-    },
     //传送查询条件
     postSearch() {
       this.listLoading = true;
       console.log(this.search);
-      this.$request.put("api/private/1.0/page/list", this.search, "", res => {
+      this.$requestHttp.put("api/private/1.0/page/list", this.search, '', res => {
         console.log(res.data);
         if (res.data.code == 1) {
           console.log(res.data.list);
@@ -375,20 +294,77 @@ export default {
         }
       });
     },
-    //查询按钮
-    commitForm() {
-      this.page = 1;
-      this.currentPage = 1;
-      this.getUsers();
+     // 导出预约列表
+     customerExport() {
+      let customer_listStr = '';
+      if (this.customer_listChecked.lenght == 1){
+        for (var i = 0; this.brListCondtionList.cstValidityList.lenght > i; i++) {
+          console.log(this.brListCondtionList.cstTypeList[i].value)
+          if (this,brListCondtionList.cstTypeList[i].value == this.customer_listChecked[0]) {
+            customer_listStr = this.brListCondtionList.cstTypeList[i].code;
+          }
+        }
+      } else {
+        customer_listStr = ''
+      }
+
+      let channelListStr = [];
+      for (var i = 0; this.brListCondtionList.channel.length > i; i++) {
+        for (var n = 0; this.channelChecked.length > n; n++) {
+          if (this.brListCondtionList.channel[i].value == this.channelChecked[n]) {
+            channelListStr.push(this.brListCondtionList.channel[i].code);
+          }
+        }
+      }
+      let params = {
+        keyWord: this.keyWordText || this.fromDataList.keywd,
+        collectionMethod: customer_listStr,
+        pageSize: this.fromDataList.pageSize,
+        pageNo: this.fromDataList.pageNo,
+        cstValidityLis: [],
+        intentionalDegreeList: this.intentionalDegreeListChecked,
+        cstStatusList: this.cstStatusListChecked,
+        projectIdList: this.quwryCustomersListId,
+        channelList: channelListStr,
+        startTime: this.guestDate[0],
+        ebdIime: this.guestDate[1]
+      }
+
+      // this.$api.customerExport(params).then(function (res) {
+      //   this.$requestHttp.put("api/private/1.0/BespeakRecord/exportBespeakRecord", {}, '', res => {
+      //   var blob = new Blob([res], {
+      //     type: 'application/vdn.ms-excel'
+      //   });
+      //   let filename = '导出数据.xls';
+      //   let URLOBJ = window.URL || window.webkitURL;
+      //   if ('download' in document.createElement('a')) {
+      //     const downloadElement = document.createElement('a');
+      //     let href = URLOBJ.createObjectURL(blob);
+      //     downloadElement.href = href;
+      //     downloadElement.download = filename;
+      //     document.body.appendChild(downloadElement);
+      //     downloadElement.click();
+      //     URLOBJ.revokeObjectURL(href);
+      //     document.body.removeChild(downloadElement);
+      //   } else {
+      //     navigator.msSaveBlob(blob, filename);
+      //   }
+      // });
+      // });
     },
     //radio按钮,重置
-    getStatus() {
+    getReset() {
       this.dataList.type = "name";
       this.dataList.search = "";
       this.dataList.time = [];
       this.page = 1;
       this.currentPage = 1;
       this.pageType = "";
+      this.tags = [];
+      this.CheckedCstValidityListAllAll = '';
+      this.CheckedChannelAll = '';
+      this.cstValidityListAll = '';
+      this.channelAll = '';
       this.getList();
     },
     //超过十个字添加title属性
@@ -408,6 +384,7 @@ export default {
     },
   },
   mounted() {
+    this.getList();
     this.brListCondtion();
     this.searchKeyword();
   }
