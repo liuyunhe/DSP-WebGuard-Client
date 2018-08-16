@@ -23,7 +23,6 @@ export default {
         clickTimeEnd: "", //点击结束时间
         pageNo: 1 //查询第几页
       },
-      bespeakRecordId: '',
       //table内容
       pageList: [],
       //数据总条数
@@ -35,7 +34,8 @@ export default {
       //查询页码
       pageNo: 1,
       sels: [], //列表选中列
-      pageType: ""
+      pageType: "",
+      uuid: '',
 
     };
   },
@@ -47,8 +47,7 @@ export default {
    //查询预约列表
    getList() {
     this.loading = true;
-    this.$requestHttp.put(
-      "api/private/1.0/BespeakRecord/list", {
+    this.$requestHttp.put("api/private/1.0/BespeakRecord/list", {
         pageSize: this.fromDataList.pageSize,
         pageNo: this.fromDataList.pageNo
       }, '', res => {
@@ -67,8 +66,7 @@ export default {
     );
   },
      //查询预约记录详情
-     getBespeakRecordInfo(scope) {
-       console.log(scope);
+     getBespeakRecordInfo() {
       this.$requestHttp.put("api/private/1.0/BespeakRecord/info", {
         bespeakRecordId: this.bespeakRecordId
       }, '', res =>{
@@ -101,7 +99,6 @@ export default {
     },
   },
   mounted() {
-    this.getList();
     this.getBespeakRecordInfo();
   }
 };

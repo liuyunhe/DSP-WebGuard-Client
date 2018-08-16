@@ -32,7 +32,7 @@
                   placeholder="手机号码/客户姓名/归属项目/置业顾问"
                   :remote-method="remoteMethod"
                   @change="pushTagesList('搜索关键字：'+formQueryCustomersList.keyWord, 'keyWord',formQueryCustomersList.keyWord)"
-                  :loading="loading" size="mini" class="serachS">
+                  :loading="loading" size="mini" class="serachS" ref="yang">
                   <el-option
                     v-for="(item,i) in options.keywordList"
                     :key="i"
@@ -83,7 +83,7 @@
       </el-col>
 
       <el-col :span="24" class="toolbar" style="margin-left: 12px;">
-        <label class="el-form-item__label" style="line-height: 30px" v-if="tags.length>0">已选条件：</label>
+        <label class="el-form-item__label" style="line-height: 30px" v-if="tags.length<=0">已选条件：</label>
         <el-tag style="margin-left: 12px;"
                 v-for="tag in tags"
                 :key="tag.name"
@@ -91,8 +91,6 @@
                 closable
                 :type="tag.type">
           {{tag.name}}
-
-
         </el-tag>
         <div class="buttonlis">
           <el-button size="small" class="important" @click="getStatus">重置</el-button>
@@ -464,9 +462,9 @@
         </div>
         <div class="mb clearfix">
           <ul>
-            <li><a :href="exportH+'api/private/1.0/customer/dlImportTemplate'" style="text-decoration:underline">模版-导入新客户</a>
+            <li><a :href="exportH+'/api/private/1.0/customer/dlImportTemplate'" style="text-decoration:underline">模版-导入新客户</a>
             </li>
-            <li style="margin-left:31px"><a :href="exportH+'api/private/1.0/customer/dlModifyTemplate'"
+            <li style="margin-left:31px"><a :href="exportH+'/api/private/1.0/customer/dlModifyTemplate'"
                                             style="text-decoration:underline">模版-完善客户信息</a></li>
           </ul>
         </div>
@@ -475,7 +473,7 @@
             class="upload-demo"
             ref="upload"
 
-            :action="exportH+'api/private/1.0/customer/modifyCusts'"
+            :action="exportH+'/api/private/1.0/customer/modifyCusts'"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :limit="1"

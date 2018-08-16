@@ -229,7 +229,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="previewLandingPage(scope.row)">预览</el-button>
+            <el-button type="text" size="small" @click="previewLandingPage(scope.row,GLOBAL.config.imgH)">预览</el-button>
             <el-button type="text" size="small" v-if="filters.status==='1'"
                        @click="editLandingpage(scope.row)">编辑
             </el-button>
@@ -239,7 +239,7 @@
             <el-button type="text" size="small" v-if="filters.status==='1'"
                        @click="handleUpdateStatus(scope.row)">发布
             </el-button>
-            <el-button type="text" size="small" @click="handleCopyUrl(scope.row)">复制链接</el-button>
+            <el-button type="text" size="small" @click="handleCopyUrl(scope.row,GLOBAL.config.imgH)">复制链接</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -251,6 +251,7 @@
       <el-dialog
         title="新增落地页"
         :visible.sync="landingPage"
+        :before-close="handleClose"
         width="516px">
         <div class="tupian clearfix">
           <template  v-if="addLandingPage==false">
@@ -264,7 +265,7 @@
               <div class="img">
                 <img src="../../assets/landingpage/mobileTemplate_select.png" alt="手机端落地页">
               </div>
-              <p>手机端落地页</p>
+              <p>移动端落地页</p>
             </div>
           </template>
 

@@ -197,6 +197,8 @@ export default {
     // 设置下一个路由的 meta
     to.meta.keepAlive = false; // 让 A 不缓存，即刷新
     next();
+    this.tags = []
+    this.$refs.yang.value = ''
   },
   methods: {
     //客户列表（点击进入外呼）
@@ -1044,7 +1046,7 @@ export default {
     console.log(this.GLOBAL.config.exportH)
 
     this.customersListCondition();
-
+    this.tags = []
   },
   watch: {
     guestDate(val){
