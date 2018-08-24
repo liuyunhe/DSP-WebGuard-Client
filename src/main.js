@@ -21,6 +21,8 @@ import * as apis from './apis';
 
 import  VueQuillEditor from 'vue-quill-editor'
 
+import "./common/js/dateFormat"
+
 
 /*import ECharts from 'vue-echarts/components/ECharts.vue'
 // 手动引入 ECharts 各模块来减小打包体积
