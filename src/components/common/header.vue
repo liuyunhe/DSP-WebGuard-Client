@@ -148,6 +148,9 @@ export default {
       else if(command.moduleCode=='qdsjdr'){
         this.$router.push('/Assistant/uploadChannelData')
       }
+      else if(command.moduleCode=="tffx-tftj"){
+        this.$router.push('/ReleaseManagement')
+      }
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -198,6 +201,9 @@ export default {
             else if(res.menu_list[i].subsetList[n].moduleCode=='tfgl'){
               res.menu_list[i].subsetList[n].moduleUrl='/Management';
             }
+            else if(res.menu_list[i].subsetList[n].moduleCode=='qdsjdr'){
+              res.menu_list[i].subsetList[n].moduleUrl='/Assistant/uploadChannelData';
+            }
           }
         }
 
@@ -231,6 +237,9 @@ export default {
         this.options = 'home';
       }else if(path=='/Assistant/uploadChannelData'){
         this.options = 'yyzs';
+      }
+      else if(path=='/ReleaseManagement'){
+        this.options = 'tffx';
       }
     },
     flushCom: function() {
