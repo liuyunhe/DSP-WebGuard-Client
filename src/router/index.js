@@ -24,6 +24,13 @@ const Management = resolve => require(['../Management/index.vue'],resolve)//投�
 const newDetails = resolve => require(['../Management/newDetails.vue'],resolve)//投放渠道详情
 const Monitoring = resolve => require(['../Monitoring/index.vue'],resolve)//监控看板
 
+const ReleaseManagement = resolve => require(['../ReleaseAnalysis/ReleaseManagement/index.vue'],resolve)//投放管理
+const ByActivity = resolve => require(['../ReleaseAnalysis/ReleaseManagement/ByActivity.vue'],resolve)//投放管理-
+const ByItem = resolve => require(['../ReleaseAnalysis/ReleaseManagement/ByItem.vue'],resolve)//投放管理
+const ByCity = resolve => require(['../ReleaseAnalysis/ReleaseManagement/ByCity.vue'],resolve)//投放管理
+const ByOrganization = resolve => require(['../ReleaseAnalysis/ReleaseManagement/ByOrganization.vue'],resolve)//投放管理
+const ByChannel = resolve => require(['../ReleaseAnalysis/ReleaseManagement/ByChannel.vue'],resolve)//投放管理
+
 const uploadChannelData = resolve => require(['../Assistant/uploadChannelData/uploadChannelData.vue'],resolve)//上传渠道数据
 Vue.use(Router);
 export default new Router({
@@ -147,6 +154,51 @@ export default new Router({
     { //上传渠道数据
       path: '/Assistant/uploadChannelData',
       component:uploadChannelData
+    },
+    { //投放管理
+      path: '/ReleaseManagement',
+      component:ReleaseManagement,
+      redirect:'/ReleaseManagement/ByActivity',
+      meta: {
+        keepAlive: false // 不需要被缓存
+      },
+      children:[
+        {
+          path: 'ByActivity',
+          component: ByActivity,
+          meta: {
+            keepAlive: false // 不需要被缓存
+          },
+        },
+        {
+          path: 'ByItem',
+          component: ByItem,
+          meta: {
+            keepAlive: false // 不需要被缓存
+          },
+        },
+        {
+          path: 'ByCity',
+          component: ByCity,
+          meta: {
+            keepAlive: false // 不需要被缓存
+          },
+        },
+        {
+          path: 'ByChannel',
+          component: ByChannel,
+          meta: {
+            keepAlive: false // 不需要被缓存
+          },
+        },
+        {
+          path: 'ByOrganization',
+          component: ByOrganization,
+          meta: {
+            keepAlive: false // 不需要被缓存
+          },
+        },
+      ]
     }
   ]
 });
