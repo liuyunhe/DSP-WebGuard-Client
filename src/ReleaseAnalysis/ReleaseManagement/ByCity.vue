@@ -21,6 +21,7 @@
                 :fetch-suggestions="inputOnChange"
                 class="serachS"
                 @select="inputOnSelect"
+                :select-when-unmatched="true"
                 ref="yang">
                 <template slot="prepend">投放城市</template>
                 <template slot-scope="{ item }">
@@ -60,7 +61,7 @@
 
           <div class="right">
             <div class="buttons">
-              <el-button size="small" class="important" @click="customerExport">导出</el-button>
+              <el-button size="small" class="important" v-loading.fullscreen.lock="fullscreenLoading" @click="customerExport">导出</el-button>
               <el-button size="small" class="important" @click="getReset()">重置</el-button>
               <el-button size="small" class="important" @click="getList(true)">查询</el-button>
             </div>

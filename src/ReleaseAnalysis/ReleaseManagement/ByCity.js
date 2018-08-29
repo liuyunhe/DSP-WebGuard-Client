@@ -43,7 +43,8 @@ export default {
       pageNo: 1,
       pageType: "",
       placeholder:"查询投放城市",
-      red:false  //选择统计周期后日期标红
+      red:false,  //选择统计周期后日期标红
+      fullscreenLoading:false //下载Excel时的全屏加载遮罩
     };
   },
   watch:{
@@ -75,7 +76,7 @@ export default {
     
       this.fromDataList.clickTimeStart = this.datepicker[0]
       this.fromDataList.clickTimeEnd = this.datepicker[1]
-      this.getList()
+      this.getList(true)
     },
     //投放状态改变
     tfOnChange(value){
@@ -124,8 +125,8 @@ export default {
         beginDate:this.fromDataList.clickTimeStart,
         endDate:this.fromDataList.clickTimeEnd,
   
-        likeCityName:this.fromDataList.select == "" ? this.fromDataList.keywd:this.fromDataList.select.name,
-        city:this.fromDataList.select == "" ? "":this.fromDataList.select.name,
+        likeCityName:this.fromDataList.select == "" ? this.fromDataList.keywd:(this.fromDataList.select.name?this.fromDataList.select.name:this.fromDataList.keywd),
+        city:this.fromDataList.select == "" ? "":(this.fromDataList.select.id?this.fromDataList.select.id:""),
         tf:this.fromDataList.tf?1:0
       }
       this.$requestHttp.put(
@@ -179,7 +180,43 @@ export default {
     
     // 导出预约列表
     customerExport() {
+      let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).Format("yyyy-MM-dd")
+      if(this.fromDataList.clickTimeStart == today && this.fromDataList.clickTimeEnd == today){
+        this.$confirm(`暂时不支持导出今天的数据`, '提示', {
+          confirmButtonText: '知道了',
+          showCancelButton:false,
+          type: 'warning'
+        }).then(() => {
+        
+        }).catch(() => {
+        
+        });
+      } else{
+        this.fullscreenLoading = true
+        let params = {
+          beginDate:this.fromDataList.clickTimeStart,
+          endDate:this.fromDataList.clickTimeEnd,
     
+          likeCityName:this.fromDataList.select == "" ? this.fromDataList.keywd:(this.fromDataList.select.name?this.fromDataList.select.name:this.fromDataList.keywd),
+          city:this.fromDataList.select == "" ? "":(this.fromDataList.select.id?this.fromDataList.select.id:""),
+          tf:this.fromDataList.tf?1:0
+        }
+        let _this = this
+        this.$requestHttp.put(
+          "api/private/1.0/deliveryStatistics/importExcleByCity", params, '', res => {
+            console.log(res);
+            if (res.data.data.code == 1) {
+              this.fullscreenLoading = false
+              var url = `api/private/1.0/deliveryStatistics/importExcle?type=${res.data.data.type}&name=${res.data.data.name}`
+              window.location.href = _this.GLOBAL.config.exportH+url;
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+      
     },
     //radio按钮,重置
     getReset() {
@@ -210,6 +247,7 @@ export default {
     },
   },
   mounted() {
-    this.getList();
+    this.getList()
+    console.log(this.GLOBAL.config.exportH)
   }
 };
