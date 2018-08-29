@@ -14,42 +14,24 @@ export default {
         return time.getTime() >
           new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime()
       },
-      value6:"",
       type: "1",
-      typeOptions: [
-        {
-          value: "1",
-          label: "查询条件"
-        },
-        {
-          value: "2",
-          label: "手机号码"
-        },
-        {
-          value: "3",
-          label: "客户姓名"
-        },
-        {
-          value: "4",
-          label: "归属项目"
-        },
-        {
-          value: "5",
-          label: "置业顾问"
-        }
-      ],
       kw: '',
       kwType: '',
       brListCondtionList: '',
-      cstValidityList: [],
+      terminaTypeList: [],
+      datepicker:[],//时间控件
+      
+      
       // 有效性
-      cstValidityListBox: false,
-      isCstValidityListAll: true,
-      cstValidityListAll: false,
-      cstValidityListChecked: [],
-      cstValidityLists: [],
-      //来源渠道
-      channelBox: false,
+      pageTypeListBox: false, //状态是否可见
+      pageTypeListAll: false,
+      isPageTypeListAll: true,
+      pageTypeListChecked: [],
+      pageTypeLists: [],
+      
+      
+      //消费渠道
+      channelBox: false, //状态是否可见
       channelAll: false,
       isChannelAll: true,
       channelChecked: [],
@@ -63,31 +45,17 @@ export default {
       loading: true,
       // 列表数据
       dataList: [],
-      //表单
-      filters: {
-        status: "0",
-        type: "name",
-        search: "",
-        time: []
-      },
-      mobilePhone: '',
+      
       fromDataList: {
-        channelNames: "", //来源渠道列表
-        pName: "", //项目名模糊搜索
-        cstName: "", //用户名模糊搜索
-        mobilePhone: "", //手机号码模糊搜索
         keywd: "", //关键字模糊搜索
-        cName: "", //渠道模糊搜索
-        consultantName: "", //归属职业顾问模糊搜索
-        projectNames: "", //项目名列表
-        statuses: "", //状态列表
         clickTimeStart: "", //点击开始时间
         clickTimeEnd: "", //点击结束时间
-        pageNo: 1 //查询第几页
+        pageNo: 1,//查询第几页
+        pageSize: 10,//每页条数
+        tf:true,//推广中
+        select:"",
+        channelTypeList:[],
       },
-      bespeakRecordId: '',
-      //table内容
-      pageList: [],
       //数据总条数
       total: 0,
       //分页器当前选中页码
@@ -96,101 +64,121 @@ export default {
       pageSize: 10,
       //查询页码
       pageNo: 1,
-      sels: [], //列表选中列
-      pageType: ""
+      placeholder:"查询投放渠道",
+      red:false,//标红
+      fullscreenLoading:false
     };
+  },
+  watch:{
+    datepicker(val){
+      if(val == null){
+        this.red = false
+      }else if(val !== null){
+        if(val[0]&&val[1]){
+          this.red = true
+        }else{
+          this.red = false
+        }
+      }
+    }
   },
   methods: {
     selectType() {//选择类型
       console.log(this.type);
     },
-    //模糊查询
-    remoteMethod(query) {
-      console.log(query);
-      this.projectTaskListByLike(query);
+    
+    //今天和昨天按钮
+    manageDate(yesterday){
+      if(yesterday){
+        this.datepicker = [
+          new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).Format("yyyy-MM-dd"),
+          new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).Format("yyyy-MM-dd")
+        ]
+      }else{
+        this.datepicker = [
+          new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).Format("yyyy-MM-dd"),
+          new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).Format("yyyy-MM-dd")
+        ]
+      }
+    
+      this.fromDataList.clickTimeStart = this.datepicker[0]
+      this.fromDataList.clickTimeEnd = this.datepicker[1]
+      this.getList(true)
     },
-    //有效性
-    CheckedCstValidityListAllAll(val) {
-      this.cstValidityListChecked = val ? this.cstValidityLists : [];
-      this.isCstValidityListAll = false;
+    //日期选择
+    datepickerOnChange(){
+      console.log(this.datepicker)
+      if(this.datepicker !== null){
+        if(this.datepicker[0]&&this.datepicker[1]){
+          this.fromDataList.clickTimeStart = this.datepicker[0]
+          this.fromDataList.clickTimeEnd = this.datepicker[1]
+          this.getList(true)
+        }
+      
+      }else if(this.datepicker == null){
+        this.fromDataList.clickTimeStart = ""
+        this.fromDataList.clickTimeEnd = ""
+        this.getList(true)
+      }
     },
-    CheckedcstValidityList(value) {
+    
+    //投放状态改变
+    tfOnChange(value){
+      this.getList(true)
+    },
+    
+    //有效性筛选
+    CheckedPageTypeListAll(val) {
+      this.pageTypeListChecked = val ? this.pageTypeLists : [];
+      this.isPageTypeListAll = false;
+    },
+    //勾选项改变
+    CheckedpageTypeList(value) {
       let checkedCount = value.length;
-      this.cstValidityListAll = checkedCount === this.brListCondtionList.cstValidityList.length;
-      this.isCstValidityListAll =
-        checkedCount > 0 && checkedCount < this.brListCondtionList.cstValidityList.length;
+      this.pageTypeListAll = checkedCount === this.brListCondtionList.pageTypeList.length;
+      this.isPageTypeListAll =
+        checkedCount > 0 && checkedCount < this.brListCondtionList.pageTypeList.length;
     },
-    savecCstValidityList() {
-      this.cstValidityListBox = false;
-      this.pushTagesList("有效性：" + this.cstValidityListChecked,"cstValidityList", this.cstValidityListChecked);
-      this.brListCondtion();
+    savecPageTypeList() {
+      this.pageTypeListBox = false; //隐藏对话框
+      this.pushTagesList("终端类型：" + this.pageTypeListChecked,"pageTypeList", this.pageTypeListChecked);
+      this.getList(true)
     },
-
-     //来源渠道
+     //来源渠道筛选
      CheckedChannelAll(val) {
       this.channelChecked = val ? this.channels : [];
       this.isChannelAll = false;
     },
     CheckedChannel(value) {
       let checkedCount = value.length;
-      this.channelAll = checkedCount === this.brListCondtionList.channel.length;
-      this.isChannelAll = checkedCount > 0 && checkedCount < this.brListCondtionList .channel.length;
+      this.channelAll = checkedCount === this.brListCondtionList.channelTypeList.length;
+      this.isChannelAll = checkedCount > 0 && checkedCount < this.brListCondtionList .channelTypeList.length;
     },
     savecChannel() {
       this.channelBox = false;
-      this.pushTagesList('来源渠道：' + this.channelChecked, 'channel', this.channelChecked);
-      this.brListCondtion();
+      this.pushTagesList('渠道类型：' + this.channelChecked, 'channel', this.channelChecked);
+      this.getList(true)
     },
     handleClose(tag) {//关闭标签
       console.log(tag)
       this.tags.splice(this.tags.indexOf(tag), 1);
       switch (tag.type) {
         case 'channel':
-          this.CheckedChannel = [];
-          this.brListCondtion();
+          this.channelChecked = [];
+          this.getList(true)
           break
-        case 'intentionalDegreeList':
-          this.CheckedcstValidityList = [];
-          this.brListCondtion();
+        case 'pageTypeList':
+          this.pageTypeListChecked = [];
+          this.getList(true)
           break
         case 'keyWord':
-          this.keyWordText = '';
-          this.brListCondtion();
-          break
+         this.fromDataList.keywd = '';
+         this.fromDataList.select = '';
+         this.getList(true)
+         break
       }
     },
-    // 详情
-    Details(scope) {
-      console.log(scope)
-      this.$router.push({path: '/Details'});
-    },
-    handleCommand(command) {
-      console.log(command);
-      this.mobile_terminal = command;
-      this.searchList();
-    },
-    handleCommandStatus(command) {
-      console.log(command);
-      this.status = command;
-      this.searchList();
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    remoteMethod(query) {
-      console.log('qrererr');
-      console.log(query)
-      if (query !== '') {
-        this.loading = true;
-        this.getList(query)
-      }
-    },
+    
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -198,18 +186,31 @@ export default {
       // 下一页
       console.log(val);
       this.fromDataList.pageNo = val;
+      this.currentPage = val
       this.getList();
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
+    
     //查询预约列表
-    getList() {
+    getList(fresh) {
+      if(fresh){
+        this.pageNo = 1
+        this.fromDataList.pageNo = 1
+        this.currentPage = 1
+      }
+      this.pushTagesList('投放渠道：' + this.fromDataList.keywd, 'keyWord', this.fromDataList.keywd);
       this.loading = true;
       this.$requestHttp.put(
-        "api/private/1.0/BespeakRecord/list", {
+        "api/private/1.0/deliveryStatistics/cntDataByChannelPage", {
           pageSize: this.fromDataList.pageSize,
-          pageNo: this.fromDataList.pageNo
+          pageNo: this.fromDataList.pageNo,
+          beginDate:this.fromDataList.clickTimeStart,
+          endDate:this.fromDataList.clickTimeEnd,
+          
+          channelName:this.fromDataList.select == "" ? (this.fromDataList.keywd):(this.fromDataList.select.name?this.fromDataList.select.name:this.fromDataList.keywd),// 渠道名称
+          channelId:this.fromDataList.select == "" ? (""):(this.fromDataList.select.channelId?this.fromDataList.select.channelId:""),
+          channelTypeList:this.channelChecked,
+          pageTypeList:this.pageTypeListChecked,
+          
         }, '', res => {
           console.log(res);
           if (res.data.code == 1) {
@@ -225,40 +226,7 @@ export default {
         }
       );
     },
-    // 预约记录列表表头查询条件初始化
-    brListCondtion() {
-      this.loading = true;
-      this.$requestHttp.put("api/private/1.0/BespeakRecord/brListCondtion", {}, '', res => {
-        console.log(res);
-        if (res.data.code == 1) {
-          this.brListCondtionList = res.data.data;
-          for (var i = 0; this.brListCondtionList .channel.length > i; i++) {
-            this.channel.push(this.brListCondtionList .channel[i].value);
-          }
-          for (var i = 0; this.brListCondtionList .cstValidityList.length > i; i++) {
-            this.cstValidityList.push(this.brListCondtionList .cstValidityList[i].value);
-          }
-          this.typeOptions = res.data.data.brListCondtionList;
-          this.loading = false;
-          this.getList();
-        }
-      },error => {
-        console.log(error)
-      })
-    },
-   //关键字模糊查询
-    searchKeyword(text) {
-      console.log("1")
-      this.$requestHttp.put("api/private/1.0/BespeakRecord/searchKeyword", {
-        kw: text,
-        kwType: this.kwType
-      }, '', res => {
-        if (res.code ==  1) {
-          this.detail = res.data.data.detail;
-          this.source = res.data.data.source;
-        }
-      })
-    },
+    
     pushTagesList(val, valName, name) {
       //添加标签
       if (name != "") {
@@ -281,100 +249,102 @@ export default {
         }
       }
     },
-    //规范事件格式
-    configTime() {
-      if (this.filters.time === null) {
-        this.filters.time = [];
-      }
-      console.log(this.filters.time);
-    },
-    //传送查询条件
-    postSearch() {
-      this.listLoading = true;
-      console.log(this.search);
-      this.$requestHttp.put("api/private/1.0/page/list", this.search, '', res => {
-        console.log(res.data);
-        if (res.data.code == 1) {
-          console.log(res.data.list);
-          this.pageList = res.data.data.list;
-          this.total = res.data.data.count;
-          this.pageSize = res.data.data.pageSize;
-          this.listLoading = false;
-        }
-      });
-    },
-     // 导出预约列表
-     customerExport() {
-      let customer_listStr = '';
-      if (this.customer_listChecked.lenght == 1){
-        for (var i = 0; this.brListCondtionList.cstValidityList.lenght > i; i++) {
-          console.log(this.brListCondtionList.cstTypeList[i].value)
-          if (this,brListCondtionList.cstTypeList[i].value == this.customer_listChecked[0]) {
-            customer_listStr = this.brListCondtionList.cstTypeList[i].code;
+  
+    //模糊查询
+    inputOnChange(queryString,callback) {
+      console.log(queryString,"1111")
+      this.fromDataList.select=""
+      this.$requestHttp.put(
+        "api/private/1.0/deliveryStatistics/selectChannelBykeyWord", {
+          channelName: queryString
+        }, '', res => {
+          if (res.data.code == 1) {
+            console.log(res.data.data)
+            callback(res.data.data.channelList)
           }
+        },
+        error => {
+          console.log(error);
         }
-      } else {
-        customer_listStr = ''
-      }
-
-      let channelListStr = [];
-      for (var i = 0; this.brListCondtionList.channel.length > i; i++) {
-        for (var n = 0; this.channelChecked.length > n; n++) {
-          if (this.brListCondtionList.channel[i].value == this.channelChecked[n]) {
-            channelListStr.push(this.brListCondtionList.channel[i].code);
+      );
+    },
+    //模糊匹配选择
+    inputOnSelect(item){
+      console.log(item)
+      this.fromDataList.select = item
+      this.getList(true)
+    },
+    
+     // 导出数据
+    customerExport() {
+      let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).Format("yyyy-MM-dd")
+      if(this.fromDataList.clickTimeStart == today && this.fromDataList.clickTimeEnd == today){
+        this.$confirm(`暂时不支持导出今天的数据`, '提示', {
+          confirmButtonText: '知道了',
+          showCancelButton:false,
+          type: 'warning'
+        }).then(() => {
+        
+        }).catch(() => {
+        
+        });
+      } else{
+        this.fullscreenLoading = true
+        let params = {
+          beginDate:this.fromDataList.clickTimeStart,
+          endDate:this.fromDataList.clickTimeEnd,
+  
+          channelName:this.fromDataList.select == "" ? (this.fromDataList.keywd):(this.fromDataList.select.name?this.fromDataList.select.name:this.fromDataList.keywd),// 渠道名称
+          channelId:this.fromDataList.select == "" ? (""):(this.fromDataList.select.channelId?this.fromDataList.select.channelId:""),
+          channelTypeList:this.channelChecked,
+          pageTypeList:this.pageTypeListChecked,
+        }
+        let _this = this
+        this.$requestHttp.put(
+          "api/private/1.0/deliveryStatistics/exportCntDataByChannel", params, '', res => {
+            console.log(res);
+            if (res.data.data.code == 1) {
+              this.fullscreenLoading = false
+              var url = `api/private/1.0/deliveryStatistics/importExcle?type=${res.data.data.type}&name=${res.data.data.name}`
+              window.location.href = _this.GLOBAL.config.exportH+url;
+              console.log(url)
+            }
+          },
+          error => {
+            console.log(error);
           }
-        }
+        );
       }
-      let params = {
-        keyWord: this.keyWordText || this.fromDataList.keywd,
-        collectionMethod: customer_listStr,
-        pageSize: this.fromDataList.pageSize,
-        pageNo: this.fromDataList.pageNo,
-        cstValidityLis: [],
-        intentionalDegreeList: this.intentionalDegreeListChecked,
-        cstStatusList: this.cstStatusListChecked,
-        projectIdList: this.quwryCustomersListId,
-        channelList: channelListStr,
-        startTime: this.guestDate[0],
-        ebdIime: this.guestDate[1]
-      }
-
-      // this.$api.customerExport(params).then(function (res) {
-      //   this.$requestHttp.put("api/private/1.0/BespeakRecord/exportBespeakRecord", {}, '', res => {
-      //   var blob = new Blob([res], {
-      //     type: 'application/vdn.ms-excel'
-      //   });
-      //   let filename = '导出数据.xls';
-      //   let URLOBJ = window.URL || window.webkitURL;
-      //   if ('download' in document.createElement('a')) {
-      //     const downloadElement = document.createElement('a');
-      //     let href = URLOBJ.createObjectURL(blob);
-      //     downloadElement.href = href;
-      //     downloadElement.download = filename;
-      //     document.body.appendChild(downloadElement);
-      //     downloadElement.click();
-      //     URLOBJ.revokeObjectURL(href);
-      //     document.body.removeChild(downloadElement);
-      //   } else {
-      //     navigator.msSaveBlob(blob, filename);
-      //   }
-      // });
-      // });
     },
     //radio按钮,重置
     getReset() {
-      this.dataList.type = "name";
-      this.dataList.search = "";
-      this.dataList.time = [];
+      
       this.page = 1;
       this.currentPage = 1;
-      this.pageType = "";
       this.tags = [];
-      this.CheckedCstValidityListAllAll = '';
-      this.CheckedChannelAll = '';
-      this.cstValidityListAll = '';
-      this.channelAll = '';
-      this.getList();
+      this.fromDataList = {
+        keywd: "", //关键字模糊搜索
+        clickTimeStart: "", //点击开始时间
+        clickTimeEnd: "", //点击结束时间
+        pageNo: 1,//查询第几页
+        pageSize: 10,//每页条数
+        tf:true,//推广中
+        select:""
+      },
+  
+      // 有效性
+      this.pageTypeListBox = false, //状态是否可见
+      this.pageTypeListAll = false,
+      this.isPageTypeListAll = true,
+      this.pageTypeListChecked = [],
+  
+      //消费渠道
+      this.channelBox = false, //状态是否可见
+      this.channelAll = false,
+      this.isChannelAll = true,
+      this.channelChecked = [],
+      this.datepicker = []
+      this.getList(true);
     },
     //超过十个字添加title属性
     istitle(value) {
@@ -386,15 +356,28 @@ export default {
         }
       }
     },
-    //pageType选择
-    pageTypeHandle(command) {
-      this.pageType = command;
-      this.getList();
+    //获取过滤条件
+    brListCondtion() {
+      this.loading = true;
+      this.$requestHttp.put("api/private/1.0/deliveryStatistics/selectChannelCondition", {}, '', res => {
+        console.log(res);
+        if (res.data.code == 1) {
+          this.brListCondtionList = res.data.data;
+          for (var i = 0; this.brListCondtionList.channelTypeList.length > i; i++) {
+            this.channel.push(this.brListCondtionList.channelTypeList[i].value);
+          }
+          for (var i = 0; this.brListCondtionList .pageTypeList.length > i; i++) {
+            this.cstValidityList.push(this.brListCondtionList.pageTypeList[i].value);
+          }
+          this.loading = false;
+        }
+      },error => {
+        console.log(error)
+      })
     },
   },
   mounted() {
     this.getList();
-    this.brListCondtion();
-    this.searchKeyword();
+    this.brListCondtion()   //动态拿到查询条件
   }
 };
