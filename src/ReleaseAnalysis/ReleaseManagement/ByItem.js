@@ -56,7 +56,8 @@ export default {
       pageNo: 1,
       pageType: "",
       placeholder:"查询机构名称，项目名称",
-      red:false
+      red:false,
+      fullscreenLoading:false,
     };
   },
   watch:{
@@ -101,11 +102,11 @@ export default {
       
       this.fromDataList.clickTimeStart = this.datepicker[0]
       this.fromDataList.clickTimeEnd = this.datepicker[1]
-      this.getList()
+      this.getList(true)
     },
     //投放状态改变
     tfOnChange(value){
-      this.getList()
+      this.getList(true)
     },
     
     //日期选择
@@ -115,13 +116,13 @@ export default {
         if(this.datepicker[0]&&this.datepicker[1]){
           this.fromDataList.clickTimeStart = this.datepicker[0]
           this.fromDataList.clickTimeEnd = this.datepicker[1]
-          this.getList()
+          this.getList(true)
         }
         
       }else if(this.datepicker == null){
         this.fromDataList.clickTimeStart = ""
         this.fromDataList.clickTimeEnd = ""
-        this.getList()
+        this.getList(true)
       }
     },
     //模糊搜索类型变动
@@ -216,8 +217,47 @@ export default {
     },
     
      // 导出预约列表
-     customerExport() {
-     
+    customerExport() {
+      let today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).Format("yyyy-MM-dd")
+      if(this.fromDataList.clickTimeStart == today && this.fromDataList.clickTimeEnd == today){
+        this.$confirm(`暂时不支持导出今天的数据`, '提示', {
+          confirmButtonText: '知道了',
+          showCancelButton:false,
+          type: 'warning'
+        }).then(() => {
+        
+        }).catch(() => {
+        
+        });
+      } else{
+        this.fullscreenLoading = true
+        let params = {
+          beginDate:this.fromDataList.clickTimeStart,
+          endDate:this.fromDataList.clickTimeEnd,
+  
+          likeName:this.type == "OAP" ? this.fromDataList.keywd : "",
+          likeProjectName:this.type == "pro" ? (this.fromDataList.keywd) : "",
+          projectId:this.fromDataList.select == "" ? "" : (this.fromDataList.select.type == "projectId" ? this.fromDataList.select.id:""),
+          likeOrgName:this.type == "org" ? (this.fromDataList.keywd) : "" ,
+          orgId:this.fromDataList.select == "" ? "" : (this.fromDataList.select.type == "orgId" ? this.fromDataList.select.id:""),
+          tf:this.fromDataList.tf?1:0
+        }
+        let _this = this
+        this.$requestHttp.put(
+          "api/private/1.0/deliveryStatistics/importExcleByProject", params, '', res => {
+            console.log(res);
+            if (res.data.data.code == 1) {
+              this.fullscreenLoading = false
+              var url = `api/private/1.0/deliveryStatistics/importExcle?type=${res.data.data.type}&name=${res.data.data.name}`
+              window.location.href = _this.GLOBAL.config.exportH+url;
+              console.log(url)
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
     },
     //radio按钮,重置
     getReset() {
@@ -250,6 +290,5 @@ export default {
   },
   mounted() {
     this.getList();
-    
   }
 };

@@ -28,7 +28,9 @@
                   :fetch-suggestions="inputOnChange"
                   class="autocomplete"
                   @select="inputOnSelect"
-                  ref="yang">
+                  :select-when-unmatched="true"
+                  ref="yang"
+                >
                   <template slot-scope="{ item }">
                     <div class="name"
                          style="width: 180px;float: left;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
@@ -64,7 +66,7 @@
           </div>
           <div class="right">
             <div class="buttons">
-              <el-button size="small" class="important" @click="customerExport">导出</el-button>
+              <el-button size="small" class="important" v-loading.fullscreen.lock="fullscreenLoading" @click="customerExport">导出</el-button>
               <el-button size="small" class="important" @click="getReset()">重置</el-button>
               <el-button size="small" class="important" @click="getList()">查询</el-button>
             </div>
