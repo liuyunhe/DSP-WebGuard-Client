@@ -1,67 +1,72 @@
 <template>
   <section class="ReservationRecord">
     <header>
-      <!--面包屑-->
-      <!--<el-col :span="24" class="breadcrumb-container">-->
-        <!--<el-breadcrumb separator="/" class="breadcrumb-inner">-->
-          <!--<el-breadcrumb-item v-for="item in $route.matched" :key="item.path">-->
-            <!--{{ item.name }}-->
-          <!--</el-breadcrumb-item>-->
-        <!--</el-breadcrumb>-->
-      <!--</el-col>-->
+
       <!--查询表单-->
       <el-col :span="24" style="padding-bottom: 0px;">
         <div class="projectS">
           <div class="left">
-              <div class="type1">
-                <el-select v-model="type" slot="prepend" placeholder="请选择" class="typeClass"
-                           size="small">
-                  <el-option
-                    v-for="item in typeOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <el-select
-                  v-model="fromDataList.keywd"
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请选择查询条件或输入关键字搜索"
-                  :remote-method="remoteMethod"
-                  @change="pushTagesList('搜索关键字：'+fromDataList.keywd, 'keywd',fromDataList.keywd)"
-                  :loading="loading" size="mini" class="serachS" ref="yang">
-                  <el-option
-                    v-for="(item,i) in typeOptions"
-                    :key="i"
-                    :label="item.lable"
-                    :value="item.value">
-                    <!-- <span style="float: left">{{ item.completionName }}</span>
-                    <span style="float: right; color: #CCD1D6; font-size: 12px">{{ item.source }}</span> -->
-                  </el-option>
-                </el-select>
-              </div>
-
-
+            <div class="type1">
+              <el-select
+                v-model="type"
+                slot="prepend"
+                placeholder="请选择"
+                class="typeClass"
+                size="small"
+                @change="selectOnChange(type)"
+              >
+                <el-option
+                  v-for="item in typeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <el-autocomplete
+                v-model="fromDataList.keywd"
+                value-key="name"
+                :placeholder="placeholder"
+                :fetch-suggestions="inputOnChange"
+                :select-when-unmatched="true"
+                class="autocomplete"
+                @select="inputOnSelect"
+                ref="yang">
+                <template slot-scope="{ item }">
+                  <div class="name"
+                       style="width: 180px;float: left;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                    {{item.name }}
+                  </div>
+                  <span style="float: right; color: #CCD1D6; font-size: 12px">{{ item.source }}</span>
+                </template>
+              </el-autocomplete>
+            </div>
           </div>
           <div class="left">
             <span style="margin-right: 20px">统计周期</span>
             <el-date-picker
-              v-model="value6"
+              v-model="datepicker"
               type="daterange"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               size="small"
               value-format="yyyy-MM-dd"
+              @change="datepickerOnChange"
               :picker-options="{disabledDate}"
             >
             </el-date-picker>
           </div>
+          <div class="left">
+            <el-button type="text" @click="manageDate(true)">昨天</el-button>
+            <el-button type="text" @click="manageDate(false)">今天</el-button>
+            <el-checkbox
+              v-model="fromDataList.tf"
+              @change="tfOnChange"
+            >推广中</el-checkbox>
+          </div>
           <div class="right">
             <div class="buttons">
-              <el-button size="small" class="important" @click="customerExport">导出</el-button>
+              <el-button size="small" class="important" v-loading.fullscreen.lock="fullscreenLoading" @click="customerExport">导出</el-button>
               <el-button size="small" class="important" @click="getReset()">重置</el-button>
               <el-button size="small" class="important" @click="getList()">查询</el-button>
             </div>
@@ -69,27 +74,12 @@
         </div>
       </el-col>
 
-      <el-col :span="24" class="toolbar" style="margin-left: 12px;" v-if="tags.length>0">
-        <label class="el-form-item__label" style="line-height: 30px">已选条件：</label>
-        <el-tag style="margin-left: 12px;"
-                v-for="tag in tags"
-                :key="tag.name"
-                @close="handleClose(tag)"
-                closable
-                :type="tag.type">
-          {{tag.name}}
-        </el-tag>
-      </el-col>
+
 
     </header>
 
     <!--列表-->
     <section class="ReservationRecordTable">
-      <!-- 有效性 -->
-
-      <!-- 意向程度 -->
-
-
       <el-table
         :data="dataList"
         v-loading="loading">
@@ -98,56 +88,93 @@
         </el-table-column>
 
         <el-table-column
-          prop="mobilePhone"
-          label="手机号码"
+          prop="advertisingTitle"
+          label="投放活动"
           width="180">
         </el-table-column>
 
         <el-table-column
-          prop="clientName"
-          label="客户姓名"
-          width="120">
-        </el-table-column>
-
-        <el-table-column
           prop="projectName"
-          width="150"
-          label="归属项目">
-        </el-table-column>
-
-        <el-table-column
-          prop="consultantName"
-          width="150"
-          label="置业顾问">
-        </el-table-column>
-
-        <el-table-column
-          prop="status"
-          label="有效性"
-          width="120">
-        </el-table-column>
-
-        <el-table-column
-          prop="createTime"
-          width="120"
-          label="点击时间">
-        </el-table-column>
-
-        <el-table-column
-          prop="channelName"
-          label="意向程度"
+          label="项目名称"
           width="150">
         </el-table-column>
 
         <el-table-column
+          prop="advertisingBegin"
+          width="120"
+          label="投放开始时间">
+          <template slot-scope="scope">
+            <span>{{ new Date(scope.row.advertisingBegin).Format("yyyy/MM/dd") }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="advertisingEnd"
+          width="120"
+          label="投放结束时间">
+          <template slot-scope="scope">
+            <span>{{ new Date(scope.row.advertisingEnd).Format("yyyy/MM/dd") }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="timePastRate"
+          label="推广完成率"
+          width="120">
+        </el-table-column>
+
+        <el-table-column
+          prop="contractMoney"
+          width="120"
+          label="合同金额"
+        ></el-table-column>
+
+        <el-table-column
+          prop="totalConsum"
+          width="120"
+          label="消费金额"
+        >
+          <template slot-scope="scope">
+            <span v-if="red" style="color: red">{{ scope.row.totalConsum }}</span>
+            <span v-else>{{ scope.row.totalConsum }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="consumRate"
+          label="消费占比"
+          width="120"
+        >
+          <template slot-scope="scope">
+            <span v-if="red" style="color: red">{{ scope.row.consumRate }}</span>
+            <span v-else>{{ scope.row.consumRate }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="promiseCustomers"
           width="100"
-          label="关键词">
+          label="承诺获客数"
+        >
         </el-table-column>
         <el-table-column
-          label="操作">
+          prop="totalClientNum"
+          width="100"
+          label="实际获客数"
+        >
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="Details(scope)" style="width:32px">详情</el-button>
-            <!-- <el-button type="text" size="small" @click="changeState(scope)" style="width:32px">补录</el-button> -->
+            <span v-if="red" style="color: red">{{ scope.row.totalClientNum }}</span>
+            <span v-else>{{ scope.row.totalClientNum }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="perClientConsum"
+          label="客单价"
+        >
+          <template slot-scope="scope">
+            <span v-if="red" style="color: red">{{ scope.row.perClientConsum }}</span>
+            <span v-else>{{ scope.row.perClientConsum }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -164,7 +191,7 @@
           :total="total">
         </el-pagination>
         <div class="pageLeft">
-          共 <span>{{total}}</span>个客户，今日新增56条<!--，第 {{currentPage}} / {{rowNowCount}}}} 页-->
+          共<span>{{total}}</span>条记录
         </div>
       </section>
     </div>
@@ -175,6 +202,8 @@
 
 <script src="./ByActivity.js"></script>
 
-<style lang="scss" type="text/scss" src="./style.scss">
+<style lang="scss" type="text/scss" src="./style.scss"></style>
+<style scoped>
+
 </style>
 
