@@ -35,7 +35,7 @@ export default {
       cstValidityList: [],
       // 有效性
       cstValidityListBox: false,
-      isCstValidityListAll: false,
+      isCstValidityListAll: true,
       cstValidityListAll: false,
       cstValidityListChecked: [],
       cstValidityLists: [],

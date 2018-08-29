@@ -3,7 +3,7 @@
     <div class="header_title">
       <h2>投放统计</h2>
     </div>
-    <div class="toolbar">
+    <div class="toolbar" style="margin-top:32px">
       <el-radio-group v-model="callType" size="small" @change="changeCallType">
         <el-radio-button v-for="(item,i) in  tabs" :label="item.value" :key="i">{{item.name}}
         </el-radio-button>
