@@ -1,5 +1,6 @@
 import { URL_ROOT } from '../../common/js/types';
 import footerA from '../../components/common/footer.vue'; //底部
+import { newly } from '@/apis/index.js'
 export default {
   name: '',
   components: {
@@ -75,6 +76,27 @@ export default {
     templateLink(){
         this.landingPage =false;
         this.$router.push('/SelectLandingPageTemplate/1')
+    },
+    // 跳转至移动端的新增
+    moveEnd(num) {
+      newly()
+        .then(res => {
+          console.log(res)
+          if (res.code === 1) {
+            this.landingPage = false;
+            if (num === 1) {
+              this.$store.state.moveEnd.majorKeyId.uuid = res.data.list[0].uuid
+              // this.$store.state.moveEnd.majorKeyId = res.data.list[0]
+              // console.log(this.$store.state.moveEnd.majorKeyId)
+              this.$router.push('/eoveEnd/essential/1')
+            } else {
+              this.$store.state.moveEnd.majorKeyId.uuid = res.data.list[1].uuid
+              // this.$store.state.moveEnd.majorKeyId = res.data.list[1]
+              // console.log(this.$store.state.moveEnd.majorKeyId)
+              this.$router.push('/eoveEnd/essential/2')
+            }
+          }
+        })
     },
     //删除标签
     deleteTag() {
@@ -282,10 +304,16 @@ export default {
     //编辑功能
     editLandingpage(item) {
       console.log(item)
+      if (item.pageType === '1' || item.pageType === '2') {
+        this.$router.push('/eoveEnd/essential/1')
+        this.$store.state.moveEnd.moveuuid = item.uuid
+        console.log(this.$store.state.moveEnd.moveuuid)
+      } else if (item.pageType === '0') {
+        //列表无返回模板id,默认写死
+        this.$router.push({
+          path: '/MessageSetting/'+item.uuid+'/'+'a7d22e47-4aad-11e8-a730-00163e04791f'});
+      }
       // this.$store.commit('setLandingPageId', item.uuid);
-      //列表无返回模板id,默认写死
-      this.$router.push({
-        path: '/MessageSetting/'+item.uuid+'/'+'a7d22e47-4aad-11e8-a730-00163e04791f'});
     },
     // copy
     handleCopyUrl(item,link) {

@@ -8,7 +8,7 @@
           </el-breadcrumb-item>
         </el-breadcrumb>
          <!-- <el-button size="small fr" class="important"  type="primary" @click="addTemplate" style="margin-left:12px;color:#ffffff">保存</el-button> -->
-        <el-button size="small fr" class="important" @click="$router.go(-1)">返回</el-button>
+        <el-button size="small fr" class="important" @click="back">返回</el-button>
       </el-col>
 
      <!--基本资料-->
@@ -47,9 +47,16 @@
          <li></li>
        </ul>
        <ul class="khxx" :v-model="cstInfo">
-         <li>{{cstInfo.projectName}}</li>
+         <!-- <template  v-if="cstInfo.projectName">
+           <li style="line-height: 15px;padding-top: 4px;">{{cstInfo.projectName}}</li>
+         </template> -->
+         <template>
+           <li>{{cstInfo.projectName}}</li>
+         </template>
+
+
          <li>{{cstInfo.consultantOper}}</li>
-         <li>{{cstInfo.sessionUuid}}</li>
+         <li><el-button type="text" size="small"  @click="callerGetRecord" class="operation" style="text-decoration: underline;">录音</el-button></li>
          <li></li>
        </ul>
         <ul>
@@ -98,8 +105,7 @@
          <li></li>
        </ul>
        <ul class="khxx" :v-model="bespeakInfo">
-         <!-- <li>{{callerDetail.pageUrl}}</li> -->
-         <li><el-button type="text" size="small" @click="link(bespeakInfo.pageUrl)" class="operation" style="text-decoration: underline;">链接</el-button></li>
+         <li><el-button type="text" size="small"  v-if=" bespeakInfo.pageUrl !='' &&  bespeakInfo.pageUrl !=null   " @click="link(bespeakInfo.pageUrl)" class="operation" style="text-decoration: underline;">链接</el-button></li>
          <li>{{bespeakInfo.mac}}</li>
        </ul>
         <ul>
@@ -111,6 +117,48 @@
          <li>{{bespeakInfo.ipAdress}}</li>
        </ul>
      </div>
+
+
+
+      <!-- 录音 -->
+      <div class="recording">
+        <el-dialog
+          title="录音"
+          :visible.sync="recording"
+          :before-close="handleCloseBox"
+          width="630px"
+          height="279px">
+          <div class="record clearfix">
+            <ul>
+              <li>归属项目:</li>
+              <li>接电人员:</li>
+            </ul>
+            <ul class="recordlist" :v-model="recordInfo">
+              <li>{{recordInfo.projectName}}</li>
+              <li>{{recordInfo.consultantName}}</li>
+            </ul>
+            <ul class="recordli">
+              <li>客户号码:</li>
+              <li>来电时间:</li>
+            </ul>
+            <ul class="recordlist" :v-model="recordInfo">
+              <li>{{recordInfo.mobilePhone}}</li>
+              <li>{{timestampToDate('Y-m-d H:i:s',recordInfo.callinTime/1000)}}</li>
+            </ul>
+          </div>
+          <template :v-model="recordInfo">
+            <div>
+              <audio :src="recordInfo.recordFile" id="audio" controls="controls" style="width:540px;height:54px;margin-top:20px;border-radius:0;background: #F1F3F4;">
+              </audio>
+            </div>
+          </template>
+          <span slot="footer" class="dialog-footer">
+        <el-button type="primary" size="small" @click="copyUrl" >复制录音链接</el-button>
+        <el-button type="primary" size="small"  @click="handleCloseBox">确 定</el-button>
+      </span>
+        </el-dialog>
+      </div>
+
       <footerA style="position: fixed;bottom:0px"></footerA>
     </section>
 </template>

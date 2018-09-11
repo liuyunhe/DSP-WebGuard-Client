@@ -1,7 +1,29 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+// 移动端落地页
+// import MoveEnd from '@/moveEnd/index'
+// import Essential from '@/moveEnd/essential/Essential.vue' // 这是基本信息
+// import CompileTemplate from '@/moveEnd/compileTemplate/CompileTemplate.vue' // 这是编辑模板
+// import Template from '@/moveEnd/compileTemplate/template/Template.vue'
+// import CoversStyle from '@/moveEnd/compileTemplate/template/coversStyle/CoversStyle.vue'
+// import CentreCanvas from '@/moveEnd/compileTemplate/template/coversStyle/centreCanvas/CentreCanvas.vue'
+// import Yang from '@/moveEnd/compileTemplate/template/coversStyle/centreCanvas/yang.vue'
+
+
+// 我-移动端落地页
+const MoveEnd = resolve => require(['../moveEnd/index'], resolve)
+const Essential = resolve => require(['../moveEnd/essential/Essential.vue'],resolve)
+const CompileTemplate = resolve => require(['../moveEnd/compileTemplate/CompileTemplate.vue'], resolve)
+const Template = resolve => require(['../moveEnd/compileTemplate/template/Template.vue'], resolve)
+const CoversStyle = resolve => require(['../moveEnd/compileTemplate/template/coversStyle/CoversStyle.vue'], resolve)
+const CentreCanvas = resolve => require(['../moveEnd/compileTemplate/template/coversStyle/centreCanvas/CentreCanvas.vue'], resolve)
+const Yang = resolve => require(['../moveEnd/compileTemplate/template/coversStyle/centreCanvas/yang.vue'], resolve)
+
+
+
 const index = resolve => require(['../home/index.vue'], resolve);
+
 
 const LandingPageSetting = resolve =>
   require(['../floor/LandingPageSetting/index.vue'], resolve);
@@ -45,7 +67,7 @@ export default new Router({
       component: index,
       meta: {
         keepAlive: false // 不需要被缓存
-      }
+      },
     },
     {
       //落地页设置
@@ -55,6 +77,60 @@ export default new Router({
       meta: {
         keepAlive: false // 不需要被缓存
       }
+    },
+    {
+      //落地页设置
+      path: '/eoveEnd',
+      name: 'eoveEnd',
+      component: MoveEnd,
+      children: [
+        {
+          path: 'essential/:id',
+          name: 'essential',
+          component: Essential,
+        },
+        {
+          path: 'compileTemplate',
+          name: 'compileTemplate',
+          component: CompileTemplate,
+          children: [
+            {
+              path: 'template',
+              name: 'template',
+              component: Template,
+              children: [
+                {
+                  path: 'coversStyle',
+                  name: 'coversStyle',
+                  component: CoversStyle,
+                  children: [
+                    {
+                      path: 'centreCanvas',
+                      name: 'centreCanvas',
+                      component: CentreCanvas,
+                      // beforeEnter: (to, from, next) => {
+                      //   if (to.params.id === from.params.id) {
+                      //     // next()
+                      //   } else {
+                      //     next()
+                      //   }
+                      //   console.log(to)
+                      //   console.log(from)
+                      //   console.log(next)
+                      // }
+                    },
+                    {
+                      path: 'yang',
+                      name: 'yang',
+                      component: Yang
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       path: '/SelectLandingPageTemplate/:id',
@@ -85,7 +161,39 @@ export default new Router({
       name: '来电记录',
       component: CallerRecord,
       meta: {
-        keepAlive: false // 不需要被缓存
+        keepAlive: true // 需要被缓存
+      }
+    },
+    {
+      path: '/CallerRecord/connected',
+      name: '来电记录',
+      component: CallerRecord,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
+    },
+    {
+      path: '/CallerRecord/unConnected',
+      name: '来电记录',
+      component: CallerRecord,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
+    },
+    {
+      path: '/CallerRecord/notDialing',
+      name: '来电记录',
+      component: CallerRecord,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
+    },
+    {
+      path: '/CallerRecord/all',
+      name: '来电记录',
+      component: CallerRecord,
+      meta: {
+        keepAlive: true // 需要被缓存
       }
     },
     {
@@ -93,7 +201,7 @@ export default new Router({
       name: '预约记录',
       component: ReservationRecord,
       meta: {
-        keepAlive: false // 不需要被缓存
+        keepAlive: true // 需要被缓存
       }
     },
     {
@@ -113,7 +221,7 @@ export default new Router({
       }
     },
     {
-      path: '/Details',
+      path: '/Details/:uuid',
       name: '预约详情',
       component: Details,
       meta: {

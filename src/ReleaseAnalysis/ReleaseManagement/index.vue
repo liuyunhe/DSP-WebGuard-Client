@@ -66,7 +66,6 @@
       }
     },
     created(){
-      console.log(this.$route.path)
       if(this.$route.path=="/ReleaseManagement/ByActivity"){
         this.callType = "ByActivity"
       }else if(this.$route.path=="/ReleaseManagement/ByItem"){
@@ -78,13 +77,12 @@
       }else if(this.$route.path=="/ReleaseManagement/ByChannel"){
         this.callType = "ByChannel"
       }
+
     },
     methods:{
       changeCallType(val) {
-        console.log(val)
         this.$router.push('/ReleaseManagement/' + val);
       }
     }
-
   }
 </script>

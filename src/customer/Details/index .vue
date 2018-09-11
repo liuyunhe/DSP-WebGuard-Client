@@ -21,7 +21,7 @@
          <li>需求备注</li>
        </ul>
        <ul class="khxx" :v-model="bespeakRecordInfo">
-         <li>{{bespeakRecordInfo.cstName}}</li>
+         <li>{{bespeakRecordInfo.cstName}} </li>
          <li v-if="bespeakRecordInfo.intentionalDegree =='directcall'">主动来电</li>
          <li v-else-if="bespeakRecordInfo.intentionalDegree =='bespeak'">留电预约</li>
          <li>{{bespeakRecordInfo.remark}}</li>
@@ -47,7 +47,7 @@
          <li>意向程度</li>
        </ul>
         <ul class="khxx" :v-model="bespeakRecordInfo">
-         <li>{{bespeakRecordInfo.mobileCity}}</li>
+          <li><template v-if="bespeakRecordInfo.province" >{{ bespeakRecordInfo.province}}省</template> {{bespeakRecordInfo.mobileCity}}</li>
          <li>{{bespeakRecordInfo.intentionalDegree}}</li>
        </ul>
      </div>
@@ -70,12 +70,12 @@
        <ul>
          <li>來源渠道</li>
          <li>IMEI</li>
-         <li>点击时间</li>
+         <li>预约时间</li>
        </ul>
        <ul class="khxx" :v-model="bespeakRecordInfo">
          <li>银行转账</li>
          <li>{{bespeakRecordInfo.imei}}</li>
-         <li>{{bespeakRecordInfo.clickTime}}</li>
+         <li>{{ timestampToDate('Y-m-d H:i:s',bespeakRecordInfo.createTime/1000)}}</li>
        </ul>
        <ul>
          <li>来源落地页</li>
@@ -93,7 +93,7 @@
          <li></li>
        </ul>
         <ul class="khxx" :v-model="bespeakRecordInfo">
-         <li>{{bespeakRecordInfo.pageViewTimeStr}}</li>
+         <li>{{bespeakRecordInfo.pageViewTime}}秒</li>
          <li></li>
          <li></li>
        </ul>

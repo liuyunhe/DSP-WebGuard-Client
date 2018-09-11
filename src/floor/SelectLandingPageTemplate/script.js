@@ -126,7 +126,7 @@ export default {
       console.log(item.uuid)
       this.$store.commit('setLandingPageType', item.uuid);
       if (this.$route.params.id == '0') {
-        this.$router.push({path: '/MessageSetting/0/' + item.uuid});
+        this.$router.push({path: '/MessageSetting/0/' + item.uuid+'/1'});
       } else {
         this.$router.push({path: '/MessageSetting/' + this.$route.params.id + '/' + item.uuid});
       }

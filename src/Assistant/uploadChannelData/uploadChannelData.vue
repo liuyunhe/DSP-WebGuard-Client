@@ -24,7 +24,7 @@
       multiple>
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖拽到此处上传，或<em> 点击上传</em></div>
-      <div class="el-upload__text tips">如有多个文件，请打包上传(暂不支持)</div>
+      <!--<div class="el-upload__text tips">如有多个文件，请打包上传(暂不支持)</div>-->
       <div class="el-upload__tip" slot="tip" style="font-size: 16px">提示：目前仅支持百度搜索、百度信息流、搜狗搜索、360搜索四个渠道数据导入。
       </div>
     </el-upload>

@@ -6,6 +6,15 @@ import _ from 'lodash';
 
 export function changeTemplate() {
 
+  if(this.steps1.pageName=='' && this.steps1.orgName=='' && this.steps1.projectCode=='' && this.steps1.archiveId==''){//什么都没填写更换模板
+    this.$router.push({
+      path: '/SelectLandingPageTemplate/'+this.$route.params.uuid
+    });
+    return
+  }
+
+
+
   //this.$store.commit('Initsteps1', this.$data.steps1);
   this.$confirm(
     '确定使用新模板？ 使用新模板将造成原先的标签模块消失？',
@@ -16,6 +25,8 @@ export function changeTemplate() {
     }
   )
     .then(() => {
+
+
 
 
       let uuIds = '';
@@ -228,6 +239,7 @@ export function unique(arr) {
 
 //获取模板标签/插件
 export function getLabel(templateId) {
+  console.log('获取模板标签')
   this.uuid = this.$route.params.uuid;
   // this.steps1.uuid =this.uuid;
   console.log(this.uuid)
@@ -255,9 +267,12 @@ export function getLabel(templateId) {
 
       this.steps1.deliveryManagements = this.unique(this.steps1.deliveryManagements);
       console.log(this.steps1.deliveryManagements);
-
+      let that =this
       //请求落地页项目下拉菜单
-      this.getProjectList();
+      setTimeout(function () {
+        that.getProjectList();
+      },1000)
+
 
       this.copyDeliveryManagements = this.steps1.deliveryManagements;
       this.steps1.template = res.template;
@@ -333,7 +348,8 @@ export function getLabel(templateId) {
           this.step2.plugins[0].saveId = plugin.id;
           this.step2.plugins[0].htmlId = plugin.htmlId;
 
-          this.copystep2 = JSON.stringify(this.saveStep2);
+          //this.copystep2 = JSON.stringify(this.saveStep2);
+
         })
         .catch(err => {
         })
@@ -395,6 +411,9 @@ export function getOrgList() {
       console.log('机构')
       console.log(res)
       this.orgNameList = res;
+
+
+
     })
     .catch(err => {
     });
@@ -409,6 +428,7 @@ export function getProjectList(res) {
       orgId += this.orgNameList[i].orgId;
     }
   }
+  this.steps1.orgId= orgId;
   this.$api
     .requestProjectList({
       orgId: orgId

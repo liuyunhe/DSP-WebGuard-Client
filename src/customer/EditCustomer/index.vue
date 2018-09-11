@@ -73,7 +73,7 @@
          <li></li>
        </ul>
        <ul class="khxx" >
-         <li class="xm" style="line-height:18px;">{{form.projectName}}</li>
+         <li class="xm" style="line-height: 37px;">{{form.projectName}}</li>
          <li>
            <el-select v-model="form.cstAge" class="xiala">
               <el-option
@@ -104,6 +104,8 @@
       <div class="bt">
         <span>需求信息</span>
       </div>
+
+
      <div class="xuqiu clearfix">
        <ul>
          <li>需求类型</li>
@@ -121,7 +123,7 @@
             </el-select>
           </li>
          <li>
-           <el-select v-model="form.yxFangXing" class="xiala">
+           <el-select v-model="form.needHuixing" class="xiala">
               <el-option
                 v-for="item in needHuixingList"
                 :key="item.value"
@@ -179,7 +181,54 @@
          <li><el-input class="shuru" v-model="form.needArea" maxlength="10"></el-input></li>
          <li><el-input class="shuru" v-model="form.remark" maxlength="10"></el-input></li>
        </ul>
+       <!-- -------------------- -->
+        <ul>
+         <li>是否有销售关系</li>
+       </ul>
+       <ul class="khxx">
+         <li>
+           <el-select v-model="form.isSalesContact" class="xiala">
+              <el-option
+                v-for="item in isSalesContactList"
+                :key="item.value"
+                :label="item.value"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </li>
+       </ul>
+       <!-- ----------------------- -->
+         <ul>
+         <li>跟进程度</li>
+       </ul>
+       <ul class="khxx">
+         <li>
+           <el-select v-model="form.followUpDegree" class="xiala">
+              <el-option
+                v-for="item in followUpDegreeList"
+                :key="item.value"
+                :label="item.value"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </li>
+       </ul>
+       <!-- ----------------------- -->
+        <ul>
+         <li>回访情况</li>
+       </ul>
+        <ul class="khxx">
+         <li><el-input style=";" class="shuru" v-model="form.returnVisitSituation" maxlength="10"></el-input></li>
+       </ul>
+        <ul>
+         <li class="back"></li>
+       </ul>
+        <ul class="khxx" style="border-right: 1px solid #dce0e6" :v-model="needInfo">
+         <li></li>
+       </ul>
      </div>
+
+
       <footerA style="position: fixed;bottom:0px"></footerA>
     </section>
 </template>

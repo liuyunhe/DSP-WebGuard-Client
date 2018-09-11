@@ -54,7 +54,6 @@ export default {
         pageSize: 10,//每页条数
         tf:true,//推广中
         select:"",
-        channelTypeList:[],
       },
       //数据总条数
       total: 0,

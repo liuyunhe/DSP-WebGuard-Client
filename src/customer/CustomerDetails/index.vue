@@ -47,7 +47,7 @@
          <li></li>
        </ul>
        <ul class="khxx" :v-model="cstInfo">
-         <li class="xm" style="line-height:18px">{{cstInfo.projectName}}</li>
+         <li class="xm" style="line-height:37px">{{cstInfo.projectName}}</li>
          <li>{{cstInfo.ageGroup}}</li>
          <li>{{cstInfo.consultantName}}</li>
          <li></li>
@@ -102,6 +102,34 @@
         <ul class="khxx" :v-model="needInfo">
          <li>{{needInfo.yxArea}}</li>
          <li>{{needInfo.remark}}</li>
+       </ul>
+       <!-- ----------------- -->
+       <ul>
+         <li>是否有销售关系</li>
+       </ul>
+        <ul class="khxx" :v-model="needInfo">
+         <li>{{needInfo.isSalesContact}}</li>
+       </ul>
+       <!-- -------------------- -->
+        <ul>
+         <li>跟进程度</li>
+       </ul>
+        <ul class="khxx" :v-model="needInfo">
+         <li>{{needInfo.followUpDegree}}</li>
+       </ul>
+       <!-- -------------------- -->
+        <ul>
+         <li class="back">回访情况</li>
+       </ul>
+        <ul class="khxx" style="" :v-model="needInfo">
+         <li>{{needInfo.returnVisitSituation}}</li>
+       </ul>
+       <!-- ------------------ -->
+        <ul>
+         <li class="back"></li>
+       </ul>
+        <ul class="khxx" style="border-right: 1px solid #dce0e6" :v-model="needInfo">
+         <li></li>
        </ul>
      </div>
 
@@ -307,7 +335,7 @@
         </div>
       </template>
       <span slot="footer" class="dialog-footer">
-        <el-button style="width:64px;height:36px;line-height:10px;" @click="recording = false">取 消</el-button>
+        <!-- <el-button style="width:64px;height:36px;line-height:10px;" @click="recording = false">取 消</el-button> -->
         <el-button type="primary" style="width:64px;height:36px;line-height:10px;" @click="recording = false">确 定</el-button>
       </span>
     </el-dialog>

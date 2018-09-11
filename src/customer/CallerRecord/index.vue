@@ -32,10 +32,9 @@
             <el-select
               v-model="formQueryCallerList.keyWord"
               filterable
-              remote
               reserve-keyword
-              placeholder="手机号码/客户姓名/归属项目/接电人员/来源落地页"
-              :remote-method="BespeakRecordKeyword"
+              placeholder="手机号码/客户姓名/归属项目/接电人员"
+              :filter-method="BespeakRecordKeyword"
               @change="pushTagesList('搜索关键字：'+formQueryCallerList.keyWord, 'keyWord',formQueryCallerList.keyWord)"
               :loading="loading" size="mini" class="serachS">
               <el-option
@@ -49,10 +48,13 @@
             </el-select>
           </div>
 
-
+        </div>
+        <div  class="isNoOwnership" v-if="callType!='notDialing'">
+          <el-checkbox v-model="isNoOwnership" @change="Nochange">无归属项目</el-checkbox>
         </div>
 
         <div class="right" style="text-align: right">
+          <el-button plain size="medium" @click=" customerExport()">导 出</el-button>
           <el-button plain size="medium" @click=" rest()">重 置</el-button>
           <el-button type="primary" size="medium" @click="formQueryCallerList.pageNo=1;queryCallerListFun()">查 询
           </el-button>
@@ -99,7 +101,6 @@
             已选：<template v-for="item in getClickProjectList"> {{item}}、</template>
           </div>
 
-
           <el-tree
             class="filter-tree"
             :data="ProjectListData"
@@ -113,7 +114,7 @@
 
         </div>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisibleProjectList = false">取 消</el-button>
+    <el-button @click="cancel">取 消</el-button>
     <el-button type="primary" @click="getCheckedKeys">确 定</el-button>
   </span>
       </el-dialog>
@@ -123,7 +124,7 @@
 
     <section class="adServingTable">
 
-      <div  class="dialogVisibleProjectList"  @click="dialogVisibleProjectList=true;getOrginfoAndProjectList()">
+      <div  class="dialogVisibleProjectList"  @click="dialogVisibleProjectList=true;">
           <span  class="title" >归属项目</span>
       </div>
 
@@ -180,42 +181,43 @@
       <!-- :data="listData" -->
       <el-table :data="listData" v-loading="loading">
         <el-table-column
-          width="30">
+          width="10">
         </el-table-column>
 
         <el-table-column
           prop="mobilePhone"
           label="手机号码"
-          width="150">
+          width="130">
         </el-table-column>
 
         <el-table-column
           prop="cstName"
           label="客户姓名"
-          width="100">
+          width="130">
         </el-table-column>
 
         <el-table-column
-          width="150"
+          width="200"
           label=""
           prop="projectName">
         </el-table-column>
 
         <el-table-column
-          width="150"
+          width="130"
           prop="consultantName"
           label="接电人员">
         </el-table-column>
 
+
         <el-table-column
           prop="status"
           label=""
-          width="120">
+          width="150">
         </el-table-column>
 
         <el-table-column
           prop="createTime"
-          width="200"
+          width="150"
           label="">
           <template slot-scope="scope">
             {{ timestampToDate('Y-m-d H:i:s',scope.row.createTime/1000)}}
@@ -225,7 +227,7 @@
         <el-table-column
           prop="callDuration"
           label="通话时长"
-          width="100">
+          width="150">
         </el-table-column>
 
         <el-table-column
@@ -242,14 +244,27 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <template v-if="callType=='notDialing'">
+
+             <!-- <el-button type="text" size="small" class="el-button-h" @click="click_detail">
+                <router-link :to="'/Access/collectDetail/'+scope.row.project_id">详情</router-link>
+              </el-button> -->
+
+               <!-- this.$router.push('/CallDetails/' + index.row.uuid); -->
+
+              <el-button type="text" size="small" @click="callerCustomerDetail(scope)">
+                     详情
+                </el-button>
+              <el-button type="text" size="small"  v-if=" scope.row.callResult != '0' && scope.row.callResult != '2' " @click="recording = true;callerGetRecord(scope)">录音</el-button>
+
+
+               <!-- || scope.row.callDuration==''  -->
+
+        <!--    <template  v-else slot-scope="scope">
               <el-button type="text" size="small" @click="callerCustomerDetail(scope)">详情</el-button>
-            </template>
-            <template  v-else slot-scope="scope">
-              <el-button type="text" size="small" @click="callerCustomerDetail(scope)">详情</el-button>
-              <el-button type="text" size="small" @click="configuration(scope)">补录</el-button>
-              <el-button type="text" size="small" @click="recording = true;callerGetRecord(scope)">录音</el-button>
-            </template>
+              &lt;!&ndash;<el-button type="text" size="small" @click="configuration(scope)">补录</el-button>&ndash;&gt;
+
+            </template>-->
+
 
           </template>
         </el-table-column>
@@ -260,14 +275,14 @@
     <section class="adPage" v-if="listData.length>0">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
+        :current-page="formQueryCallerList.pageNo"
         :page-size="10"
         background
         layout="prev, pager, next, jumper"
         :total="total">
       </el-pagination>
       <div class="pageLeft">
-        共 <span>{{total}}</span>个客户，今日新增56条<!--，第 {{currentPage}} / {{ Math.ceil(total/10)}} 页-->
+        共 <span>{{total}}</span>个客户，今日新增{{newlyNumber}}条<!--，第 {{currentPage}} / {{ Math.ceil(total/10)}} 页-->
       </div>
     </section>
 
@@ -304,10 +319,11 @@
       </el-dialog>
     </div>
     <!-- 录音 -->
-   <div class="recording">
+   <div class="recording luyin">
       <el-dialog
       title="录音"
       :visible.sync="recording"
+      :before-close="handleCloseBox"
       width="630px"
       height="279px">
       <div class="record clearfix">
@@ -325,18 +341,18 @@
         </ul>
         <ul class="recordlist" :v-model="recordInfo">
           <li>{{recordInfo.mobilePhone}}</li>
-          <li>{{recordInfo.callinTime}}</li>
+          <li>{{timestampToDate('Y-m-d H:i:s',recordInfo.callinTime/1000)}}</li>
         </ul>
       </div>
       <template :v-model="recordInfo">
         <div>
-          <audio :src="recordInfo.recordFile" controls="controls" style="width:540px;height:54px;margin-top:40px;border-radius:0;background: #F1F3F4;">
+          <audio :src="recordInfo.recordFile" id="audio" controls="controls" style="width:540px;height:54px;margin-top:20px;border-radius:0;background: #F1F3F4;">
           </audio>
         </div>
       </template>
       <span slot="footer" class="dialog-footer">
-        <el-button style="width:64px;height:36px;line-height:10px;" @click="recording = false">取 消</el-button>
-        <el-button type="primary" style="width:64px;height:36px;line-height:10px;" @click="recording = false">确 定</el-button>
+        <!-- <el-button size="small" @click="handleCloseBox">取 消</el-button> -->
+        <el-button type="primary" size="small"  @click="handleCloseBox">确 定</el-button>
       </span>
     </el-dialog>
    </div>

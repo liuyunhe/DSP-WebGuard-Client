@@ -21,7 +21,6 @@
         <div class="backBtn 4"
           v-if="settingStepsActive===2&&step2ActiveTpye==='plugin'"
           @click="step3PluginCancel()"></div>
-
         <crm-steps :steps="settingSteps"
           :active="settingStepsActive"></crm-steps>
       </div>
@@ -63,8 +62,8 @@
 
           <el-form-item label="所属机构">
             <el-select v-model="steps1.orgName"
-              placeholder="请选择"   @change="getProjectList"
-              :disabled="steps1.uuid !==''">
+              placeholder="请选择"   @change="getProjectList" filterable
+                       :disabled="steps1.uuid !==''">
               <el-option v-for="item in orgNameList"
                 :key="item.orgId"
                  :label="item.orgName"
@@ -77,8 +76,8 @@
 
           <el-form-item label="投放项目">
             <el-select v-model="steps1.projectCode"  @change="projectPhone"
-              placeholder="请选择"
-              :disabled="steps1.uuid !==''">
+              placeholder="请选择"  filterable
+                       :disabled="steps1.uuid !==''">
               <el-option v-for="(item,index) in projectList"
                 :key="index"
                 :value="item.id"
@@ -287,7 +286,7 @@
                 <el-checkbox-group v-model="step2LabelList">
                   <div  class="list" v-for="(item, index) in step2DialogLabel"
                        :key="index">
-                    <el-checkbox :label="item"
+                    <el-checkbox :label="item"   @change="changeLable"
                                  :key="item.order">{{item.name}}</el-checkbox>
                   </div>
                 </el-checkbox-group>
@@ -413,13 +412,36 @@
             <div class="label left">上传图片</div>
             <div class="img-upload right"  >
 
+
+              <div  class="imgfileList2" v-if="bannerFileList">
+                <ul>
+                  <template   v-for="(item,index) in bannerFileList">
+                    <li >
+                      <el-upload :action="GLOBAL.config.imgUpload"  class="imgf"
+                                 list-type="picture-card"
+                                 :show-file-list="false"
+                                 :on-change="stateImgBanner"
+                                 :disabled="uploadDisabled"
+                                 :auto-upload="false"
+                                 ref="oneImg"
+                      >
+                        <img   :src="item.url"  @click="multipleClickBanner(index)">
+                      </el-upload>
+                      <i class=" el-icon-delete" @click="deleteImgFileListBanenr(index)"  ></i></li>
+                  </template>
+                </ul>
+              </div>
+
              <!-- <template  v-if="topBannerD==true">-->
-              <el-upload :action="GLOBAL.config.imgUpload" ref="upload"
+              <el-upload :action="GLOBAL.config.imgUpload" ref="upload" v-if="bannerFileList.length<3"
                 list-type="picture-card"
                 drag
-                         :before-remove="beforeRemove"
+                :before-remove="beforeRemove"
                 :on-success="uploadSuccess"
-                :file-list="bannerFileList"
+                :on-change="bannerState"
+                         :show-file-list="false"
+                :auto-upload="false"
+
                 :on-preview="handlePictureCardPreview"
                 :before-upload="beforeUploadBanner"
                 :disabled="uploadDisabled">
@@ -434,6 +456,10 @@
                        slot="tip"
                        style="width: 360px;color: #9FA9BA;margin-top: 20px">最多三张；支持jpg,png,jpeg；大小不超过600k；建议上传1920px*500px分辨率图片；</div>
               </el-upload>
+
+              <div class="el-upload__tip"  v-else
+                   slot="tip"
+                   style="width: 360px;color: #9FA9BA;margin-top: 20px">最多三张；支持jpg,png,jpeg；大小不超过600k；建议上传1920px*500px分辨率图片；</div>
 
          <!--     </template>-->
               <el-dialog :visible.sync="dialogVisible">
@@ -465,14 +491,12 @@
               <div class="style-list-ltem">
                 <div class="title">单图样式</div>
                 <div class="list">
-                  <router-link to="yang">
                   <div class="list-item"
                        :class="{active:item.id == step3ActiveStyleId}"
                        v-for="(item,index) in styleList"
                        :key="index"
                        v-if="item.type === 4"
                        @click="selectStyle(item,index,'1')"  :style="{backgroundImage:`url(${item.url})`}"></div>
-                  </router-link>
                   <!---->
                 </div>
               </div>
@@ -541,17 +565,22 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===0"
                       :key="index">
+
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl0" @click="deleteImg(0)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading0"
                         drag
                         :show-file-list="false"
+                        :on-change="state"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess0"
-                        :before-upload="beforeAvatarUpload0">
-                        <img v-if="imageUrl0"
-                          :src="imageUrl0"
-                          class="avatar">
-                        <div v-else>
+                        :before-upload="beforeAvatarUpload0"
+                       >
+
+                        <img v-if="imageUrl0" :src="imageUrl0" class="avatar">
+                        <div v-else >
                           <i class="el-icon-plus avatar-uploader-icon"></i>
                           <div class="el-upload__text">
                             <em>上传</em> 或
@@ -559,18 +588,23 @@
                         </div>
                      <div class="el-upload__tip"  v-if="isOneImg"
                              slot="tip"
-                             style="width: 360px;color: #9FA9BA;margin-top: 20px">支持jpg,png,jpeg；大小不超过600k；宽900px,高度不限</div>
+                             style="width: 360px;color: #9FA9BA;margin-top: 20px">支持jpg,png,jpeg；大小不超过600k；宽高度不限</div>
                       </el-upload>
                     </el-form-item>
                     <!--图片2-->
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===1"
                       :key="index">
+
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl1" @click="deleteImg(1)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading1"
                         drag
                         :show-file-list="false"
+                        :on-change="state1"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess1"
                         :before-upload="beforeAvatarUpload1">
                         <img v-if="imageUrl1"
@@ -588,11 +622,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===2"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl2" @click="deleteImg(2)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading2"
                         drag
                         :show-file-list="false"
+                        :on-change="state2"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess2"
                         :before-upload="beforeAvatarUpload2">
                         <img v-if="imageUrl2"
@@ -610,11 +648,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===3"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl3" @click="deleteImg(3)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading3"
                         drag
                         :show-file-list="false"
+                        :on-change="state3"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess3"
                         :before-upload="beforeAvatarUpload3">
                         <img v-if="imageUrl3"
@@ -632,11 +674,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===4"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl4" @click="deleteImg(4)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading4"
                         drag
                         :show-file-list="false"
+                        :on-change="state4"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess4"
                         :before-upload="beforeAvatarUpload4">
                         <img v-if="imageUrl4"
@@ -654,11 +700,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===5"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl5" @click="deleteImg(5)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading5"
                         drag
                         :show-file-list="false"
+                        :on-change="state5"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess5"
                         :before-upload="beforeAvatarUpload5">
                         <img v-if="imageUrl5"
@@ -676,11 +726,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===6"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl6" @click="deleteImg(6)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading6"
                         drag
                         :show-file-list="false"
+                        :on-change="state6"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess6"
                         :before-upload="beforeAvatarUpload6">
                         <img v-if="imageUrl6"
@@ -698,11 +752,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===9"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl9" @click="deleteImg(9)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading9"
                         drag
                         :show-file-list="false"
+                        :on-change="state9"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess9"
                         :before-upload="beforeAvatarUpload9">
                         <img v-if="imageUrl9"
@@ -720,11 +778,15 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===12"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl12" @click="deleteImg(12)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading12"
                         drag
                         :show-file-list="false"
+                        :on-change="state12"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess12"
                         :before-upload="beforeAvatarUpload12">
                         <img v-if="imageUrl12"
@@ -742,17 +804,24 @@
                     <el-form-item :label="item.name"
                       v-if="item.type === 1&&index ===15"
                       :key="index">
+                      <i class=" el-icon-delete  deleteImg" v-if="imageUrl15" @click="deleteImg(15)"  ></i>
+
                       <el-upload class="avatar-uploader"
                         :action="GLOBAL.config.imgUpload"
                         v-loading="imgLoading15"
                         drag
                         :show-file-list="false"
+                        :on-change="state15"
+                        :auto-upload="false"
                         :on-success="handleAvatarSuccess15"
                         :file-list="activeFormList"
                         :before-upload="beforeAvatarUpload15">
-                        <img v-if="imageUrl15"
-                          :src="imageUrl15"
-                          class="avatar">
+                        <template  v-if="imageUrl15">
+                          <img  :src="imageUrl15"
+                               class="avatar">
+                          <i class=" el-icon-delete" @click="deleteImgFileList(index)"  ></i>
+                        </template>
+
                         <div v-else>
                           <i class="el-icon-plus avatar-uploader-icon"></i>
                           <div class="el-upload__text">
@@ -784,20 +853,43 @@
                       :key="index">
                       <div class="drag">
                         <!-- <template  v-if="topBannerD==true">-->
+                        <div  class="imgfileList" v-if="fileList55">
+                        <ul>
+                          <template   v-for="(item,index) in fileList55">
+                            <li >
+                              <el-upload :action="GLOBAL.config.imgUpload"  class="imgf"
+                                         list-type="picture-card"
+                                         :show-file-list="false"
+                                         :on-change="stateImg"
+                                         :disabled="uploadDisabled"
+                                         :auto-upload="false"
+                                         ref="oneImg"
+                              >
+                                <img   :src="item.url"  @click="multipleClick(index)">
+                              </el-upload>
+                              <i class=" el-icon-delete" @click="deleteImgFileList(index)"  ></i></li>
+                          </template>
+                        </ul>
+                      </div>
 
-                        <el-upload :action="GLOBAL.config.imgUpload"
+
+                        <el-upload :action="GLOBAL.config.imgUpload" id="imgfileList2"
                           list-type="picture-card"
                           drag
+                          :show-file-list="false"
                           :on-success="uploadSuccessStyle"
-                          :file-list="item.value"
-                          :on-remove="handleRemoveStyle"
+                          :on-change="state"
                           :before-upload="beforeUploadBanner"
-                          :disabled="uploadDisabled">
-                          <i class="el-icon-plus"></i>
-                          <div class="el-upload__text">
-                            <em>上传</em> 或
-                            <em>拖动</em> 添加图片
-                          </div>
+                          :on-remove="handleRemoveStyle"
+                          :disabled="uploadDisabled"
+                          :auto-upload="false"
+                          ref="oneImg"
+                          ><!--:file-list="fileList55"  :show-file-list="false"-->
+                            <i class="el-icon-plus"></i>
+                            <div class="el-upload__text">
+                              <em>上传</em> 或
+                              <em>拖动</em> 添加图片
+                            </div>
                           <div class="el-upload__tip"
                             slot="tip"
                             style="width: 360px;color: #9FA9BA;margin-top: 20px">支持jpg,png,jpeg；大小不超过600k；建议上传1920px*500px分辨率图片；</div>
@@ -834,10 +926,10 @@
                     <p>{{item.desc.value || '这是正文'}}</p>
                   </div>
                 </div>-->
-                 <!-- <img :src="ClickSelectImg"
+                 <img :src="ClickSelectImg"
                   width="388"
-                  alt=""> -->
-                  <router-view></router-view>
+                  alt="">
+                  <!-- <router-view></router-view> -->
               </div>
             </div>
           </div>
@@ -1123,40 +1215,47 @@
       style="position: fixed;bottom:0px"></footerA>
 
   <!-- 裁剪的模态框 -->
-      <!-- <el-dialog :visible.sync="dialogTableVisible">
-        <el-table>
-          <div>
-            <div class="model" v-show="model" @click="model = false">
-              <div class="model-show">
-                <img :src="modelSrc" alt="">
-              </div>
-            </div>
-            <p>例子</p>
-            <div class="cut">
-              <vue-cropper ref="cropper" :img="option.img" :output-size="option.size" :output-type="option.outputType" :info="true" :full="option.full"
-                :can-move="option.canMove" :can-move-box="option.canMoveBox" :fixed-box="option.fixedBox" :original="option.original"
-                :auto-crop="option.autoCrop" :auto-crop-width="option.autoCropWidth" :auto-crop-height="option.autoCropHeight" :center-box="option.centerBox"
-              :high="option.high"></vue-cropper>
-              
-                <button>确定</button>
-            </div>
-          </div>
-          <div>
-            <vueCropper
-              ref="cropper"
-              :img="option.img"
-              :outputSize="option.size"
-              :outputType="option.outputType"
-            ></vueCropper>
-          </div>
-        </el-table>
-      </el-dialog> -->
-      <!-- <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-        <div slot="footer" class="dialog-footer">
-          <el-button>取 消</el-button>
-          <el-button type="primary">确 定</el-button>
+    <div  class="tailorBox">
+      <el-dialog title="编辑图片"
+                 :close-on-click-modal="false"
+                 :close-on-press-escape="false"
+                 :visible.sync="dialogFormVisible"
+                 :before-close="handleCloseCropper"
+                 :fullscreen="true" >
+        <div class="tailor"  :style="{'height': imgHeight}">
+
+
+          <VueCropper
+            ref="cropper"
+            :img="example2.img"
+            :outputSize="example2.size"
+            :outputType="example2.outputType"
+            :info="example2.info"
+            :full="example2.full"
+            :centerBox="example2.centerBox"
+            :canScale="example2.canScale"
+            :autoCrop="example2.autoCrop"
+            :autoCropWidth="example2.autoCropWidth"
+            :autoCropHeight="example2.autoCropHeight"
+            :fixed="example2.fixed"
+            :fixedNumber="example2.fixedNumber"
+            :high="example2.high"
+            :original="example2.original"
+            :infoTrue="example2.infoTrue"
+            :maxImgSize="example2.maxImgSize"
+          >
+          </VueCropper>
+
+
+
         </div>
-      </el-dialog> -->
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false;$refs.cropper.refresh();handleCloseCropper()">取 消</el-button>
+          <el-button type="primary" @click="uploading"  v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
+
   </section>
 
 </template>

@@ -1,4 +1,4 @@
-.ReservationRecord {
+.ReleaseManagement {
   width: 1380px;
   margin: 0 auto;
   padding-bottom: 50px;
@@ -162,7 +162,7 @@
       width: 160px;
     }
   }
-  .ReservationRecordTable {
+  .ReleaseManagementTable {
     position: relative;
     .el-table {
       th {
@@ -176,6 +176,7 @@
         height: 36px;
       }
       .el-table__body-wrapper {
+        overflow: hidden;
         height: 360px;
       }
       font-size: 12px;
@@ -344,136 +345,137 @@
       }
     }
   }
+  .projectS {
+    padding-bottom: 32px;
+    height: auto;
+    overflow: hidden;
+    .tagList {
+      width: 100%;
+      clear: both;
 
-}
-.projectS {
-  padding-bottom: 32px;
-  height: auto;
-  overflow: hidden;
-  .tagList {
-    width: 100%;
-    clear: both;
-
-    .el-tag {
-      margin-top: 24px;
-      margin-right: 12px;
-    }
-  }
-  .left {
-    float: left;
-    height: 35px;
-    margin-right: 30px;
-    .el-checkbox{
-      margin-left: 15px;
-    }
-    .el-button{
-      width: 30px;
-      padding-top: 9.5px;
-      padding-bottom: 9.5px;
-    }
-    .el-date-editor--daterange{
-      width: 300px;
-    }
-    .el-range-editor--small.el-input__inner{
-      height: 35px;
-      .el-range-separator{
-        line-height: 28px;
-        width: 6%;
+      .el-tag {
+        margin-top: 24px;
+        margin-right: 12px;
       }
     }
-    .type1 {
-      border: 1px solid #dcdfe6;
-      border-radius: 4px;
-      width: 400px;
+    .left {
+      float: left;
       height: 35px;
-      .el-select .el-input__inner {
-        border: none;
-        height: 32px;
-        line-height: 30px;
-        cursor: text;
+      margin-right: 30px;
+      .el-checkbox{
+        margin-left: 15px;
       }
-      .typeClass {
-        .el-input__suffix {
-          border-right: 1px solid #dcdfe6;
+      .el-button{
+        width: 30px;
+        padding-top: 9.5px;
+        padding-bottom: 9.5px;
+      }
+      .el-date-editor--daterange{
+        width: 300px;
+      }
+      .el-range-editor--small.el-input__inner{
+        height: 35px;
+        .el-range-separator{
+          line-height: 28px;
+          width: 6%;
         }
       }
-      .serachS {
-        .el-input {
+      .type1 {
+        border: 1px solid #dcdfe6;
+        border-radius: 4px;
+        width: 400px;
+        height: 35px;
+        .el-select .el-input__inner {
+          border: none;
+          height: 32px;
+          line-height: 30px;
+          cursor: text;
+        }
+        .typeClass {
+          .el-input__suffix {
+            border-right: 1px solid #dcdfe6;
+          }
+        }
+        .serachS {
+          .el-input {
+            width: 280px;
+          }
+          .el-input__suffix {
+            display: none;
+          }
+          .el-input--suffix .el-input__inner {
+            padding-right: 0px;
+          }
+        }
+      }
+      .type2 {
+        border: 1px solid #dcdfe6;
+        border-radius: 4px;
+        width: 400px;
+        .el-select .el-input__inner {
+          border: none;
+          height: 33px;
+          line-height: 33px;
+        }
+        .typeClass {
+          .el-input__suffix {
+            border-right: 1px solid #dcdfe6;
+          }
+        }
+        .serachS {
           width: 280px;
+          .el-input__inner {
+            height: 32px;
+            line-height: 32px;
+            border: 0px;
+          }
         }
-        .el-input__suffix {
+      }
+
+      .input-with-select {
+        input::-webkit-input-placeholder {
+          /*WebKit browsers*/
+          font-size: 12px;
+          color: rgba(204, 209, 214, 1);
+        }
+      }
+      .el-select .el-input {
+        font-size: 12px;
+        width: 106px;
+        .el-icon-arrow-up:before {
           display: none;
         }
-        .el-input--suffix .el-input__inner {
-          padding-right: 0px;
+        .el-icon-arrow-up {
+          background: url("../../assets/images/dropDown2.png") center center no-repeat;
+          transform: rotateZ(0deg);
         }
-      }
-    }
-    .type2 {
-      border: 1px solid #dcdfe6;
-      border-radius: 4px;
-      width: 400px;
-      .el-select .el-input__inner {
-        border: none;
-        height: 33px;
-        line-height: 33px;
-      }
-      .typeClass {
-        .el-input__suffix {
-          border-right: 1px solid #dcdfe6;
+        .is-reverse {
+          transform: rotateZ(180deg);
         }
-      }
-      .serachS {
-        width: 280px;
-        .el-input__inner {
-          height: 32px;
+        .el-select__caret {
           line-height: 32px;
-          border: 0px;
         }
       }
+      .input-with-select .el-input-group__prepend {
+        background-color: #fff;
+      }
     }
-
-    .input-with-select {
-      input::-webkit-input-placeholder {
-        /*WebKit browsers*/
+    .right {
+      float: right;
+      .el-button {
+        width: 100px;
+        height: 35px;
         font-size: 12px;
-        color: rgba(204, 209, 214, 1);
       }
-    }
-    .el-select .el-input {
-      font-size: 12px;
-      width: 106px;
-      .el-icon-arrow-up:before {
-        display: none;
+      .el-button--default {
+        color: rgba(0, 119, 255, 1);
+        border-color: rgba(0, 119, 255, 1);
       }
-      .el-icon-arrow-up {
-        background: url("../../assets/images/dropDown2.png") center center no-repeat;
-        transform: rotateZ(0deg);
+      .el-button--primary {
+        background: rgba(0, 119, 255, 1);
       }
-      .is-reverse {
-        transform: rotateZ(180deg);
-      }
-      .el-select__caret {
-        line-height: 32px;
-      }
-    }
-    .input-with-select .el-input-group__prepend {
-      background-color: #fff;
-    }
-  }
-  .right {
-    float: right;
-    .el-button {
-      width: 100px;
-      height: 35px;
-      font-size: 12px;
-    }
-    .el-button--default {
-      color: rgba(0, 119, 255, 1);
-      border-color: rgba(0, 119, 255, 1);
-    }
-    .el-button--primary {
-      background: rgba(0, 119, 255, 1);
     }
   }
 }
+
+

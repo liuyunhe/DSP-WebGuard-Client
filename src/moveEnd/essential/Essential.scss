@@ -1,0 +1,199 @@
+.essential{
+  width: 1380px;
+  margin: 0 auto;
+  // 这是步骤条的样式
+  .step{
+    width: 1380px;
+    height: 64px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f2f4f8;
+   .step1{
+     color: #0077ff;
+     float: left;
+      height: 20px;
+      line-height: 20px;
+      color: #c0ccda;
+      margin-right: 1px;
+      font-size: 12px;
+      >.spanFigure{
+          float: left;
+          width: 18px;
+          height: 18px;
+          margin: 1px 5px;
+          background-color: #c0ccda;
+          border-radius: 10px;
+          line-height: 18px;
+          text-align: center;
+          color: #fff;
+      }
+   }
+   .step2{
+     float: left;
+      height: 20px;
+      line-height: 20px;
+      color: #c0ccda;
+      margin-right: 1px;
+      font-size: 12px;
+      >.spanFigure{
+          float: left;
+          width: 18px;
+          height: 18px;
+          margin: 1px 5px;
+          background-color: #c0ccda;
+          border-radius: 10px;
+          line-height: 18px;
+          text-align: center;
+          color: #fff;
+      }
+      >.strip{
+          float: left;
+          width: 60px;
+          height: 2px;
+          background-color: #c0ccda;
+          margin-top: 9px;
+      }
+   }
+   .step3{
+     float: left;
+      height: 20px;
+      line-height: 20px;
+      color: #c0ccda;
+      margin-right: 1px;
+      font-size: 12px;
+      >.spanFigure{
+          float: left;
+          width: 18px;
+          height: 18px;
+          margin: 1px 5px;
+          background-color: #c0ccda;
+          border-radius: 10px;
+          line-height: 18px;
+          text-align: center;
+          color: #fff;
+      }
+      >.strip{
+          float: left;
+          width: 60px;
+          height: 2px;
+          background-color: #c0ccda;
+          margin-top: 9px;
+      }
+   }
+   .active{
+     color: #0077ff !important;
+   }
+   .activeFigure{
+     background-color: #0077ff !important;
+   }
+  }
+  .step_1{
+    color: #999 !important;
+    width: 420px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    .warning-zone {
+      width: 400px;
+      height: 268px;
+      position: absolute;
+      left: 440px;
+      top: -4px;
+      .warning-item {
+        height: 32px;
+        line-height: 32px;
+        margin-bottom: 20px;
+        .warning-wrap {
+          float: left;
+          position: relative;
+          padding: 0 15px;
+          background-color: #ff3366;
+          border-radius: 3px;
+          .warning-icon {
+            float: left;
+            width: 14px;
+            height: 14px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 9px;
+            margin-right: 10px;
+            background-color: #fff;
+            color: #ff3366;
+            line-height: 14px;
+          }
+          span {
+            color: #fff;
+          }
+          &:before {
+            content: '';
+            width: 0px;
+            height: 0px;
+            border: 5px solid transparent;
+            position: absolute;
+            left: -9px;
+            top: 11px;
+            border-right-color: #ff3366;
+          }
+        }
+      }
+    }
+
+    span.important {
+      position: absolute;
+      top: 0;
+      right: -12px;
+      color: red;
+      line-height: 36px;
+    }
+  }
+  .buttons{
+    height: 92px;
+    padding: 30px 0px;
+    border-top: 1px solid rgb(242, 244, 248);
+    border-bottom: 1px solid rgb(242, 244, 248);
+    margin-bottom: 50px;
+    margin-top: 180px;
+    >.el-row{
+      float:right;
+      >.el-button{
+        width: 100px;
+        // height: 32px;
+      }
+    }
+  }
+  .el-message.is-center {
+    color: rgba(0, 119, 255, 1) !important
+  }
+  .el-message--success  {
+    color: rgba(0, 119, 255, 1) !important
+  }
+
+  .el-message--success .el-message__content{
+    color: rgba(0, 119, 255, 1) !important
+  }
+
+}
+  .clearfix:after{
+  content: "020";
+  display: block;
+  width: 0;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  }
+  .a{
+    display: inline-block;
+  }
+  .el-message--warning .el-message__content,.el-message .el-icon-warning{
+    top: 88px !important;
+    color: rgba(0, 119, 255, 1) !important
+  }
+  .el-message .el-icon-success {
+    top: 88px !important;
+    color: rgba(0, 119, 255, 1) !important
+  }
+  .el-message--success .el-message__content {
+    top: 88px !important;
+    color: rgba(0, 119, 255, 1) !important
+  }
+

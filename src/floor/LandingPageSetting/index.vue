@@ -33,6 +33,7 @@
                            @select="handleSelect"
                            :fetch-suggestions="querySearch"
                            :trigger-on-focus="false"
+                           filterable
                            ref="autocomplete">
             <template slot-scope="{ item }">
               <div class="name"
@@ -210,7 +211,7 @@
           width="120"
           label="">
           <template slot-scope="scope">
-            {{scope.row.pageType == '1' ? "移动" : "PC"}}
+            {{scope.row.pageType == '0' ? "PC" : "移动"}}
           </template>
         </el-table-column>
 
@@ -252,8 +253,8 @@
         title="新增落地页"
         :visible.sync="landingPage"
         :before-close="handleClose"
-        width="516px">
-        <div class="tupian clearfix">
+        width="694px">
+        <div class="tupian clearfix" style="display: flex">
           <template  v-if="addLandingPage==false">
             <div class="left"  @click="addLandingPage=true;">
               <div class="img">
@@ -262,10 +263,16 @@
               <p>PC落地页</p>
             </div>
             <div class="left">
-              <div class="img">
+              <div class="img" @click="moveEnd(1)">
                 <img src="../../assets/landingpage/mobileTemplate_select.png" alt="手机端落地页">
               </div>
-              <p>移动端落地页</p>
+              <p>移动端落地页翻页式</p>
+            </div>
+            <div class="left">
+              <div class="img" @click="moveEnd(2)">
+                <img src="@/assets/imgs/icon-移动端落地页长图式模板插图.png" alt="手机端落地页">
+              </div>
+              <p>移动端落地页长图式</p>
             </div>
           </template>
 

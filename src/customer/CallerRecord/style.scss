@@ -18,6 +18,12 @@
       padding-bottom: 32px;
       height: auto;
       overflow: hidden;
+      .isNoOwnership{
+        float: left;
+        height: 35px;
+        line-height: 35px;
+        padding-left: 20px;
+      }
       .tagList {
         width: 100%;
         clear: both;
@@ -387,7 +393,7 @@
     }
     .dialogVisibleProjectList{
       position: absolute;
-      left: 290px;
+      left: 279px;
       top: 1px;
       z-index: 999;
       .title {
@@ -408,7 +414,7 @@
     }
     .tableStatus {
       position: absolute;
-      right: 708px;
+      right: 687px;
       top: 1px;
       z-index: 999;
       .title {
@@ -429,7 +435,7 @@
     }
     .tableIntention {
       position: absolute;
-      right: 300px;
+      right: 249px;
       top: 1px;
       z-index: 999;
       .title {
@@ -462,7 +468,7 @@
     }
     .tabDatePick {
       position: absolute;
-      right: 595px;
+      right: 543px;
       top: 5px;
       z-index: 999;
       .dateHeader {
@@ -508,6 +514,9 @@
   }
 
 }
+.luyin{
+  margin-bottom:5px;
+}
 .recording {
   margin-top: 20px;
   .el-dialog {
@@ -537,20 +546,14 @@
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin-top: 1px;
-      .el-button.el-button--default {
-        width:64px;
-        height:36px;
-        border-radius:4px;
-        padding: 12px 16px;
-        border:1px solid rgba(220,224,230,1);
-      }
+
 
   }
   .record {
     >ul {
       float: left;
       >li {
-        height:20px;
+        height:30px;
         font-size:14px;
         font-family:PingFangSC-Regular;
         color:rgba(138,150,160,1);

@@ -226,4 +226,16 @@
   text-align: center;
   color: #c0c4cc;
 }
+.el-message--warning .el-message__content,.el-message .el-icon-warning{
+  top: 88px !important;
+  color: rgba(0, 119, 255, 1) !important
+}
+.el-message .el-icon-success {
+  top: 88px !important;
+  color: rgba(0, 119, 255, 1) !important
+}
+.el-message--success .el-message__content {
+  top: 88px !important;
+  color: rgba(0, 119, 255, 1) !important
+}
 

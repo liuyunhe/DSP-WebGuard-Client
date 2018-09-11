@@ -21,6 +21,8 @@ export default {
       homePurposeList: [],//置业目的下拉
       payList: [],//付款方式下拉
       intentionalDegreeList: [],//意向程度下拉
+      isSalesContactList: [],//销售关系下拉
+      followUpDegreeList: [],//跟进程度下拉
       //编辑
       form:{
         cstName:'',
@@ -46,6 +48,9 @@ export default {
         needArea: '',
         remark: '',
         consultantName: '',
+        isSalesContact: '',
+        returnVisitSituation: '',
+        followUpDegree:'',
         clientId: this.$route.params.clientId,
         bespeakId: this.$route.params.bespeakId,
         projectId: this.$route.params.projectId,
@@ -80,6 +85,8 @@ export default {
         console.log(this.sexList);
         this.occupaTionList = res.data.data.occupaTionList;
         this.needTypeList = res.data.data.needTypeList;
+        this.isSalesContactList = res.data.data.isSalesContactList;
+        this.followUpDegreeList = res.data.data.followUpDegreeList;
         this.rztjList = res.data.data.rztjList;
         this.cstInfo = res.data.data.cstInfo;
         this.homePurposeList = res.data.data.homePurposeList;
@@ -100,6 +107,13 @@ export default {
         this.retDesc = res.data.retDesc;
         this.retCode = res.data.retCode;
         // this.form = res.data.form;
+        this.$message({
+          message: '保存成功！',
+          type: 'success',
+          center:true,
+          duration:1000
+        });
+        return
       }
     }, error => {
       console.log(error)
@@ -117,7 +131,6 @@ export default {
        if (res.data.code == 1) {
             this.form.cstName=res.data.data.cstInfo.cstName;
             this.form.cstSex =res.data.data.cstInfo.gender;
-            console.log(this.form)
             // this.form.cstWorkArea = res.data.data.cstInfo.cstWorkArea;
             this.form.cstWorkArea = res.data.data.cstInfo.workArea;
             this.form.mobilePhone = res.data.data.cstInfo.mobilePhone;
@@ -132,7 +145,17 @@ export default {
             this.form.cstHomeArea = res.data.data.cstInfo.homeArea;
             this.form.mobileCity = res.data.data.cstInfo.mobileCity;
             this.form.consultantName = res.data.data.cstInfo.consultantName;
-            this.form.needType = res.data.data.needInfo.needType;
+         this.form.needType = res.data.data.needInfo.needType;
+         this.form.isSalesContact = res.data.data.needInfo.isSalesContact;
+         this.form.returnVisitSituation = res.data.data.needInfo.returnVisitSituation;
+         this.form.followUpDegree = res.data.data.needInfo.followUpDegree;
+        //  console.log(res.data.data.needInfo)
+        //  console.log(res.data.data.needInfo.followUpDegree)
+        //  console.log(res.data.data.needInfo.returnVisitSituation)
+
+        //  console.log(this.form.followUpDegree)
+        //  console.log("--------------------------------")
+
             this.form.yxFangXing = res.data.data.needInfo.yxFangXing;
             this.form.needPay = res.data.data.needInfo.payWay;
             this.form.needPurchase = res.data.data.needInfo.purpose;
@@ -141,6 +164,7 @@ export default {
             this.form.needArea = res.data.data.needInfo.yxArea;
             this.form.remark = res.data.data.needInfo.remark;
             this.loading =false;
+            console.log(this.form)
        }
      },error =>{
        console.log(error)
@@ -205,7 +229,7 @@ export default {
   },
   created() {
     this.customerUpdateInit();
-   // this.customerUpdate();
+  //  this.customerUpdate();
     this.getQueryCustomerData();
   }
 };

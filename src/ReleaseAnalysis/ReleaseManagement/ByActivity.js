@@ -290,5 +290,6 @@ export default {
   },
   mounted() {
     this.getList();
+    console.log(this.$route.meta)
   }
 };

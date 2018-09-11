@@ -223,6 +223,7 @@ body {
 
 .newLandingPage {
   .el-dialog__header {
+    display: flex !important;
     padding: 4px 20px 10px;
     height: 49px;
     font-size: 14px;
@@ -258,7 +259,6 @@ body {
     padding: 10px 20px 20px;
     text-align: right;
     box-sizing: border-box;
-    width: 515px;
     height: 56px;
     border-top: 1px solid rgba(242, 244, 248, 1);
   }

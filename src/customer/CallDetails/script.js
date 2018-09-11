@@ -31,14 +31,57 @@ export default {
       //查询页码
       page: 1,
       sels: [], //列表选中列
-      pageType: ""
+      pageType: "",
+
+      recording:false,
+      recordInfo: [],
+      Url:''
     };
   },
+  beforeRouteLeave(to, from, next) {
+    // 设置下一个路由的 meta
+
+    console.log(to.matched[0].path=='/CallDetails/:uuid')
+    console.log(from)
+    if(to.matched[0].path=='/CallDetails/:uuid'){
+      to.meta.keepAlive = false;
+    }else{
+      to.meta.keepAlive = true; // 让 A 缓存，即不刷新
+    }
+    next();
+  },
+  created(){
+    this.callerCustomerDetail();
+    console.log(this.$route.params)
+  },
   methods: {
+    // 返回
+    back() {
+      this.$router.go(-1)
+      let Calldetails =  localStorage.getItem('Calldetails')
+      console.log(Calldetails)
+    },
+    // 复制链接
+    copyUrl() {
+      const input = document.createElement('input')
+      document.body.appendChild(input)
+      input.setAttribute('value', this.Url)
+      input.select()
+      if (document.execCommand('copy')) {
+        document.execCommand('copy')
+      }
+      document.body.removeChild(input)
+      this.$message({
+        message: '复制成功！',
+        type: 'success',
+        center:true,
+        duration:1000
+      });
+    },
     link(parent){
       console.log(parent)
       window.open(parent);
-  },
+    },
     // 来电详情
     CallerRecord() {
       this.$router.push('/CallerRecord/callType')
@@ -50,13 +93,38 @@ export default {
         console.log(res)
         if (res.data.code == 1){
           console.log('112');
+          if (res.data.data.cstInfo.projectName == "中天未来方舟【偶寓】中天未来方舟【偶寓】") {
+            res.data.data.cstInfo.projectName = "中天未来方舟【偶寓】"
+          }
           this.callerDetail = res.data.data.callerDetail;
           this.bespeakInfo = res.data.data.bespeakInfo;
+          //this.bespeakInfo.pageUrl ='http://www.baidu.com'
           this.cstInfo = res.data.data.cstInfo;
         }
       },error => {
         console.log(error)
       })
+    },
+    //录音
+    callerGetRecord() {
+      console.log(this.uuid);
+      this.$requestHttp.put("api/private/1.0/caller/getRecord", {
+        recordId: this.uuid,
+      }, '', res => {
+        console.log(res);
+        if (res.data.code == 1) {
+          this.recordInfo = res.data.data.recordInfo;
+          this.recording = true;
+          this.Url = res.data.data.recordInfo.recordFile
+          console.log( this.Url)
+        }
+      })
+    },
+    handleCloseBox(){
+      this.recording =false;
+      var audio =document.querySelector('#audio');
+      audio.pause();
+      audio.currentTime = 0;
     },
     //删除标签
     deleteTag() {
@@ -133,8 +201,4 @@ export default {
       this.$router.push({ path: "/MessageSetting" });
     }
   },
-  created(){
-    this.callerCustomerDetail();
-    console.log(this.$route.params)
-  }
 };

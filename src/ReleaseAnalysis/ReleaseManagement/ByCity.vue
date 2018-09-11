@@ -1,5 +1,5 @@
 <template>
-  <section class="ReservationRecord">
+  <section class="ReleaseManagement">
     <header>
       <!--面包屑-->
       <!--<el-col :span="24" class="breadcrumb-container">-->
@@ -71,7 +71,7 @@
     </header>
 
     <!--列表-->
-    <section class="ReservationRecordTable">
+    <section class="ReleaseManagementTable">
 
       <el-table
         :data="dataList"
@@ -154,7 +154,7 @@
 
         <el-table-column
           prop="clientRate"
-          label="单客价"
+          label="客单价"
         >
           <template slot-scope="scope">
             <span v-if="red" style="color: red">{{ scope.row.clientRate }}</span>

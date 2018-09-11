@@ -1,38 +1,36 @@
 
 export default {
-  // dialogFormVisible: true,
-  isShow: false,
-  model: false,
-  modelSrc: '',
-  crap: false,
-  previews: {},
-  lists: [
-    {
-      img: 'https://qn-qn-kibey-static-cdn.app-echo.com/goodboy-weixin.PNG'
-    },
-    {
-      img: 'https://avatars2.githubusercontent.com/u/15681693?s=460&v=4'
-    }
-  ],
-  option: {
-    img: 'https://qn-qn-kibey-static-cdn.app-echo.com/goodboy-weixin.PNG',
-    size: 1,
-    full: false,
-    outputType: 'jpeg',
-    canMove: true,
-    fixedBox: false,
-    original: false,
-    canMoveBox: true,
-    autoCrop: true,
-    // 只有自动截图开启 宽度高度才生效
-    autoCropWidth: 200,
-    autoCropHeight:  200,
-    centerBox: false,
-    high: false
-  },
-  show: true,
+  isSaveStyle:false,//判断样式库是否编辑保存过
+  fileName:'',
+  // 裁剪
+  CropId:0,//选择上传组件标识
+  fullscreenLoading:false,
+  dialogFormVisible: false,
 
-  uuid:0,//0新增   其他为修改   uuid
+  example2: {
+   // img:'',
+    img: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1036344994,1496927715&fm=11&gp=0.jpg', // 图片的地址
+    info: true,
+    size: 1,
+    outputType: 'jpeg',
+    canScale: true,
+    autoCrop: true,
+    centerBox:true,
+    // 只有自动截图开启 宽度高度才生效
+    autoCropWidth: 100,
+    autoCropHeight: 150,
+    // 开启宽度和高度比例
+    fixed: true,
+    fixedNumber: [4, 3],
+    high: false,
+    original:true,
+    infoTrue:true,
+    maxImgSize:0
+  },
+  imgHeight:'',
+// -------------
+
+  uuid:0,//0新增   其他为修改   uuidx
   addUuid:'',//新增时的uuid
   editable: true,
   //步骤条传参
@@ -61,7 +59,8 @@ export default {
     uuid: '',
     template: '',
     archiveId: '',
-    deliveryManagements: []
+    deliveryManagements: [],
+    orgId:'',//所属机构id
   },
   callTelDisabled:false,//是否禁止编辑
   stepsSave:false,//新增时是否已经保存数据
@@ -93,7 +92,7 @@ export default {
         active:0,
       }
     ],
-    label: [],
+    label: [],//编辑模板数据
     plugins: []
   },
   picsLenght:[],
@@ -101,7 +100,7 @@ export default {
   copystep2: '',
   //功能
   //添加label弹窗
-  step2DialogLabel: [],
+  step2DialogLabel: [],//默认模板标签数据
   checkedLabels: [],
   dialogTableVisible: false,
   //当前选中标签名称
@@ -160,12 +159,13 @@ export default {
   imageUrl12: '',
   imgLoading15: false,
   imageUrl15: '',
-
+  fileList55:[],
   //当前选中样式库
   step3ActiveStyleId: '',
   activeFormList: [],
   copyActiveFormList: '',
-
+  cacheActiveFormList:[], //缓存上一次编辑的保存的样式库
+  AddSaveEdit:false,//新增保存后保存
   //编辑器内容
   editorContent: '',
   copyEditorContent: '',
@@ -214,5 +214,8 @@ export default {
   step2LabelList:[],
   step2LabelListCur:[],
 
+
+  multipleId:'',//多图模式id
+  multipleBannerId:'', //banner id
   labelIdSave:[],//保存记录模板id
 };

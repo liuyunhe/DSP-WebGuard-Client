@@ -460,6 +460,7 @@
       width: 320px !important;
       height: 84px !important;
       border: none;
+      line-height: 84px;
     }
     .el-upload-dragger {
       width: 320px !important;
@@ -503,9 +504,9 @@
         float: left;
         padding-top: 8px;
         height: 92px;
-        &:nth-child(2n) {
+        /*&:nth-child(2n) {
           margin-left: 12px;
-        }
+        }*/
         .el-upload {
           border-radius: 6px;
           cursor: pointer;
@@ -523,6 +524,7 @@
       .el-upload-dragger {
         width: 160px !important;
         height: 84px !important;
+
         .avatar-uploader-icon {
           position: absolute;
           font-size: 16px;
@@ -538,6 +540,7 @@
         .el-upload--picture-card {
           width: 160px !important;
           height: 84px !important;
+          line-height: normal !important;
           border: none;
         }
         .el-upload-list--picture-card .el-upload-list__item {
@@ -549,7 +552,7 @@
         .el-upload--picture-card i {
           font-size: 22px;
           position: absolute;
-          top: 16px;
+          top: 32px;
           margin-left: -11px;
         }
         .el-upload-list--picture-card .el-progress {

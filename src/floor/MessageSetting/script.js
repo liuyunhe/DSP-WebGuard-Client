@@ -10,10 +10,7 @@ import * as step2Method from './step2Method';
 import * as step3Method from './step3Method';
 import footerA from '../../components/common/footer.vue'; //底部
 // 引入vue-croppa 裁剪样式
-import 'vue-croppa/dist/vue-croppa.css'
-import VueCropper from 'vue-cropper'
- 
-// Vue.use(VueCropper)
+import VueCropper from '../../components/common/cropper'
 
 export default {
   components: {
@@ -170,7 +167,11 @@ export default {
     ...step2Method,
     ...step3Method
   },
+  updated () {
+    // console.log(123)
 
+    // console.log(cropper_size)
+  },
   mounted() {
   },
   beforeDestroy() {

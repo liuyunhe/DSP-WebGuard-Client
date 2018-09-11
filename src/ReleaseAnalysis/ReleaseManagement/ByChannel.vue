@@ -1,5 +1,5 @@
 <template>
-  <section class="ReservationRecord">
+  <section class="ReleaseManagement">
     <header>
       <el-col :span="24" style="padding-bottom: 0px;">
         <div class="projectS">
@@ -76,7 +76,7 @@
     </header>
 
     <!--列表-->
-    <section class="ReservationRecordTable">
+    <section class="ReleaseManagementTable">
       <!-- 有效性 -->
        <div class="effectiveness" style="left: 330px;right: inherit">
         <el-popover
@@ -91,7 +91,7 @@
             <el-checkbox
               v-for="item in brListCondtionList.pageTypeList"
               :label="item.code"
-              :key="item.code">{{item.value}}
+              :key="item.code">{{item.code + "端"}}
             </el-checkbox>
           </el-checkbox-group>
           <el-button type="primary" size="small" @click="savecPageTypeList">确定</el-button>
@@ -140,6 +140,10 @@
           prop="pageType"
           label=""
           width="150">
+          <template slot-scope="scope">
+            <span>{{ scope.row.pageType + "端"}}</span>
+
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -163,15 +167,15 @@
           label="消费占比"
           width="120">
           <template slot-scope="scope">
-            <span v-if="red" style="color: red">{{ scope.row.consumRatioStr }}</span>
-            <span v-else>{{ scope.row.consumRatioStr }}</span>
+            <span v-if="red" style="color: red">{{ scope.row.consumRatioStr + "%"}}</span>
+            <span v-else>{{ scope.row.consumRatioStr + "%"}}</span>
           </template>
         </el-table-column>
 
         <el-table-column
           prop="clientPriceStr"
           width="120"
-          label="单客价"
+          label="客单价"
         >
           <template slot-scope="scope">
             <span v-if="red" style="color: red">{{ scope.row.clientPriceStr }}</span>
@@ -206,8 +210,8 @@
           label="点击率"
         >
           <template slot-scope="scope">
-            <span v-if="red" style="color: red">{{ scope.row.clickRate }}</span>
-            <span v-else>{{ scope.row.clickRate }}</span>
+            <span v-if="red" style="color: red">{{ scope.row.clickRate +"%"}}</span>
+            <span v-else>{{ scope.row.clickRate +"%"}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -224,7 +228,7 @@
           :total="total">
         </el-pagination>
         <div class="pageLeft">
-          共 <span>{{total}}</span>个客户，今日新增56条<!--，第 {{currentPage}} / {{rowNowCount}}}} 页-->
+          共<span>{{total}}</span>条记录<!--，第 {{currentPage}} / {{rowNowCount}}}} 页-->
         </div>
       </section>
     </div>

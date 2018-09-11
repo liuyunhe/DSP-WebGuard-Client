@@ -1,5 +1,5 @@
 <template>
-  <section class="ReservationRecord">
+  <section class="ReleaseManagement">
     <header>
 
       <!--查询表单-->
@@ -74,12 +74,9 @@
         </div>
       </el-col>
 
-
-
     </header>
-
     <!--列表-->
-    <section class="ReservationRecordTable">
+    <section class="ReleaseManagementTable">
       <el-table
         :data="dataList"
         v-loading="loading">
@@ -113,7 +110,7 @@
           width="120"
           label="投放结束时间">
           <template slot-scope="scope">
-            <span>{{ new Date(scope.row.advertisingEnd).Format("yyyy/MM/dd") }}</span>
+            <span>{{ scope.row.advertisingEnd?new Date(scope.row.advertisingEnd).Format("yyyy/MM/dd"):"" }}</span>
           </template>
         </el-table-column>
 
@@ -121,6 +118,9 @@
           prop="timePastRate"
           label="推广完成率"
           width="120">
+           <template slot-scope="scope">
+            <span >{{ scope.row.timePastRate +"%" }}</span>
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -146,8 +146,8 @@
           width="120"
         >
           <template slot-scope="scope">
-            <span v-if="red" style="color: red">{{ scope.row.consumRate }}</span>
-            <span v-else>{{ scope.row.consumRate }}</span>
+            <span v-if="red" style="color: red">{{ scope.row.consumRate + "%" }}</span>
+            <span v-else>{{ scope.row.consumRate + "%"}}</span>
           </template>
         </el-table-column>
 

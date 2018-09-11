@@ -1,5 +1,5 @@
 <template>
-  <section class="ReservationRecord">
+  <section class="ReleaseManagement">
     <header>
 
       <!--查询表单-->
@@ -79,7 +79,7 @@
     </header>
 
     <!--列表-->
-    <section class="ReservationRecordTable">
+    <section class="ReleaseManagementTable">
 
       <el-table
         :data="dataList"

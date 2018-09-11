@@ -27,10 +27,9 @@
                 <el-select
                   v-model="formQueryCustomersList.keyWord"
                   filterable
-                  remote
                   reserve-keyword
                   placeholder="手机号码/客户姓名/归属项目/置业顾问"
-                  :remote-method="remoteMethod"
+                  :filter-method="remoteMethod"
                   @change="pushTagesList('搜索关键字：'+formQueryCustomersList.keyWord, 'keyWord',formQueryCustomersList.keyWord)"
                   :loading="loading" size="mini" class="serachS" ref="yang">
                   <el-option
@@ -83,7 +82,7 @@
       </el-col>
 
       <el-col :span="24" class="toolbar" style="margin-left: 12px;">
-        <label class="el-form-item__label" style="line-height: 30px" v-if="tags.length<=0">已选条件：</label>
+        <label class="el-form-item__label" style="line-height: 30px" v-if="tags.length>0">已选条件：</label>
         <el-tag style="margin-left: 12px;"
                 v-for="tag in tags"
                 :key="tag.name"
@@ -116,7 +115,7 @@
       </div>
 
 
-      <div  class="dialogVisibleProjectList"  @click="dialogVisibleProjectList=true;getOrginfoAndProjectList()">
+      <div  class="dialogVisibleProjectList"  @click="open">
         <span  class="title" >归属项目</span>
       </div>
 
@@ -462,9 +461,9 @@
         </div>
         <div class="mb clearfix">
           <ul>
-            <li><a :href="exportH+'/api/private/1.0/customer/dlImportTemplate'" style="text-decoration:underline">模版-导入新客户</a>
+            <li><a :href="exportH+'api/private/1.0/customer/dlImportTemplate'" style="text-decoration:underline">模版-导入新客户</a>
             </li>
-            <li style="margin-left:31px"><a :href="exportH+'/api/private/1.0/customer/dlModifyTemplate'"
+            <li style="margin-left:31px"><a :href="exportH+'api/private/1.0/customer/dlModifyTemplate'"
                                             style="text-decoration:underline">模版-完善客户信息</a></li>
           </ul>
         </div>
@@ -565,7 +564,7 @@
 
         </div>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisibleProjectList = false" size="small">取 消</el-button>
+    <el-button @click="cancel" size="small">取 消</el-button>
     <el-button type="primary" @click="getCheckedKeys" size="small">确 定</el-button>
   </span>
       </el-dialog>

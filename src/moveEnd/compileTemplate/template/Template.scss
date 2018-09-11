@@ -1,0 +1,66 @@
+.templateSon{
+  position: relative;
+  display: flex;
+  height: 1324px;
+  .templateList{
+    width: 210px;
+    height: 100%;
+    display: inline-block;
+    >span{
+      display: inline-block;
+      width: 100%;
+      height: 46px;
+      line-height:46px;
+      color: #0077ff;
+      font-size: 16px;
+      text-align: center;
+      border-bottom: 1px solid rgba(242,244,248,1);
+    }
+    >.pages::-webkit-scrollbar {/*隐藏滚轮*/
+      width: 4px;
+      height: 4px;
+      }
+      .pages::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 5px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2);
+    }
+    >.pages{
+      width: 100%;
+      height: 1248px;
+      overflow:auto;
+      margin-top: 30px;
+      .active{
+        border: 1px solid #0077FF !important;
+        box-shadow: -2px 4px 5px #888888
+      }
+      li{
+        width: 80%;
+        margin: 0 auto;
+        >span{
+          font-size: 14px;
+          font-weight: 600;
+        }
+        .page{
+          width: 145px;
+          height: 256px;
+          border: 1px solid #eee;
+          margin-top: 10px;
+          >img{
+            width: 100%;
+          }
+        }
+        .addPage{
+          text-align: center;
+          font-size: 14px;
+          color: #999;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+  .covers{
+    width: 100%;
+    height:100% ;
+  }
+}

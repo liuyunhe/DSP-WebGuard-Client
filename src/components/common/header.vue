@@ -11,19 +11,34 @@
 
         <div class="nav">
          <template v-for="(item,index) in navMenu">
-           <el-dropdown   trigger="click"  :class="['navLi',{'action':options==item.moduleCode}]"  placement="bottom-start" @command="navLink" v-if="item.subsetList.length>0">
+           <el-dropdown   trigger="click"  :class="['navLi',{'action':options==item.moduleCode}]"  placement="bottom-start" v-if="item.subsetList.length>0">
             <span class="el-dropdown-link  " >
               {{item.moduleName}}<i class="el-icon-arrow-down el-icon--right" v-if="item.subsetList.length>0"></i>
             </span>
 
              <el-dropdown-menu slot="dropdown"  class="navBox"  :attr="item.moduleCode" >
-               <el-dropdown-item :command="child" :key="child.moduleCode" v-for="child in item.subsetList" >  {{child.moduleName}}</el-dropdown-item>
+               <el-dropdown-item :command="child" :key="child.moduleCode" v-for="child in item.subsetList" >
+                 <template   v-if="child.moduleType=='0'">
+                    <router-link :to="child.moduleUrl">{{child.moduleName}}</router-link>
+                 </template>
+                 <template   v-else-if="child.moduleType=='1'">
+                     <a  :href="qwdkJump+'?moduleUrl='+child.moduleUrl"  target="_blank">{{child.moduleName}}</a>
+                 </template>
+                 <template v-else-if="child.moduleType=='2'">
+                   <a  :href="child.moduleUrl"  target="_blank">{{child.moduleName}}</a>
+                 </template>
+
+               </el-dropdown-item>
              </el-dropdown-menu>
+
+
+
+
            </el-dropdown>
 
            <template  v-else>
              <div :class="['navLi','el-dropdown',{'action':options=='home'}]"  >
-               <span  class="el-dropdown-link el-dropdown-selfdefine ">
+               <span  class="el-dropdown-link  ">
                <router-link to="/index">
                  首页
                </router-link>
@@ -32,50 +47,6 @@
            </template>
          </template>
 
-
-
-
-          <!--<el-menu :default-active="$route.path"
-            class="el-menu crm-home"
-            mode="horizontal"
-            router
-                   @open="handleOpen"
-             :unique-opened="true"
-                   menu-trigger="click"
-            background-color="#1f2d3d"
-            text-color="#fff"
-            active-text-color="#409EFF">
-
-            <template v-for="(item,index) in navMenu">
-              <template v-if="item.subsetList.length>0">
-                <el-submenu :index="item.moduleCode"
-
-                  :key="index">
-                  <template slot="title">{{item.moduleName}}</template>
-                  <template v-if="item.subsetList">
-
-                    <el-menu-item :class="{'is-active':$route.path === child.moduleUrl}" v-show="isNavShow"
-                       v-for="child in item.subsetList"
-                      :index="child.moduleUrl"
-                      :key="child.moduleCode ">
-                      {{child.moduleName}}
-                    </el-menu-item>
-
-
-                  </template>
-
-                </el-submenu>
-              </template>
-
-              <template v-else>
-                <el-menu-item :index="item.moduleUrl"   active-text-color="#ffffff"
-                  :key="index">{{item.moduleName}}</el-menu-item>
-              </template>
-            </template>
-          </el-menu>-->
-          <!-- <li class="name">超级长的名字
-            <span class="dropDown"></span>
-          </li> -->
            <li class="name">
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
@@ -87,15 +58,7 @@
             </el-dropdown>
           </li>
 
-          <!-- <ul>
-           <li :class="{active:options==1}"> <router-link to="/" replace >首页</router-link></li>
-           <li :class="{active:options==2}"> <router-link to="/Project"  @click.native="flushCom" replace>项目管理</router-link></li>
-           <li :class="{active:options==3}"> <router-link to="/">取数管理</router-link></li>
-           <li :class="{active:options==4}"> <router-link to="/">客户管理</router-link></li>
-           <li :class="{active:options==5}"> <router-link to="/">营销数据</router-link></li>
-           <li :class="{active:options==6}"> <router-link to="/">运营助手</router-link></li>
-           <li class="name">超级长的名字<span class="dropDown"></span></li>
-         </ul>-->
+
         </div>
       </div>
     </div>
@@ -119,6 +82,7 @@ export default {
       isCollapse: false,
       keys:'',
       isNavShow:false,
+      qwdkJump:'',//用于跳转旧版全网导客
     };
   },
   created() {
@@ -181,7 +145,7 @@ export default {
       // 首页的菜单获取
       this.$request.get('common/menu/list/by-account', {}).then(res => {
         // console.log(res);
-        for(var i=0;res.menu_list.length>i;i++){
+       /* for(var i=0;res.menu_list.length>i;i++){
           for(var n =0;res.menu_list[i].subsetList.length>n;n++){
             if(res.menu_list[i].subsetList[n].moduleCode=='yxch'){
               res.menu_list[i].subsetList[n].moduleUrl='/LandingPageSetting';
@@ -205,10 +169,14 @@ export default {
               res.menu_list[i].subsetList[n].moduleUrl='/Assistant/uploadChannelData';
             }
           }
-        }
-
+        }*/
+        this.qwdkJump = res.qwdkJump;
 
         this.navMenu = res.menu_list;
+        console.log(this.$store)
+        this.$store.headerData =res;
+
+
       });
     },
     accountInfo() {
@@ -335,6 +303,7 @@ export default {
       text-align: center;
       .el-dropdown-link{
         cursor: pointer;
+        outline:none
       }
     }
     .action{

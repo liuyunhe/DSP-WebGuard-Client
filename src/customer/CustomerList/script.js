@@ -172,6 +172,7 @@ export default {
         endTime: '', //结束时间
         pageSize: 10, //每页数量
         pageNo: 1, //当前页
+        projectNames:''
       },
       rowNowCount: '',
       //table内容
@@ -186,21 +187,30 @@ export default {
       pageType: '',
       getClickProjectList:[],
       getClickProjectListId:[],
-      guestDate:[],
+      guestDate: [],
+      calldel: false,
+      save:''
     };
-  },
-  destroyed: function () {
-    console.log('离开页面');
-    console.log(this.tags)
   },
   beforeRouteLeave(to, from, next) {
     // 设置下一个路由的 meta
     to.meta.keepAlive = false; // 让 A 不缓存，即刷新
     next();
-    this.tags = []
-    this.$refs.yang.value = ''
+  },
+  created() {
+    this.getOrginfoAndProjectList()
   },
   methods: {
+     // 取消归属项目
+    cancel() {
+      // console.log(this.ProjectListData)
+      // console.log(this.getClickProjectList) //已选项目列表
+      this.searchKeyfilterText = ''
+       this.getClickProjectList = []
+      //  this.ProjectListData = []
+      this.dialogVisibleProjectList = false
+      this.getOrginfoAndProjectList()
+    },
     //客户列表（点击进入外呼）
     customerTocallout(scope) {
       console.log(scope)
@@ -239,50 +249,116 @@ export default {
 
       })
     },
+    // getClickProject(res,IScheck,list){
+    //   console.log(res);
+    //   console.log(IScheck);
+    //   if(IScheck){
+    //     console.log(!isNaN(res.id))
+    //     if(!isNaN(res.id)){
+    //       this.getClickProjectList.push(res.projectName);
+    //       this.getClickProjectListId.push(res.id)
+    //     }
 
+    //   } else {//取消取消
+    //       this.getClickProjectList.map((item,index)=>{
+    //         console.log(item)
+    //           if(item==res.projectName){
+    //             console.log(index)
+    //             this.getClickProjectList.splice(index,1)
+    //             this.getClickProjectListId.slice(index,1)
+    //           }
+    //       })
+    //   }
+    //   this.getClickProjectList =this.unique(this.getClickProjectList);
+    //   // this.getClickProjectListId =this.unique(this.getClickProjectListId);
+    //   console.log(this.getClickProjectList)
+    //   console.log(this.getClickProjectListId)
+    // },
+
+    // getOrginfoAndProjectList() {//归属项目
+    //   // this.dialogVisibleProjectList=true;
+    //   this.$requestHttp.put("api/private/1.0/communal/getOrginfoAndProjectList", {
+    //     searchKey: this.searchKeyfilterText,
+    //   }, '', res => {
+    //     console.log(res);
+    //     if (res.data.code == 1) {
+    //       console.log('124445')
+    //       let ProjectListData = res.data.data.dataList;
+    //       let ProjectListDataAttr = [];
+    //       for (let i = 0; ProjectListData.length > i; i++) {
+    //         let json = {
+    //           id: i,
+    //           dsaOrgProjectinfoList: ProjectListData[i].dsaOrgProjectinfoList,
+    //           projectName: ProjectListData[i].orgName,
+    //         }
+    //         ProjectListDataAttr.push(json);
+    //       }
+    //       this.ProjectListData = ProjectListDataAttr;
+    //     }
+    //   });
+    // },
+    // getCheckedKeys(){},
+  //   getCheckedKeys() {//获取选择的项目
+  //     this.queryCustomersList();
+  //     console.log(this.$refs.tree.getCheckedKeys());
+  //     let id = this.$refs.tree.getCheckedKeys();
+  //     let attr = [];
+  //     for (let i = 0; id.length > i; i++) {
+  //       console.log(isNaN(id[i]))
+  //       if (isNaN(id[i])) {
+  //         attr.push(id[i])
+  //       }
+  //     }
+  //     console.log(attr)
+  //     console.log(this.queryCustomersListId)
+  //     this.queryCustomersListId = attr;
+  //  //   this.getClickProjectList=[];
+  //     this.searchKeyfilterText = '';
+  //     this.dialogVisibleProjectList = false;
+  //   },
+    // --------------------------------------------------
     getClickProject(res,IScheck,list){
       console.log(res);
-      console.log(IScheck);
-      if(IScheck){
-        console.log(!isNaN(res.id))
-        if(!isNaN(res.id)){
-          this.getClickProjectList.push(res.projectName);
-          this.getClickProjectListId.push(res.id)
-        }
+      // if(IScheck){
+      //   console.log(!isNaN(res.id))
+      //   if(!isNaN(res.id)){
+      //     this.getClickProjectList.push(res.projectName)
+      //   }else {
+      //     for (var i = 0; i < this.getClickProjectList.length; i++){
+      //       if (this.getClickProjectList[i] === res.projectName) {
+      //            this.getClickProjectList.splice(i, 1)
+      //          }
+      //     }
+      //   }
 
-      }else {//取消
-          this.getClickProjectList.map((item,index)=>{
-            console.log(item)
-              if(item==res.projectName){
-                console.log(index)
-                this.getClickProjectList.splice(index,1)
-                this.getClickProjectListId.slice(index,1)
-              }
-          })
+      // }
+
+      if(IScheck){
+        if(!isNaN(res.id)){
+          this.getClickProjectList.push(res.projectName)
+        }
+      } else {
+        for (var i = 0; i < this.getClickProjectList.length; i++){
+          if (this.getClickProjectList[i] === res.projectName) {
+               this.getClickProjectList.splice(i, 1)
+             }
+        }
       }
       this.getClickProjectList =this.unique(this.getClickProjectList);
-      this.getClickProjectListId =this.unique(this.getClickProjectListId);
-
-      console.log(this.getClickProjectListId)
+      console.log(this.getClickProjectList)
     },
-    getCheckedKeys() {//获取选择的项目
-      console.log(this.$refs.tree.getCheckedKeys());
-      let id = this.$refs.tree.getCheckedKeys();
-      let attr = [];
-      for (let i = 0; id.length > i; i++) {
-        console.log(isNaN(id[i]))
-        if (isNaN(id[i])) {
-          attr.push(id[i])
+    unique(arr) {
+      var result = [];
+      for (var i = 0; i < arr.length; i++) {
+        if (result.indexOf(arr[i]) == -1) {
+          result.push(arr[i])
         }
       }
-      console.log(attr)
-      this.queryCustomersListId = attr;
-      this.dialogVisibleProjectList = false;
-      this.queryCustomersList();
-   //   this.getClickProjectList=[];
-      this.searchKeyfilterText = '';
+      return result;
     },
-
+    open() {
+      this.dialogVisibleProjectList = true;
+    },
     getOrginfoAndProjectList() {//归属项目
       this.$requestHttp.put("api/private/1.0/communal/getOrginfoAndProjectList", {
         searchKey: this.searchKeyfilterText,
@@ -302,7 +378,33 @@ export default {
           }
           this.ProjectListData = ProjectListDataAttr;
         }
-      });
+      })
+    },
+    getCheckedKeys() {//获取选择的项目
+      // this.queryCallerListFun();
+      this.queryCustomersList()
+      console.log(this.getClickProjectList)
+      console.log(this.$refs.tree.getCheckedKeys());
+      let id = this.$refs.tree.getCheckedKeys();
+      let attr = [];
+      for (let i = 0; id.length > i; i++) {
+        console.log(isNaN(id[i]))
+        if (isNaN(id[i])) {
+          attr.push(id[i])
+        }
+      }
+      console.log(attr)
+      // getOrginfoAndProjectList
+      this.queryCustomersListId = attr;
+      // this.queryCustomersListId.pageNo = 1;
+      // this.searchKeyfilterText = '';
+      // console.log(this.getClickProjectList)
+      // this.getClickProjectList=[];
+      // if (this.getClickProjectList.length <= 0) {
+      //   this.queryCustomersList()
+      // }
+      this.dialogVisibleProjectList = false;
+
     },
     handleCloseProject(done) {//
       this.$refs.tree.setCheckedKeys([]);
@@ -571,15 +673,20 @@ export default {
       this.projectTaskListByLike(query);
     },
     projectTaskListByLike(keyWord) {
+      console.log(keyWord)
+      this.save = keyWord
+      this.formQueryCustomersList.keyWord = this.save
       this.$requestHttp.put("api/private/1.0/customer/queryCstBykeyWord", {
         keyWord: keyWord
       }, '', res => {
         console.log(res);
         if (res.data.code == 1) {
+          this.formQueryCustomersList.keyWord = this.save
           console.log('124445')
           this.options = res.data.data
+          this.formQueryCustomersList.keyWord = this.save
         }
-      })
+        })
     },
     pushTagesList(val, valName, name) { //添加标签
       if (name != '') {
@@ -861,6 +968,7 @@ export default {
     // 客户详情
     getQueryCustomerData(scope) {
       this.$router.push('/CustomerDetails/' + scope.row.bespeakId + '/' + scope.row.clientId + '/' + scope.row.projectId);
+      this.calldel = true
     },
     configuration(scope) { //编辑
       this.$router.push('/EditCustomer/' + scope.row.bespeakId + '/' + scope.row.clientId + '/' + scope.row.projectId);
@@ -922,7 +1030,8 @@ export default {
       this.channel = [];
       this.intentionalDegreeList = [];
       this.queryCustomersListId = [];
-      this.guestDate=[];
+      this.guestDate = [];
+      this.getClickProjectList = []
       this.customersListCondition();
     },
 
@@ -1016,12 +1125,16 @@ export default {
     },
 
     //分页器功能
-    /*  handleCurrentChange(val) {
-        this.page = val;
-        this.search["pageNo"] = val;
-        this.postSearch();
-        this.currentPage = val;
-      },*/
+    handleCurrentChange(val) {
+        // this.page = val;
+        // this.search["pageNo"] = val;
+        // this.postSearch();
+      console.log(val)
+      this.pageNo = val;
+      this.formQueryCustomersList.pageNo = val
+      this.currentPage = val;
+      this.queryCustomersList()
+      },
     //跳转按钮功能
     jumpTo() {
       this.$emit("current-change");
@@ -1061,11 +1174,11 @@ export default {
         this.delTags('date');
         this.queryCustomersList();
       }
-    }
-  /*  searchKeyfilterText(val) {
-      console.log(val)
-      this.searchKeyfilterText = val;
-      this.getOrginfoAndProjectList();
-    },*/
+    },
+  //  searchKeyfilterText(val) {
+  //     console.log(val)
+  //     this.searchKeyfilterText = val;
+  //     this.getOrginfoAndProjectList();
+  //   },
   }
 };

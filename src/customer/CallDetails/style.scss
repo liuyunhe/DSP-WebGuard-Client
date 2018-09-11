@@ -1,5 +1,59 @@
 .cellDateile{
+  .recording {
+    .el-dialog {
+      width: 463px;
+    }
+    .el-dialog__title {
+      width: 350px;
+      height: 16px;
+      font-size: 16px;
+      font-family: PingFangSC-Semibold;
+      color: rgba(26, 23, 59, 1);
+      line-height: 16px;
+    }
+    .el-form-item__label {
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      color: #8a96a0;
+      height: 20px;
+      line-height: 20px;
+    }
+    .el-form {
+      margin-top: -18px;
+    }
+    .el-form-item__content {
+      line-height: 20px;
+      position: relative;
+      font-size: 14px;
+      width: 210px;
+      font-family: PingFangSC-Regular;
+      color: rgba(138, 150, 160, 1);
+    }
 
+    .record {
+      >ul {
+        float: left;
+        >li {
+          height:30px;
+          font-size:14px;
+          font-family:PingFangSC-Regular;
+          color:rgba(138,150,160,1);
+          line-height:20px;
+
+        }
+      }
+      .recordlist {
+        li {
+          margin-left: 12px;
+        }
+      }
+      .recordli {
+        li {
+          margin-left: 170px;
+        }
+      }
+    }
+  }
   .breadcrumb-container {
     margin-top: 21px;
     padding-bottom: 21px;
@@ -234,5 +288,18 @@
     }
   }
 
+}
+
+.el-message--warning .el-message__content,.el-message .el-icon-warning{
+  top: 88px !important;
+  color: rgba(0, 119, 255, 1) !important
+}
+.el-message .el-icon-success {
+  top: 88px !important;
+  color: rgba(0, 119, 255, 1) !important
+}
+.el-message--success .el-message__content {
+  top: 88px !important;
+  color: rgba(0, 119, 255, 1) !important
 }
 
