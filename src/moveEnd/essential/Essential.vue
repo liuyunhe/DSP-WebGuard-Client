@@ -23,11 +23,13 @@
         <el-input v-model="formLabelAlign.name" placeholder="请输入内容"></el-input>
         <span class="important">*</span>
       </el-form-item>
+
       <el-form-item label="所属机构">
         <el-select
           :disabled="forbidden"
+          filterable
           v-model="formLabelAlign.construction"
-          placeholder="请选择活动区域"
+          placeholder="请选择"
           @change="project"
           style="width:100%">
             <el-option
@@ -39,11 +41,13 @@
         </el-select>
         <span class="important">*</span>
       </el-form-item>
+
       <el-form-item label="所属项目">
         <el-select
           :disabled="forbidden"
+          filterable
           v-model="formLabelAlign.project"
-          placeholder="请选择活动区域"
+          placeholder="请选择"
           @change="castRelease"
           style="width:100%">
           <el-option
@@ -56,7 +60,7 @@
         <span class="important">*</span>
       </el-form-item>
       <el-form-item label="投放活动" style="width:100%;">
-        <el-select v-model="formLabelAlign.projectCode"
+        <el-select filterable v-model="formLabelAlign.projectCode"
           placeholder="请选择" style="width:100%;">
           <el-option v-for="(item,index) in projectArr"
             :key="index"
@@ -87,7 +91,7 @@
           <el-checkbox  v-for="(item,index) in channelArr"
             style="display: block; margin-left: 0;"
             :key="index"
-            :disabled="isdisable"
+            :disabled="isdisable.includes(item.channelName)"
             :label="item.channelName"
             @change="channelId(item)"></el-checkbox>
         </el-checkbox-group>
@@ -134,25 +138,31 @@
             <span>请输入正确的400电话</span>
           </div>
         </div>
-        <div class="warning-item clearfix">
+        <!-- <div class="warning-item clearfix">
           <div class="warning-wrap"
             v-if="formLabelAlign.webpageName ==''">
             <div class="warning-icon">!</div>
             <span>请输入网页标签名</span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="buttons">
         <el-row >
         <!-- 我 -->
-         <el-button size="medium" @click="back">返回</el-button>
-        <el-button size="medium" @click="cancel">取消</el-button>
+         <!-- <el-button class="mybutton" size="medium" @click="back">返回</el-button> -->
+        <el-button class="mybutton" size="medium" @click="cancel">取消</el-button>
         <!-- <el-button size="medium" @click="previewLandingPage(scope.row,GLOBAL.config.imgH)">预览</el-button> -->
-        <el-button size="medium"  @click="previewLandingPage(GLOBAL.config.imgH)">预览</el-button>
+        <el-button size="medium" class="mybutton"  @click="previewLandingPage(GLOBAL.config.PreUrl)" :disabled="isBtn">预览</el-button>
 
-        <el-button type="primary" style="background-color:#fff; color:#409eff;" size="medium" @click="next(2)">保存</el-button>
-        <el-button type="primary" @click="next(1)" size="medium">下一步</el-button>
+        <el-button type="primary" class="mybutton" style="background-color:#fff; color:#409eff;" size="medium" @click="next(2)" :disabled="isBtn">保存</el-button>
+        <el-button class="mybutton" type="primary" @click="next(1)" size="medium" :disabled="isBtn">下一步</el-button>
+
+
+        <!-- <el-button type="primary" class="mybutton" style="background-color:#fff; color:#409eff;" size="medium" @click="save" :disabled="isBtn">保存</el-button>
+        <el-button class="mybutton" type="primary" @click="Newnext" size="medium" :disabled="isBtn">下一步</el-button> -->
+
+
        </el-row>
     </div>
   </div>
