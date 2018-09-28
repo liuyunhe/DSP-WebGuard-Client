@@ -101,11 +101,11 @@
     <!--已选标签-->
     <div
       class="toolbar  tags"
-      v-if="pageType || showTime || showLabel || showCityName  ">
+      v-if="pageType==0 ||pageType==1 || showTime || showLabel || showCityName  ">
       <label class="el-form-item__label">已选条件：</label>
       <div class="crm-tag clearfix"
-           v-if="pageType">
-        <div class="ms">落地页类型:{{pageType==="1"?"移动落地页":"pc落地页"}}</div>
+           v-if="pageType==0 ||pageType==1 ">
+        <div class="ms">落地页类型:{{pageType==1 ?"移动落地页":"pc落地页"}}</div>
         <i class="el-tag__close el-icon-close del"
            @click="deleteTag"/>
       </div>
@@ -145,13 +145,13 @@
                   落地页类型  <span class="title"></span>
                 </span>
           <el-dropdown-menu slot="dropdown" class="12">
-            <el-dropdown-item :class="{active:pageType === ''}"
+            <el-dropdown-item :class="{active:pageType === -1}"
                               command="">全部
             </el-dropdown-item>
-            <el-dropdown-item :class="{active:pageType === '0'}"
+            <el-dropdown-item :class="{active:pageType === 0}"
                               command="0">PC落地页
             </el-dropdown-item>
-            <el-dropdown-item :class="{active:pageType === '1'}"
+            <el-dropdown-item :class="{active:pageType === 1}"
                               command="1">移动端落地页
             </el-dropdown-item>
           </el-dropdown-menu>

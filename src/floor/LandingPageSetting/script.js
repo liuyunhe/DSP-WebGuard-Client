@@ -42,7 +42,7 @@ export default {
       //查询页码
       page: 1,
       sels: [], //列表选中列
-      pageType: '',
+      pageType: -1,
       showCityName:false,
     };
   },
@@ -86,21 +86,24 @@ export default {
             this.landingPage = false;
             if (num === 1) {
               this.$store.state.moveEnd.majorKeyId.uuid = res.data.list[0].uuid
+              this.$store.state.moveEnd.majorKeyId.styleType = '1'
               // this.$store.state.moveEnd.majorKeyId = res.data.list[0]
               // console.log(this.$store.state.moveEnd.majorKeyId)
-              this.$router.push('/eoveEnd/essential/1')
+              this.$router.push('/eoveEnd/essential/' + res.data.list[0].uuid + '/0/1/0')
+
             } else {
               this.$store.state.moveEnd.majorKeyId.uuid = res.data.list[1].uuid
+              this.$store.state.moveEnd.majorKeyId.styleType = '2'
               // this.$store.state.moveEnd.majorKeyId = res.data.list[1]
               // console.log(this.$store.state.moveEnd.majorKeyId)
-              this.$router.push('/eoveEnd/essential/2')
+              this.$router.push('/eoveEnd/essential/'+res.data.list[0].uuid+'/0/2/0')
             }
           }
         })
     },
     //删除标签
     deleteTag() {
-      this.pageType = '';
+      this.pageType = -1;
       this.search.pageType = this.pageType;
       this.postSearch();
     },
@@ -181,7 +184,7 @@ export default {
         name: this.filters.name,
         beginDate: this.filters.time[0],
         endDate: this.filters.time[1],
-        pageType: this.pageType,
+        pageType2: this.pageType,
         cityName:this.cityName,
         [this.filters.type]: this.filters.search
       };
@@ -223,7 +226,7 @@ export default {
 
       this.page = 1;
       this.currentPage = 1;
-      this.pageType = '';
+      this.pageType = -1;
       this.getUsers();
     },
     //分页器功能
@@ -249,7 +252,7 @@ export default {
     },
     //pageType选择
     pageTypeHandle(command) {
-      this.pageType = command;
+      this.pageType = parseInt(command);
       this.getUsers();
     },
     cityNameHandle(command) {
@@ -299,13 +302,20 @@ export default {
     },
     //预览按钮
     previewLandingPage(item,link) {
-      window.open(link+`/api/private/1.0/page/preview/${item.uuid}`);
+      console.log(item)
+      console.log(link)
+      if(item.pageType2==0){//页面类型.0:PC, 1:移动端
+        window.open(link+`/api/private/1.0/page/preview/${item.uuid}`);
+      }else{
+        window.open(`/admin/#/eoveEnd/Preview/${item.uuid}`);
+      }
     },
     //编辑功能
     editLandingpage(item) {
       console.log(item)
-      if (item.pageType === '1' || item.pageType === '2') {
-        this.$router.push('/eoveEnd/essential/1')
+      localStorage.setItem('edit','true')
+        if (item.pageType === '1' || item.pageType === '2') {
+        this.$router.push('/eoveEnd/essential/0/' + item.uuid+'/'+item.pageType+'/1')
         this.$store.state.moveEnd.moveuuid = item.uuid
         console.log(this.$store.state.moveEnd.moveuuid)
       } else if (item.pageType === '0') {
@@ -342,5 +352,6 @@ export default {
     this.cityList();
     // 落地页设置步骤一保存/更新
     // this.saveUpdateInfo();
+    localStorage.setItem('edit','false')
   }
 };
