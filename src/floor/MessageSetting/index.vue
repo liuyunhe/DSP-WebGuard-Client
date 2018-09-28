@@ -62,8 +62,10 @@
 
           <el-form-item label="所属机构">
             <el-select v-model="steps1.orgName"
-              placeholder="请选择"   @change="getProjectList" filterable
-                       :disabled="steps1.uuid !==''">
+              placeholder="请选择"
+              @change="getProjectList"
+              filterable
+              :disabled="steps1.uuid !==''">
               <el-option v-for="item in orgNameList"
                 :key="item.orgId"
                  :label="item.orgName"
@@ -86,6 +88,7 @@
             </el-select>
             <span class="important">*</span>
           </el-form-item>
+
           <el-form-item label="投放活动">
             <el-select v-model="steps1.archiveId"
               placeholder="请选择"
@@ -1222,7 +1225,7 @@
                  :visible.sync="dialogFormVisible"
                  :before-close="handleCloseCropper"
                  :fullscreen="true" >
-        <div class="tailor"  :style="{'height': imgHeight}">
+        <div class="tailor"  :style="{'height': imgHeight,'width':imgWidth}">
 
 
           <VueCropper

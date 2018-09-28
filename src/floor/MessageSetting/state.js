@@ -28,6 +28,7 @@ export default {
     maxImgSize:0
   },
   imgHeight:'',
+  imgWidth:'',
 // -------------
 
   uuid:0,//0新增   其他为修改   uuidx

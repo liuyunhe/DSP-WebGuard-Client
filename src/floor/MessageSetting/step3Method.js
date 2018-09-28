@@ -398,6 +398,17 @@ export function CropState(file, fileList) {
 
 // 将图片转化成base64
 export function bannerCropState(file, fileList) {
+
+  var img = new Image();
+  let _this =this;
+  img.src = file.url;
+  img.onload = function(){
+    _this.imgHeight =img.height+'px';
+    _this.imgWidth =img.width+'px';
+    _this.example2.maxImgSize =parseInt(img.height) ;
+    console.log(_this.example2.maxImgSize)
+  };
+
   this.example2.fixedNumber = [19.2, 5]
   console.log(this.example2.fixedNumber)
   // 拿到图片本地地址, 进行渲染裁剪, 把上传功能截掉, 然后重新定义一个axios 请求, 发送请求

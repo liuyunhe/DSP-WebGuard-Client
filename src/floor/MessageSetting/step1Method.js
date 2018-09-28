@@ -275,6 +275,8 @@ export function getLabel(templateId) {
 
 
       this.copyDeliveryManagements = this.steps1.deliveryManagements;
+      console.log('-----------------------------------------')
+      console.log(this.copyDeliveryManagements)
       this.steps1.template = res.template;
       this.steps1.callTel1 = res.callTel.split(',')[0];
       this.steps1.callTel2 = res.callTel.split(',')[1];

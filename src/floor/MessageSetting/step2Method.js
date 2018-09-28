@@ -67,6 +67,10 @@ export function changeLable(is) {
   if(is){
     console.log(this.step2LabelList[this.step2LabelList.length-1])
     this.step2LabelList[this.step2LabelList.length-1].saveId='';
+    this.step2LabelList[this.step2LabelList.length-1].active='';
+    this.step2LabelList[this.step2LabelList.length-1].resultList.map((item)=>{
+        item.value=''
+    })
   }
 }
 
