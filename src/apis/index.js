@@ -17,6 +17,23 @@ export function organization() {
 export function project(params) {
   return axios.get('api/private/1.0/page/project/list', {params: {'orgId' : params}}) .then(res => res.data)
 }
+
+// 移动端预约
+export function preview(params) {
+  // return axios.get('http://182.61.33.241:8086/api/private/1.0/page/preview/', {params: {'id' : params}}
+  // return axios.get('api/private/1.0/page/preview/'+params).then(res => res.data)
+  return axios.get('api/private/1.0/page/preview/'+params).then(res => res.data)
+}
+
+
+// export function Getjs() {
+//   return axios.get('api/template/js/swiper.min.js')
+// }
+ //182.61.33.241:8086/template/js/swiper.min.js
+// export function Getjs() {
+//   return axios.get('/template/js/swiper.min.js')
+// }
+
 // 基本信息的投放列表请求
 export function throwRelease(params) {
   return axios.get('api/private/1.0/page/archive/' + params) .then(res => res.data)
@@ -34,8 +51,8 @@ export function templates(params) {
   return axios.post('mobile/api/private/1.0/page/label/list', params) .then(res => res.data)
 }
 // 样式 插件 属性的请求 获取标签样式库
-export function styles() {
-  return axios.post('mobile/api/private/1.0/page/style/list',{styleType:'1'}) .then(res => res.data)
+export function styles(params) {
+  return axios.post('mobile/api/private/1.0/page/style/list',{styleType:params}) .then(res => res.data)
 }
 // 样式库数据的获取
 export function stylesData(params) {
@@ -203,6 +220,10 @@ export function getDashGroupCHannelInfo(params) {
 export function getDashSelectOrgEffective(params) {
   return request.put('/api/private/1.0/DashBorad/selectOrgEffective',params);
 }
+
+
+
+
 
 
 
