@@ -6,7 +6,7 @@ import router from './router';
 import './assets/css/base.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
+import 'swiper/dist/css/swiper.min.css';
 import  utiljs  from './util.js';
 Vue.use(utiljs);
 
@@ -42,7 +42,7 @@ Vue.prototype.$requestHttp = Https;
 Vue.prototype.$api = apis;
 
 import store from './stote';
-
+//import $ from 'jquery'
 //Vue.config.productionTip = false
 
 /* eslint-disable no-new */
