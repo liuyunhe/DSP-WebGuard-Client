@@ -11,7 +11,7 @@
       border-right: 1px solid #eee;
       >.coverRight{
         position: relative;
-        text-align: center;
+        // text-align: center;
         //  margin: 100px auto;
          position: relative;
           >.text{
@@ -25,13 +25,15 @@
           }
           // 画布
           >.codeChunk{
+            overflow: hidden;
+            z-index: 5;
             background-size:cover !important;
             position: relative;
             margin: 120px auto;
             // margin-top: 0;
             width: 375px;
             height: 667px;
-            border: 1px solid #999;
+            border: 2px solid #0077FF;
             .imgs{
               //width: 100px;
               //height: 100px;
@@ -67,6 +69,96 @@
           }
       }
     }
+    .exploitData{
+      background-size:cover !important;
+      position: relative;
+      margin: 18px auto;
+      // margin-top: 0;
+      width: 375px;
+      height: 667px;
+      border: 2px solid #0077FF;
+      overflow:auto ;
+      >div{
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        position: absolute;
+        width: 100%;
+        height: 96px;
+        background-color: rgba(0, 0, 0,.9);
+        bottom: 0;
+        >span{
+          margin: 18px 0;
+          text-align: center;
+          display: inline-block;
+          width: 90%;
+        }
+      }
+    }
+    .plug::-webkit-scrollbar {
+      width: 5px;
+    }
+    .plug::-webkit-scrollbar-track {
+      background-color:#fcfcfd;
+      -webkit-border-radius: 2em;
+      -moz-border-radius:2em;
+      border-radius:2em;
+    }
+    .plug::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.2);
+      -webkit-border-radius: 2em;
+      -moz-border-radius: 2em;
+      border-radius:2em;
+    }
+    .lingeringBtn{
+      background-size:cover !important;
+      position: relative;
+      margin: 18px auto;
+      // margin-top: 0;
+      width: 375px;
+      height: 667px;
+      border: 2px solid #0077FF;
+      overflow:auto ;
+    }
+    .plug{
+      background-size:cover !important;
+      position: relative;
+      margin: 18px auto;
+      // margin-top: 0;
+      width: 375px;
+      height: 667px;
+      border: 2px solid #0077FF;
+      overflow:auto ;
+      .pitch{
+        border:1px solid  #0077FF;
+      }
+      >.special{
+        margin: 5.625rem 3.9375rem  3.6875rem 3.9375rem;
+        padding: 4px;
+        font-size:1.375rem;
+        color: #0bb2c5;
+        text-align: center;
+        word-wrap: break-word;
+      }
+      form{
+        input{
+          color:transparent;
+          background-color: #fff;
+          width: 100%;
+          height:2.5rem;
+          font-size: .75rem;
+          direction: rtl;
+          color: #969696;
+          border: .0625rem solid #969696;
+          border-radius: .625rem;
+          padding: .625rem  1.25rem;
+          box-sizing: border-box;
+          // background: url('phone.png') no-repeat 1.25rem;
+          background-size: .9375rem 1.3125rem;
+          margin-bottom:  1.25rem;
+        }
+      }
+    }
     // 右边的布局, 包含着样式 插件 属性
     .stylesRight{
       display: flex;
@@ -94,9 +186,10 @@
                 flex-wrap: wrap;
               >li{
                 margin: 4px 6px;
-                border: 1px solid #666;
+                border: 1px solid #f3f3f3;
                 width:80px;
                 height:108px;
+                padding: 2px;
                 >img{
                   height: 100%;
                   width: 100%;
@@ -138,7 +231,7 @@
             width: 276px;
             >span{
               display: block;
-              width: 90%;
+              width: 100%;
               height: 46px;
               line-height: 46px;
               text-align: center;
@@ -154,15 +247,23 @@
             .colour{
               margin-left: 10px;
               margin-top: 8px;
+              >span{
+                color: rgba(16, 16, 16, 1);
+                font-size: 14px;
+                font-family: Roboto;
+              }
               .hueBox{
                 position: relative;
                 >.hue-kuang{
                   display: inline-block;
                   height: 42px;
+                  span{
+                    margin-right: 10px;
+                  }
                 }
                 .hue{
                   width: 28px;
-                  height: 42px;
+                  height: 50px;
                   margin-left: 54px;
                   display: inline-block;
                   background: url(./sucker.png) no-repeat;
@@ -179,15 +280,22 @@
                   height: 30px;
                   position: absolute;
                   top: 10px;
+                  .el-color-picker{
+                  }
                 }
               }
             }
         }
         // 上传图片
         .uploadingImg{
+          overflow-y: scroll;
+          height: 100%;
+          width: 100%;
+          overflow-x: hidden;
           >span{
+            position: relative;
             display: block;
-            width: 90%;
+            width: 100%;
             height: 46px;
             line-height: 46px;
             text-align: center;
@@ -196,6 +304,15 @@
             border-bottom: 1px solid rgba(242,244,248,1);
             margin-bottom: 10px;
           }
+          .imgShow{
+            position: relative;
+            width:148px;
+            height:148px;
+            border: 1px dashed #409EFF;
+            margin: 0px auto;
+            margin-bottom: 40px;
+            text-align: center;
+          }
           .el-upload{
             margin: 0 auto;
             .el-upload__text {
@@ -203,17 +320,34 @@
               width: 100%;
               margin: 0 auto;
               margin-top: -124px;
+              font-size: 12px;
+              .up{
+                font-style: normal;
+                color: #409EFF
+              }
+              .pull{
+                font-style: normal;
+                color: #409EFF
+              }
             }
           }
           >.imghue{
             >.colour{
               margin-left: 10px;
               margin-top: 8px;
+              .setcolor{
+                color: rgba(16, 16, 16, 1);
+                font-size: 12px;
+                font-family: Roboto;
+              }
               .hueBox{
                 position: relative;
                 >.hue-kuang{
                   display: inline-block;
                   height: 42px;
+                  span{
+                    margin-right: 10px;
+                  }
                 }
                 .hue{
                   width: 28px;
@@ -244,10 +378,22 @@
           width: 90%;
           margin: 0 auto;
           >span{
-            display: inline-block;
-            font-size: 14px;
-            margin-bottom: 10px;
+            display: block;
             width: 100%;
+            height: 46px;
+            line-height: 46px;
+            text-align: center;
+            margin: 0 auto;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(242,244,248,1);
+            margin-bottom: 10px;
+          }
+          >div{
+            >span{
+              margin-top: 10px;
+              margin-bottom: 10px;
+              display: inline-block;
+            }
           }
         }
         // 姓名输入框
@@ -360,11 +506,19 @@
               margin-left: 10px;
               margin-top: 8px;
               border-bottom: 1px solid #eee;
+              >span{
+                color: rgba(16, 16, 16, 1);
+                font-size: 14px;
+                font-family: Roboto;
+              }
               .hueBox{
                 position: relative;
                 >.hue-kuang{
                   display: inline-block;
                   height: 42px;
+                  span{
+                    margin-right: 10px;
+                  }
                 }
                 .hue{
                   width: 28px;
@@ -480,10 +634,13 @@
                 >.hue-kuang{
                   display: inline-block;
                   height: 42px;
+                  span{
+                    margin-right: 10px;
+                  }
                 }
                 .hue{
                   width: 28px;
-                  height: 42px;
+                  height: 50px;
                   margin-left: 54px;
                   display: inline-block;
                   background: url(./sucker.png) no-repeat;
@@ -514,11 +671,11 @@
           width: 50px;
           height: 90px;
           text-align: center;
-          >div{
+          div{
             font-size: 20px;
-            padding-top: 30px;
+            padding-top: 25px;
           }
-          >span{
+          span{
             font-size: 14px;
           }
         }

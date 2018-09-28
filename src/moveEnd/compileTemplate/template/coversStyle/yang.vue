@@ -10,7 +10,8 @@ export default {
   data () {
     return {
       html: '' ,
-      imgs1: ''
+      imgs1: '',
+      Newid:''
     }
   },
   methods: {
@@ -19,6 +20,11 @@ export default {
     }
   },
   mounted () {
+    console.log("7777777777777777777777777777777777")
+    this.Newid = this.$store.state.moveEnd.moveuuid
+    this.$router.push({
+      path: '/eoveEnd/compileTemplate/template/coversStyle/centreCanvas/' + this.Newid
+    })
     this.html = this.$store.state.moveEnd.html1
   },
    props: ['mysonName']

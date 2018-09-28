@@ -55,23 +55,6 @@
 
 <template>
   <div class="compiletemplate">
-    <!-- 选择插入类型模态框 -->
-    <el-dialog title="选择添加的标签的模块" :visible.sync="dialogFormVisible" width="30%">
-      <div class="typeFrame">
-          <div class="moduleName">
-            模块名称
-          </div>
-         <div class="typeBtn">
-           <el-checkbox  v-model="typeSelect.radio" label="value默认值" style="display: block;">备选项</el-checkbox >
-           <el-checkbox   v-model="typeSelect.radio" label="value默认值" style="display: block;">备选项</el-checkbox >
-           <el-checkbox  v-model="typeSelect.radio" label="value默认值" style="display: block;">备选项</el-checkbox >
-         </div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
     <div class="template">
       <router-view></router-view>
     </div>
@@ -96,10 +79,6 @@
 export default {
   data () {
     return {
-      dialogFormVisible: false, // 选择插入类型模态框的显示与隐藏
-      typeSelect: [
-        false
-      ]
     }
   },
   mounted() {
