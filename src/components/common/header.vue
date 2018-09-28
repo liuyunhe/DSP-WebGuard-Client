@@ -249,6 +249,7 @@ export default {
 
 .headBg {
   background: rgba(31, 45, 61, 1);
+  position: relative;
 }
 .bgShow{
   position: fixed;
@@ -358,7 +359,7 @@ export default {
   background: rgba(31, 45, 61, 1);
   right: 0px;
   bottom: 793px;
-  top: 261px;
+  top: 350px;
   cursor: pointer;
   // background: brown;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.35);
