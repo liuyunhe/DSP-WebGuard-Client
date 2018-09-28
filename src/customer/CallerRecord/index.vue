@@ -352,6 +352,7 @@
       </template>
       <span slot="footer" class="dialog-footer">
         <!-- <el-button size="small" @click="handleCloseBox">取 消</el-button> -->
+         <el-button type="primary" size="small" @click="copyUrl" >复制录音链接</el-button>
         <el-button type="primary" size="small"  @click="handleCloseBox">确 定</el-button>
       </span>
     </el-dialog>

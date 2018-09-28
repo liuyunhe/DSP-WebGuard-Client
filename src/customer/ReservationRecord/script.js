@@ -238,20 +238,30 @@ export default {
       // }
       this.formQueryCallerList.pageNo =1;
       this.formQueryCallerList.conditionCode ='';
-      this.formQueryCallerList.kw ='';
+      this.formQueryCallerList.kw = '';
+      this.formQueryCallerList.clickTimeStart ='';
+      this.formQueryCallerList.clickTimeEnd ='';
       this.formQueryCallerList.startTime ='';
       this.formQueryCallerList.endTime ='';
       this.formQueryCallerList.cstValidityList =[];
       this.formQueryCallerList.cstStatusList =[];
       this.formQueryCallerList.projectIdList =[];
       this.formQueryCallerList.channelList = [];
+      this.formQueryCallerList.channelNames = []
+      this.formQueryCallerList.projectNames = []
+      this.formQueryCallerList.statuses = []
 
-
-      this.tags=[];
-      this.customer_listChecked =[];
-      this.channelChecked =[];
-      this.establishDate =[];
-      this.formQueryCallerList.pageNo=1;
+      this.tags = [];
+      this.getClickProjectList = []
+      this.customer_listChecked = [];
+      // 来源渠道
+      this.channelChecked = [];
+      // 归属项目
+      this.ProjectListData = [];
+      // 客户有效性
+      this.cstTypeLists = [];
+      this.establishDate = [];
+      this.getOrginfoAndProjectList();
       this.queryCallerListFun();
     },
     getClickProject(res,IScheck,list){

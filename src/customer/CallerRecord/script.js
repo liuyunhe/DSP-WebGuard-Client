@@ -117,7 +117,8 @@ export default {
       pageType: "",
       getClickProjectList: [],
       calldel: false,
-      save:''
+      save: '',
+      Url:''
     };
   },
   destroyed() {
@@ -178,6 +179,23 @@ export default {
     }
   },
   methods: {
+     // 复制链接
+     copyUrl() {
+      const input = document.createElement('input')
+      document.body.appendChild(input)
+      input.setAttribute('value', this.Url)
+      input.select()
+      if (document.execCommand('copy')) {
+        document.execCommand('copy')
+      }
+      document.body.removeChild(input)
+      this.$message({
+        message: '复制成功！',
+        type: 'success',
+        center:true,
+        duration:1000
+      });
+    },
     // 取消归属项目
     cancel() {
       this.searchKeyfilterText = ''
@@ -241,6 +259,7 @@ export default {
         console.log(res);
         if (res.data.code == 1) {
           this.recordInfo = res.data.data.recordInfo;
+          this.Url = res.data.data.recordInfo.recordFile
         }
       })
 
