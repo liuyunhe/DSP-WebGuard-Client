@@ -9,6 +9,7 @@ const config={
   imgUpload:'http://182.61.33.241:8086/api/private/1.0/page/upload',
   baseUrl : 'http://182.61.33.241:8086',//请求地址
    //baseUrl:'http://172.16.2.150:8091'
+  PreUrl:'http://182.61.33.241:8087',//预览地址
   html: {
     htmlCode: '',
   }
@@ -23,6 +24,7 @@ const config = {
   imgUpload: 'http://www.juke8.cn:8086/api/private/1.0/page/upload',
   exit: 'http://www.juke8.cn/login/main.html#/index',
   baseUrl: 'http://www.juke8.cn:8086',//请求地址
+  PreUrl:'http://182.61.33.241:8087',//预览地址
   html: {
     htmlCode: '',
   }
