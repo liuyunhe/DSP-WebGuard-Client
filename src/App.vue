@@ -51,6 +51,12 @@
   };
 </script>
 <style type="text/scss" lang="scss">
+.colorbox{
+  .el-color-picker--mini .el-color-picker__trigger{
+    width: 100% !important;
+    border: 1px solid #dcdfe6;
+  }
+}
   body {
     margin: 0px;
     padding: 0px;
@@ -227,6 +233,20 @@
     &.hover,
     &:hover {
       background-color: #0077ff !important;
+      color: #fff !important;
+      span{
+      color: #fff !important;
+      }
+    }
+  }
+
+      .el-select-dropdown__item span {
+        color: black;
+      }
+    .el-select-dropdown__item span {
+    font-size: 13px !important;
+    &.hover,
+    &:hover {
       color: #fff !important;
     }
   }
