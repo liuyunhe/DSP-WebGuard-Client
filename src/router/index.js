@@ -13,12 +13,15 @@ import Router from 'vue-router';
 
 // 我-移动端落地页
 const MoveEnd = resolve => require(['../moveEnd/index'], resolve)
-const Essential = resolve => require(['../moveEnd/essential/Essential.vue'],resolve)
+const Essential = resolve => require(['../moveEnd/essential/Essential.vue'], resolve)
+const Preview = resolve => require(['../moveEnd/Preview/Preview.vue'],resolve)
 const CompileTemplate = resolve => require(['../moveEnd/compileTemplate/CompileTemplate.vue'], resolve)
 const Template = resolve => require(['../moveEnd/compileTemplate/template/Template.vue'], resolve)
 const CoversStyle = resolve => require(['../moveEnd/compileTemplate/template/coversStyle/CoversStyle.vue'], resolve)
 const CentreCanvas = resolve => require(['../moveEnd/compileTemplate/template/coversStyle/centreCanvas/CentreCanvas.vue'], resolve)
 const Yang = resolve => require(['../moveEnd/compileTemplate/template/coversStyle/centreCanvas/yang.vue'], resolve)
+
+
 
 
 
@@ -45,6 +48,9 @@ const CallDetails = resolve => require(['../customer/CallDetails/index.vue'],res
 const Management = resolve => require(['../Management/index.vue'],resolve)//投放管理
 const newDetails = resolve => require(['../Management/newDetails.vue'],resolve)//投放渠道详情
 const Monitoring = resolve => require(['../Monitoring/index.vue'],resolve)//监控看板
+
+/*const mobilePage = resolve => require(['../mobilePage/index.vue'], resolve)*/
+
 
 const ReleaseManagement = resolve => require(['../ReleaseAnalysis/ReleaseManagement/index.vue'],resolve)//投放管理
 const ByActivity = resolve => require(['../ReleaseAnalysis/ReleaseManagement/ByActivity.vue'],resolve)//投放管理-
@@ -78,6 +84,15 @@ export default new Router({
         keepAlive: false // 不需要被缓存
       }
     },
+  /*  {
+      //移动端落地页设置
+      path: '/mobilePage/:templateId/:uuid',
+      name: '落地页设置',
+      component: mobilePage,
+      meta: {
+        keepAlive: false // 不需要被缓存
+      }
+    },*/
     {
       //落地页设置
       path: '/eoveEnd',
@@ -85,9 +100,14 @@ export default new Router({
       component: MoveEnd,
       children: [
         {
-          path: 'essential/:id',
+          path: 'essential/:templateId/:uuid/:pageType/:isAdd',
           name: 'essential',
           component: Essential,
+        },
+        {
+          path: 'preview/:previewid', //预览
+          name: 'preview',
+          component: Preview,
         },
         {
           path: 'compileTemplate',
@@ -105,7 +125,7 @@ export default new Router({
                   component: CoversStyle,
                   children: [
                     {
-                      path: 'centreCanvas',
+                      path: 'centreCanvas/:id',
                       name: 'centreCanvas',
                       component: CentreCanvas,
                       // beforeEnter: (to, from, next) => {
@@ -123,7 +143,7 @@ export default new Router({
                       path: 'yang',
                       name: 'yang',
                       component: Yang
-                    }
+                    },
                   ]
                 }
               ]
